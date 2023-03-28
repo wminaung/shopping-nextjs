@@ -1,25 +1,26 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
+
 import CardActions from "@mui/material/CardActions";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
+
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
-import { useRouter } from "next/router";
+
 import { Product } from "@/types/types";
 import Image from "next/image";
 import { memo } from "react";
+import { motion } from "framer-motion";
 
 interface Props {
   product: Product;
+  handleAddToCart: (id: number) => void;
 }
 
 const ShoppingCard = ({
   product: { id, title, category, image, price },
+  handleAddToCart,
 }: Props) => {
   return (
     <Card
@@ -30,16 +31,18 @@ const ShoppingCard = ({
         <CardHeader title={title.slice(0, 15) + ".."} subheader={category} />
       </div>
       <div className="w-full h-72 overflow-hidden flex justify-center items-center">
-        <Link href={`/products/${id}`}>
-          <Image
-            src={image}
-            width={258}
-            height={258}
-            alt="image"
-            className="w-auto h-auto"
-            placeholder="blur"
-            blurDataURL="jpg"
-          />
+        <Link href={`/products/${id}`} className="bg-black">
+          <motion.div whileHover={{ opacity: 0.8, scale: 1.1 }}>
+            <Image
+              src={image}
+              width={258}
+              height={258}
+              alt="image"
+              className="w-auto h-auto "
+              placeholder="blur"
+              blurDataURL="jpg"
+            />
+          </motion.div>
         </Link>
       </div>
       <CardActions disableSpacing>
@@ -57,6 +60,7 @@ const ShoppingCard = ({
             variant="contained"
             size="small"
             sx={{ bgcolor: "black !important" }}
+            onClick={() => handleAddToCart(id)}
           >
             Add to cart
           </Button>
@@ -65,4 +69,4 @@ const ShoppingCard = ({
     </Card>
   );
 };
-export default memo(ShoppingCard);
+export default ShoppingCard;

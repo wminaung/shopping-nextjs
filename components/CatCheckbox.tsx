@@ -19,13 +19,20 @@ interface Props {
   categories: string[];
   checkCat: string;
   setCheckCat: Dispatch<SetStateAction<string>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const CatCheckbox = ({ categories, checkCat, setCheckCat }: Props) => {
+const CatCheckbox = ({
+  categories,
+  checkCat,
+  setCheckCat,
+  setLoading,
+}: Props) => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     value: string
   ) => {
+    setLoading(true);
     setCheckCat(value);
   };
   return (

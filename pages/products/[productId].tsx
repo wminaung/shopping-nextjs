@@ -1,41 +1,29 @@
 import { Product } from "@/types/types";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Stack,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import { GetServerSideProps } from "next";
+import { Box, Stack, Typography } from "@mui/material";
+import { GetStaticPaths, GetStaticPathsContext, GetStaticProps } from "next";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import FormatItalicIcon from "@mui/icons-material/FormatItalic";
-import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
-import FormatColorFillIcon from "@mui/icons-material/FormatColorFill";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 import { useState } from "react";
 import ToggleSize from "@/components/ToggleSize";
 
 interface Props {
   data: Product;
+  cart?: any;
 }
 
 const Product = ({
   data: { category, description, id, image, price, rating, title },
+  cart,
 }: Props) => {
   const [size, setSize] = useState("S");
 
-  const router = useRouter();
-  const { productId } = router.query;
+  console.log("...........-id-...........");
+  console.log(cart);
+  console.log("......................");
 
-  console.log(size);
   return (
     <Box color={"black"} padding={6}>
-      <Box className="py-8"></Box>
       <Stack
         direction={"row"}
         spacing={10}
@@ -73,16 +61,29 @@ const Product = ({
 
 export default Product;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const query = context.query;
-  const { productId } = query;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const productId = params?.productId;
 
   const res = await fetch(`https://fakestoreapi.com/products/${productId}`);
+
   const data = await res.json();
 
   return {
     props: {
       data: data,
     },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const res = await fetch(`https://fakestoreapi.com/products`);
+
+  const data = await res.json();
+
+  return {
+    paths: data.map((product: any) => ({
+      params: { productId: product.id.toString() },
+    })),
+    fallback: false,
   };
 };

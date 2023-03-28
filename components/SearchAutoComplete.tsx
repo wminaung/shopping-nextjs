@@ -16,14 +16,16 @@ export default function SearchAutoComplete({ products }: Props) {
       options={products.map((product) => product.title)}
       sx={{ width: 400 }}
       renderInput={(params) => (
-        <TextField
-          margin="normal"
-          variant="outlined"
-          color="secondary"
-          sx={{ bgcolor: "#fff", borderRadius: "3px" }}
-          {...params}
-          label="Movie"
-        />
+        <div>
+          <TextField
+            margin="normal"
+            variant="outlined"
+            color="secondary"
+            sx={{ bgcolor: "#fff", borderRadius: "3px" }}
+            {...params}
+            label="search.."
+          />{" "}
+        </div>
       )}
     />
   );

@@ -17,3 +17,11 @@ export interface CategoryCheck {
   category: string;
   isCheck: boolean;
 }
+
+export interface CartItem {
+  id: number;
+  quantity: number;
+}
+export interface OrderItem extends Product {
+  quantity: number;
+}

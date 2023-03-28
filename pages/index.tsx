@@ -1,59 +1,47 @@
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import ShoppingCard from "@/components/ShoppingCard";
-import { memo, useEffect, useState } from "react";
-import { Box, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Stack } from "@mui/material";
 import SearchAutoComplete from "@/components/SearchAutoComplete";
-import { CategoryCheck, Product } from "@/types/types";
+import { Product } from "@/types/types";
 import CatCheckbox from "@/components/CatCheckbox";
 import { motion } from "framer-motion";
+import Loading from "@/components/Loading";
+import Head from "next/head";
 
-const Home = ({ data, cart }: any) => {
-  console.log(cart);
-  const [products, setProducts] = useState<Product[]>(data);
+interface Props {
+  products: Array<Product>;
+  categories: string[];
 
-  const [categories, setCategories] = useState<string[]>([] as string[]);
+  handleAddToCart: (id: number) => void;
+}
 
+const Home = ({ products, categories, handleAddToCart }: Props) => {
   const [checkCat, setCheckCat] = useState<string>("");
 
-  // const uniqueCategories = Array.from(new Set(products.map((p) => p.category)));
+  console.log("checkCat", checkCat);
 
-  const fetchCategories = async () => {
-    const url = "https://fakestoreapi.com/products/categories";
-    const res = await fetch(url);
-    const data = await res.json();
-    setCategories(data);
-  };
+  const [loading, setLoading] = useState(true);
 
-  const fetchProducts = async () => {
-    const url = `https://fakestoreapi.com/products/`;
-    const res = await fetch(url);
-    const data = await res.json();
-    setProducts(data);
-  };
-  const fetchProductsWithCategory = async (categoryName: string) => {
-    console.log(categoryName);
-    const url = `https://fakestoreapi.com/products/category/${categoryName}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    setProducts(data ? data : []);
+  const showProductsByCategory = (category: string) => {
+    if (!category) return products;
+
+    const productsByCategory = products.filter(
+      (products) => products.category.toLowerCase() === category.toLowerCase()
+    );
+
+    return productsByCategory;
   };
 
   useEffect(() => {
-    if (!checkCat) {
-      fetchProducts();
-    } else {
-      fetchProductsWithCategory(checkCat);
-    }
+    setLoading(false);
   }, [checkCat]);
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   return (
     <>
-      {" "}
-      <Box className="py-8 "></Box>
+      <Head>
+        <title>Product List</title>
+      </Head>
       <Stack
         className="my-3 px-14"
         direction={"row"}
@@ -66,24 +54,41 @@ const Home = ({ data, cart }: any) => {
         <Stack ml={6}>
           <Box width={180} className="sticky top-28">
             <CatCheckbox
+              setLoading={setLoading}
               categories={categories}
               checkCat={checkCat}
               setCheckCat={setCheckCat}
             />
           </Box>
         </Stack>
-        <Stack direction={"row"} justifyContent="center" flexWrap="wrap">
-          {products.map((product) => (
-            <Box key={product.id}>
-              <motion.div
-                className="m-2"
-                initial={{ scale: 0.9 }}
-                animate={{ scale: 1 }}
-              >
-                <ShoppingCard product={product} />
-              </motion.div>
-            </Box>
-          ))}
+        <Stack
+          direction={"row"}
+          justifyContent="center"
+          alignItems={"center"}
+          width="100%"
+          flexWrap="wrap"
+        >
+          {(loading && (
+            <>
+              <Loading />
+            </>
+          )) ||
+            showProductsByCategory(checkCat).map((product) => (
+              <Box key={product.id}>
+                <motion.div
+                  className="m-2"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <ShoppingCard
+                    product={product}
+                    handleAddToCart={handleAddToCart}
+                  />
+                </motion.div>
+              </Box>
+            ))}
         </Stack>
       </Stack>
     </>
@@ -91,13 +96,18 @@ const Home = ({ data, cart }: any) => {
 };
 export default Home;
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await fetch("https://fakestoreapi.com/products");
-  const data = await res.json();
+export const getStaticProps: GetStaticProps = async () => {
+  const resProducts = await fetch("https://fakestoreapi.com/products");
+  const products = await resProducts.json();
+
+  const url = "https://fakestoreapi.com/products/categories";
+  const resCategories = await fetch(url);
+  const categories = await resCategories.json();
 
   return {
     props: {
-      data: data,
+      products,
+      categories,
     },
   };
 };
