@@ -16,7 +16,7 @@ const Layout = ({ children, quantityList }: Props) => {
       <Box className="py-8 "></Box>
       {(status === "authenticated" && children) || (
         <div className="h-96 flex justify-center flex-col items-center">
-          <h1 className="text-3xl text-center ">Login please</h1>
+          <h1 className="text-3xl text-center mb-5">Login please</h1>
           <Button variant="outlined" className="mt-5" onClick={() => signIn()}>
             Login
           </Button>
