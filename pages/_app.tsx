@@ -1,10 +1,9 @@
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
 import "@/styles/globals.css";
 import { CartItem } from "@/types/types";
-import { Box } from "@mui/material";
 import type { AppProps } from "next/app";
 import { useState } from "react";
+import { SessionProvider } from "next-auth/react";
+import Layout from "./layout";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [orderItems, setOrderItems] = useState<CartItem[]>([]);
@@ -29,15 +28,16 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Navbar count={quantityList.reduce((prev, cur) => prev + cur, 0)} />
-      <Box className="py-8 "></Box>
-      <Component
-        orderItems={orderItems}
-        {...pageProps}
-        handleAddToCart={handleAddToCart}
-        setOrderItems={setOrderItems}
-      />
-      <Footer />
+      <SessionProvider session={pageProps.session}>
+        <Layout quantityList={quantityList}>
+          <Component
+            orderItems={orderItems}
+            {...pageProps}
+            handleAddToCart={handleAddToCart}
+            setOrderItems={setOrderItems}
+          />
+        </Layout>
+      </SessionProvider>
     </>
   );
 }

@@ -11,8 +11,6 @@ interface Props {
 }
 
 const CheckoutPage = ({ products, orderItems, setOrderItems }: Props) => {
-  console.log(orderItems, "orderItems");
-
   const orderList = orderItems.map((cartItem) => {
     const foundProduct = products.find((product) => product.id === cartItem.id);
     if (!foundProduct) return {} as OrderItem;
@@ -24,8 +22,7 @@ const CheckoutPage = ({ products, orderItems, setOrderItems }: Props) => {
 
   return (
     <div>
-      <h1>Checkout Page</h1>
-      <CheckoutOrderList orderItems={orderList} />
+      <CheckoutOrderList orderItems={orderList} setOrderItems={setOrderItems} />
       <CheckoutForm setOrderItems={setOrderItems} />
     </div>
   );

@@ -24,11 +24,13 @@ const Footer = () => {
             <ul className="text-cyan-800 font-semibold">
               <li>
                 {" "}
-                <motion.div whileHover={{ color: "red" }}>
-                  <Link href="/" color="text.primary">
-                    Home
-                  </Link>{" "}
-                </motion.div>
+                <Link
+                  href="/"
+                  color="text.primary"
+                  className="hover:text-yellow-700"
+                >
+                  Home
+                </Link>
               </li>
               <li>
                 <Link href="#" color="text.primary">

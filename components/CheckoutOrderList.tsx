@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from "react";
 import {
   Box,
+  Button,
   Container,
   Grid,
   Paper,
@@ -15,12 +16,14 @@ import {
 import Head from "next/head";
 import CheckoutForm from "@/components/CheckoutForm";
 import { CartItem, OrderItem, Product } from "@/types/types";
+import Link from "next/link";
 
 interface Props {
   orderItems: OrderItem[];
+  setOrderItems: Dispatch<SetStateAction<CartItem[]>>;
 }
 
-const CheckoutOrderList = ({ orderItems }: Props) => {
+const CheckoutOrderList = ({ orderItems, setOrderItems }: Props) => {
   const totalPrice = orderItems.reduce(
     (acc: any, curr: any) => acc + curr.price * curr.quantity,
     0
@@ -73,6 +76,9 @@ const CheckoutOrderList = ({ orderItems }: Props) => {
               </Box>
             </Grid>
           </Grid>
+          <Button variant="outlined" onClick={() => setOrderItems([])}>
+            Cancel order
+          </Button>{" "}
         </Container>
       </Box>
     </React.Fragment>

@@ -1,33 +1,29 @@
-import * as React from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import { Product } from "@/types/types";
+import { Dispatch, SetStateAction } from "react";
 
 interface Props {
-  products: Product[];
+  searchText: string;
+  setSearchText: Dispatch<SetStateAction<string>>;
 }
 
-export default function SearchAutoComplete({ products }: Props) {
+export default function SearchAutoComplete({
+  searchText,
+  setSearchText,
+}: Props) {
   return (
-    <Autocomplete
-      freeSolo
-      onChange={(e, value) => console.log(value)}
-      id="combo-box-demo"
-      options={products.map((product) => product.title)}
-      sx={{ width: 400 }}
-      renderInput={(params) => (
-        <div>
-          <TextField
-            margin="normal"
-            variant="outlined"
-            color="secondary"
-            sx={{ bgcolor: "#fff", borderRadius: "3px" }}
-            {...params}
-            label="search.."
-          />{" "}
-        </div>
-      )}
-    />
+    <>
+      <TextField
+        margin="normal"
+        variant="outlined"
+        value={searchText}
+        size="small"
+        color="secondary"
+        sx={{ bgcolor: "#fff", borderRadius: "3px", width: "300px" }}
+        label="search.."
+        onChange={(e) => setSearchText(e.target.value)}
+      />
+    </>
   );
 }
 

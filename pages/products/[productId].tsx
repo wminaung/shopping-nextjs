@@ -1,26 +1,21 @@
 import { Product } from "@/types/types";
-import { Box, Stack, Typography } from "@mui/material";
-import { GetStaticPaths, GetStaticPathsContext, GetStaticProps } from "next";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
-import { useRouter } from "next/router";
 
 import { useState } from "react";
 import ToggleSize from "@/components/ToggleSize";
 
 interface Props {
   data: Product;
-  cart?: any;
+  handleAddToCart: (id: number) => void;
 }
 
 const Product = ({
   data: { category, description, id, image, price, rating, title },
-  cart,
+  handleAddToCart,
 }: Props) => {
   const [size, setSize] = useState("S");
-
-  console.log("...........-id-...........");
-  console.log(cart);
-  console.log("......................");
 
   return (
     <Box color={"black"} padding={6}>
@@ -52,6 +47,17 @@ const Product = ({
           {/************ */}
           <Stack spacing={3} direction="row">
             <ToggleSize setSize={setSize} size={size} />
+          </Stack>{" "}
+          <Stack spacing={3} direction="row">
+            <Button
+              onClick={() => {
+                handleAddToCart(id);
+              }}
+              variant="contained"
+              className="ml-auto block"
+            >
+              Order
+            </Button>
           </Stack>
         </Box>
       </Stack>

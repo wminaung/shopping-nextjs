@@ -19,9 +19,9 @@ interface Props {
 const Home = ({ products, categories, handleAddToCart }: Props) => {
   const [checkCat, setCheckCat] = useState<string>("");
 
-  console.log("checkCat", checkCat);
-
   const [loading, setLoading] = useState(true);
+
+  const [searchText, setSearchText] = useState("");
 
   const showProductsByCategory = (category: string) => {
     if (!category) return products;
@@ -33,8 +33,19 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
     return productsByCategory;
   };
 
+  const showProductsBySearchText = (searchText: string) => {
+    if (!searchText) return products;
+
+    const productsBySearchText = products.filter((product) => {
+      return product.title.toLowerCase().includes(searchText.toLowerCase());
+    });
+
+    return productsBySearchText;
+  };
+
   useEffect(() => {
     setLoading(false);
+    setSearchText("");
   }, [checkCat]);
 
   return (
@@ -43,12 +54,17 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
         <title>Product List</title>
       </Head>
       <Stack
-        className="my-3 px-14"
+        className="my-3"
         direction={"row"}
         justifyContent="end"
         flexWrap="wrap"
       >
-        <SearchAutoComplete products={products} />
+        <Box mr={"auto"} ml={31}>
+          <SearchAutoComplete
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+        </Box>
       </Stack>
       <Stack direction={"row"} justifyContent="space-between" width={"100%"}>
         <Stack ml={6}>
@@ -63,7 +79,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
         </Stack>
         <Stack
           direction={"row"}
-          justifyContent="center"
+          justifyContent="space-everywhere"
           alignItems={"center"}
           width="100%"
           flexWrap="wrap"
@@ -73,6 +89,23 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
               <Loading />
             </>
           )) ||
+            (searchText &&
+              showProductsBySearchText(searchText).map((product) => (
+                <Box key={product.id}>
+                  <motion.div
+                    className="m-2"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <ShoppingCard
+                      product={product}
+                      handleAddToCart={handleAddToCart}
+                    />
+                  </motion.div>
+                </Box>
+              ))) ||
             showProductsByCategory(checkCat).map((product) => (
               <Box key={product.id}>
                 <motion.div

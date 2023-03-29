@@ -2,12 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "fakestoreapi.com",
-      },
-    ],
+    domains: ["fakestoreapi.com", "avatars.githubusercontent.com"],
     minimumCacheTTL: 60,
   },
 };
