@@ -27,18 +27,17 @@ const ShoppingCard = ({
       sx={{ maxWidth: 301, borderRadius: "10px", px: "5px" }}
       variant="outlined"
     >
-      <div className="">
+      <div>
         <CardHeader title={title.slice(0, 15) + ".."} subheader={category} />
       </div>
-      <div className="w-full h-72 overflow-hidden flex justify-center items-center">
-        <Link href={`/products/${id}`} className="bg-black">
+      <div>
+        <Link href={`/products/${id}`}>
           <motion.div whileHover={{ opacity: 0.8, scale: 1.1 }}>
             <Image
               src={image}
               width={258}
               height={258}
               alt="image"
-              className="w-auto h-auto "
               placeholder="blur"
               blurDataURL="jpg"
             />

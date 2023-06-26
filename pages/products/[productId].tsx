@@ -19,17 +19,12 @@ const Product = ({
 
   return (
     <Box color={"black"} padding={6}>
-      <Stack
-        direction={"row"}
-        spacing={10}
-        className="flex-wrap md:flex-nowrap"
-      >
+      <Stack direction={"row"} spacing={10}>
         <Box minWidth={300}>
           <Image
             width={450}
             height={450}
             src={image}
-            className="rounded-lg"
             alt={title.slice(0, 10)}
             placeholder="blur"
             blurDataURL="jpg"
@@ -54,7 +49,6 @@ const Product = ({
                 handleAddToCart(id);
               }}
               variant="contained"
-              className="ml-auto block"
             >
               Order
             </Button>

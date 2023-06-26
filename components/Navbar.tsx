@@ -103,13 +103,7 @@ const Navbar = ({ count }: Props) => {
           </>
         </Toolbar>
       </AppBar>
-      <div>
-        {showAlert && (
-          <Alert className="fixed bottom-0 right-0 " severity="info">
-            Add to Cart
-          </Alert>
-        )}
-      </div>
+      <div>{showAlert && <Alert severity="info">Add to Cart</Alert>}</div>
     </Box>
   );
 };

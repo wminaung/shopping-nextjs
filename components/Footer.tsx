@@ -21,14 +21,10 @@ const Footer = () => {
             <Typography variant="h6" gutterBottom>
               Links
             </Typography>
-            <ul className="text-cyan-800 font-semibold">
+            <ul>
               <li>
                 {" "}
-                <Link
-                  href="/"
-                  color="text.primary"
-                  className="hover:text-yellow-700"
-                >
+                <Link href="/" color="text.primary">
                   Home
                 </Link>
               </li>

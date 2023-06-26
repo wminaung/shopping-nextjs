@@ -30,27 +30,10 @@ const Loading = () => {
   };
 
   return (
-    <motion.div
-      className="loading-container"
-      variants={containerVariants}
-      initial="start"
-      animate="end"
-    >
-      <motion.span
-        className="loading-circle"
-        variants={circleVariants}
-        transition={circleTransition}
-      />
-      <motion.span
-        className="loading-circle"
-        variants={circleVariants}
-        transition={circleTransition}
-      />
-      <motion.span
-        className="loading-circle"
-        variants={circleVariants}
-        transition={circleTransition}
-      />
+    <motion.div variants={containerVariants} initial="start" animate="end">
+      <motion.span variants={circleVariants} transition={circleTransition} />
+      <motion.span variants={circleVariants} transition={circleTransition} />
+      <motion.span variants={circleVariants} transition={circleTransition} />
     </motion.div>
   );
 };

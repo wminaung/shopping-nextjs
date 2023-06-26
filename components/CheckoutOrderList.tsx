@@ -31,7 +31,7 @@ const CheckoutOrderList = ({ orderItems, setOrderItems }: Props) => {
 
   return (
     <React.Fragment>
-      <Box className="py-8 "></Box>
+      <Box></Box>
       <Head>
         <title>Order Summary </title>
       </Head>

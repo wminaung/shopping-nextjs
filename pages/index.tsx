@@ -53,12 +53,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
       <Head>
         <title>Product List</title>
       </Head>
-      <Stack
-        className="my-3"
-        direction={"row"}
-        justifyContent="end"
-        flexWrap="wrap"
-      >
+      <Stack direction={"row"} justifyContent="end" flexWrap="wrap">
         <Box mr={"auto"} ml={31}>
           <SearchAutoComplete
             searchText={searchText}
@@ -68,7 +63,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
       </Stack>
       <Stack direction={"row"} justifyContent="space-between" width={"100%"}>
         <Stack ml={6}>
-          <Box width={180} className="sticky top-28">
+          <Box width={180}>
             <CatCheckbox
               setLoading={setLoading}
               categories={categories}
@@ -93,7 +88,6 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
               showProductsBySearchText(searchText).map((product) => (
                 <Box key={product.id}>
                   <motion.div
-                    className="m-2"
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
@@ -109,7 +103,6 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
             showProductsByCategory(checkCat).map((product) => (
               <Box key={product.id}>
                 <motion.div
-                  className="m-2"
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}

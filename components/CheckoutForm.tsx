@@ -92,12 +92,7 @@ const CheckoutForm = ({ setOrderItems }: Props) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  type="submit"
-                  className="bg-black"
-                >
+                <Button variant="contained" color="secondary" type="submit">
                   Place Order
                 </Button>
               </Grid>
