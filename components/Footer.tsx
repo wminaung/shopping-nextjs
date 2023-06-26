@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import ShopperLogo from "./ShopperLogo";
 
 const Footer = () => {
   return (
@@ -51,9 +52,10 @@ const Footer = () => {
             </Typography>
             <Typography variant="body2" gutterBottom>
               Email: minwin243@gmail.com
-            </Typography>
+            </Typography>{" "}
+            <ShopperLogo />
           </Grid>
-        </Grid>
+        </Grid>{" "}
       </Container>
     </Box>
   );

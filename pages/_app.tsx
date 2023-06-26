@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import Layout from "./layout";
+import ShopperContextProvider from "@/context/ShopperContextProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [orderItems, setOrderItems] = useState<CartItem[]>([]);
@@ -29,14 +30,16 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <SessionProvider session={pageProps.session}>
-        <Layout quantityList={quantityList}>
-          <Component
-            orderItems={orderItems}
-            {...pageProps}
-            handleAddToCart={handleAddToCart}
-            setOrderItems={setOrderItems}
-          />
-        </Layout>
+        <ShopperContextProvider>
+          <Layout quantityList={quantityList}>
+            <Component
+              orderItems={orderItems}
+              {...pageProps}
+              handleAddToCart={handleAddToCart}
+              setOrderItems={setOrderItems}
+            />
+          </Layout>
+        </ShopperContextProvider>
       </SessionProvider>
     </>
   );

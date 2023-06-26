@@ -12,7 +12,9 @@ import { motion } from "framer-motion";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Badge from "@mui/material/Badge";
 import { useEffect, useState } from "react";
-import { Alert } from "@mui/material";
+import { Alert, SvgIcon } from "@mui/material";
+import ShopperLogo from "./ShopperLogo";
+import Image from "next/image";
 
 interface Props {
   count: number;
@@ -39,22 +41,14 @@ const Navbar = ({ count }: Props) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed" variant="elevation" color="inherit">
         <Toolbar sx={{ margin: "0px 80px" }}>
-          <Link href={"/"}>
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-                sx={{ mx: 2 }}
-              >
-                <HomeRoundedIcon />
-              </IconButton>
-            </motion.div>
-          </Link>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            winshop
-          </Typography>
+          <Link href={"/"} style={{ flexGrow: 1 }}>
+            <Image
+              src="/favicon.svg"
+              alt="Example SVG"
+              width={100}
+              height={100}
+            />
+          </Link>{" "}
           {(status !== "authenticated" && (
             <Button
               onClick={() => {

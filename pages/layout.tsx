@@ -13,15 +13,15 @@ const Layout = ({ children, quantityList }: Props) => {
   return (
     <>
       <Navbar count={quantityList.reduce((prev, cur) => prev + cur, 0)} />
-      <Box></Box>
-      {(status === "authenticated" && children) || (
-        <div>
-          <h1>Login please</h1>
-          <Button variant="outlined" onClick={() => signIn()}>
+      <Box className="py-8 ">{children}</Box>
+      {/* {(status === "authenticated" && children) || (
+        <div className="h-96 flex justify-center flex-col items-center">
+          <h1 className="text-3xl text-center mb-5">Login please</h1>
+          <Button variant="outlined" className="mt-5" onClick={() => signIn()}>
             Login
           </Button>
         </div>
-      )}
+      )} */}
       <Footer />
     </>
   );

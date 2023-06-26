@@ -8,6 +8,7 @@ import CatCheckbox from "@/components/CatCheckbox";
 import { motion } from "framer-motion";
 import Loading from "@/components/Loading";
 import Head from "next/head";
+import ShopperLogo from "@/components/ShopperLogo";
 
 interface Props {
   products: Array<Product>;
@@ -72,6 +73,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
             />
           </Box>
         </Stack>
+
         <Stack
           direction={"row"}
           justifyContent="space-everywhere"
