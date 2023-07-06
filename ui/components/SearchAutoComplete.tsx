@@ -1,5 +1,5 @@
 import TextField from "@mui/material/TextField";
-import { Product } from "@/types/types";
+import { Product } from "@/src/types/types";
 import { Dispatch, SetStateAction } from "react";
 
 interface Props {

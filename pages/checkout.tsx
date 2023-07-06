@@ -1,6 +1,6 @@
-import CheckoutForm from "@/components/CheckoutForm";
-import CheckoutOrderList from "@/components/CheckoutOrderList";
-import { CartItem, OrderItem, Product } from "@/types/types";
+import CheckoutForm from "@/ui/components/CheckoutForm";
+import CheckoutOrderList from "@/ui/components/CheckoutOrderList";
+import { CartItem, OrderItem, Product } from "@/src/types/types";
 import { GetStaticProps } from "next";
 import { Dispatch, SetStateAction } from "react";
 

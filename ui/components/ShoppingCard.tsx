@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Button, Stack } from "@mui/material";
 import Link from "next/link";
 
-import { Product } from "@/types/types";
+import { Product } from "@/src/types/types";
 import Image from "next/image";
 import { memo } from "react";
 import { motion } from "framer-motion";

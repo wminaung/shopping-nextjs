@@ -14,8 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import CheckoutForm from "@/components/CheckoutForm";
-import { CartItem, OrderItem, Product } from "@/types/types";
+import CheckoutForm from "@/ui/components/CheckoutForm";
+import { CartItem, OrderItem, Product } from "@/src/types/types";
 import Link from "next/link";
 
 interface Props {

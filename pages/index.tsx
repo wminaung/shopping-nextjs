@@ -1,14 +1,14 @@
 import { GetStaticProps } from "next";
-import ShoppingCard from "@/components/ShoppingCard";
+import ShoppingCard from "@/ui/components/ShoppingCard";
 import { useEffect, useState } from "react";
 import { Box, Stack } from "@mui/material";
-import SearchAutoComplete from "@/components/SearchAutoComplete";
-import { Product } from "@/types/types";
-import CatCheckbox from "@/components/CatCheckbox";
+import SearchAutoComplete from "@/ui/components/SearchAutoComplete";
+import { Product } from "@/src/types/types";
+import CatCheckbox from "@/ui/components/CatCheckbox";
 import { motion } from "framer-motion";
-import Loading from "@/components/Loading";
+import Loading from "@/ui/components/Loading";
 import Head from "next/head";
-import ShopperLogo from "@/components/ShopperLogo";
+import ShopperLogo from "@/ui/components/ShopperLogo";
 
 interface Props {
   products: Array<Product>;

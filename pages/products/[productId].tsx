@@ -1,10 +1,10 @@
-import { Product } from "@/types/types";
+import { Product } from "@/src/types/types";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Image from "next/image";
 
 import { useState } from "react";
-import ToggleSize from "@/components/ToggleSize";
+import ToggleSize from "@/ui/components/ToggleSize";
 
 interface Props {
   data: Product;
@@ -24,7 +24,7 @@ const Product = ({
           <Image
             width={450}
             height={450}
-            src={image}
+            src={image || ""}
             alt={title.slice(0, 10)}
             placeholder="blur"
             blurDataURL="jpg"

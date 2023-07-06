@@ -12,7 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { CategoryCheck } from "@/types/types";
+import { CategoryCheck } from "@/src/types/types";
 import { Typography } from "@mui/material";
 
 interface Props {

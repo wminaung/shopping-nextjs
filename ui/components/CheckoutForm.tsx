@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
-import { CartItem } from "@/types/types";
+import { CartItem } from "@/src/types/types";
 interface Props {
   setOrderItems: Dispatch<SetStateAction<CartItem[]>>;
 }

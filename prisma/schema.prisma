@@ -16,7 +16,7 @@ model product {
   price       Float
   description String
   category    String
-  image       String
+  image       String?
   rating      rating? @relation(fields: [ratingId], references: [id])
   ratingId    Int?
 }

@@ -1,4 +1,4 @@
-import { config } from "@/config/config";
+import { config } from "@/src/config/config";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 

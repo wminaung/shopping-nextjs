@@ -1,15 +1,19 @@
-import { config } from "@/config/config";
+import { config } from "@/src/config/config";
 import { product, rating } from "@prisma/client";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface DefaultValue {
   products: product[];
   ratings: rating[];
+  fetchData: () => void;
+  updateData: React.Dispatch<React.SetStateAction<DefaultValue>>;
 }
 
 const defaultValue: DefaultValue = {
   products: [],
   ratings: [],
+  fetchData: () => {},
+  updateData: () => {},
 };
 
 const ShopperContext = createContext<DefaultValue>(defaultValue);
@@ -24,7 +28,7 @@ interface Props {
   children: React.ReactNode;
 }
 const ShopperContextProvider = ({ children }: Props) => {
-  const [data, updateData] = useState({ ...defaultValue });
+  const [data, updateData] = useState<DefaultValue>({ ...defaultValue });
 
   const fetchData = async () => {
     const res = await fetch(`${config.apiBaseUrl}/data`);
@@ -37,7 +41,7 @@ const ShopperContextProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <ShopperContext.Provider value={{ ...data }}>
+    <ShopperContext.Provider value={{ ...data, updateData, fetchData }}>
       {children}
     </ShopperContext.Provider>
   );
