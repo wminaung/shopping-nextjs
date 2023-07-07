@@ -17,7 +17,12 @@ export default async function handler(
           rating: true,
         },
       });
-      return res.status(200).json({ products });
+      const categories = await prisma.product.findMany({
+        select: { category: true },
+      });
+      return res
+        .status(200)
+        .json({ products, categories: categories.map((cat) => cat.category) });
     } catch (error) {
       return res.status(500).json({ error });
     }

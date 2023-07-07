@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface DefaultValue {
   products: product[];
+  categories: string[];
   ratings: rating[];
   fetchData: () => void;
   updateData: React.Dispatch<React.SetStateAction<DefaultValue>>;
@@ -11,6 +12,7 @@ interface DefaultValue {
 
 const defaultValue: DefaultValue = {
   products: [],
+  categories: [],
   ratings: [],
   fetchData: () => {},
   updateData: () => {},
@@ -33,8 +35,8 @@ const ShopperContextProvider = ({ children }: Props) => {
   const fetchData = async () => {
     const res = await fetch(`${config.apiBaseUrl}/data`);
     const resData = (await res.json()) as DefaultValue;
-    const { products, ratings } = resData;
-    updateData({ ...data, products, ratings });
+    const { products, ratings, categories } = resData;
+    updateData({ ...data, products, ratings, categories });
   };
   useEffect(() => {
     fetchData();

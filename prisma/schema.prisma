@@ -15,15 +15,30 @@ model product {
   title       String
   price       Float
   description String
-  category    String
   image       String?
-  rating      rating? @relation(fields: [ratingId], references: [id])
-  ratingId    Int?
+
+  categories category[] @relation("ProductCategory")
+  rating     rating?
 }
 
 model rating {
-  id      Int       @id @default(autoincrement())
-  rate    Float
-  count   Int
-  product product[]
+  id         Int   @id @default(autoincrement())
+  rate       Float
+  count      Int
+  product_id Int   @unique
+
+  product product @relation(fields: [product_id], references: [id])
+}
+
+model category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  products product[] @relation("ProductCategory")
+}
+
+model test {
+  id    Int     @id @default(autoincrement())
+  name  String?
+  email String  @default("h-e-l-l-o")
 }

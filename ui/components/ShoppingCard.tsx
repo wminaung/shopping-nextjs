@@ -5,16 +5,17 @@ import CardActions from "@mui/material/CardActions";
 
 import Typography from "@mui/material/Typography";
 
-import { Button, Stack } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
 
 import { Product } from "@/src/types/types";
 import Image from "next/image";
 import { memo } from "react";
 import { motion } from "framer-motion";
+import { product } from "@prisma/client";
 
 interface Props {
-  product: Product;
+  product: product;
   handleAddToCart: (id: number) => void;
 }
 
@@ -33,14 +34,41 @@ const ShoppingCard = ({
       <div>
         <Link href={`/products/${id}`}>
           <motion.div whileHover={{ opacity: 0.8, scale: 1.1 }}>
-            <Image
-              src={image}
-              width={258}
-              height={258}
-              alt="image"
-              placeholder="blur"
-              blurDataURL="jpg"
-            />
+            {image ? (
+              <Image
+                src={image}
+                width={258}
+                height={258}
+                alt="image"
+                placeholder="blur"
+                blurDataURL="jpg"
+              />
+            ) : (
+              <Box
+                sx={{
+                  width: 258,
+                  height: 258,
+                  bgcolor: "gray",
+                  opacity: 0.5,
+                  position: "relative",
+                }}
+              >
+                <Box
+                  component={"span"}
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    opacity: 1,
+                    fontFamily: "fantasy",
+                    color: "red",
+                  }}
+                >
+                  NO IMAGE
+                </Box>
+              </Box>
+            )}
           </motion.div>
         </Link>
       </div>

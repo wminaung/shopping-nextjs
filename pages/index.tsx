@@ -8,16 +8,11 @@ import CatCheckbox from "@/ui/components/CatCheckbox";
 import { motion } from "framer-motion";
 import Loading from "@/ui/components/Loading";
 import Head from "next/head";
-import ShopperLogo from "@/ui/components/ShopperLogo";
+import { useShopper } from "@/src/context/ShopperContextProvider";
 
-interface Props {
-  products: Array<Product>;
-  categories: string[];
+const Home = () => {
+  const { products, categories } = useShopper();
 
-  handleAddToCart: (id: number) => void;
-}
-
-const Home = ({ products, categories, handleAddToCart }: Props) => {
   const [checkCat, setCheckCat] = useState<string>("");
 
   const [loading, setLoading] = useState(true);
@@ -43,6 +38,8 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
 
     return productsBySearchText;
   };
+
+  const handleAddToCart = (id: number) => {};
 
   useEffect(() => {
     setLoading(false);
@@ -88,7 +85,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
           )) ||
             (searchText &&
               showProductsBySearchText(searchText).map((product) => (
-                <Box key={product.id}>
+                <Box key={product.id} sx={{ mr: 4, mb: 4 }}>
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
@@ -103,7 +100,7 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
                 </Box>
               ))) ||
             showProductsByCategory(checkCat).map((product) => (
-              <Box key={product.id}>
+              <Box key={product.id} sx={{ mr: 4, mb: 4 }}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
@@ -124,18 +121,18 @@ const Home = ({ products, categories, handleAddToCart }: Props) => {
 };
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
-  const resProducts = await fetch("https://fakestoreapi.com/products");
-  const products = await resProducts.json();
+// export const getStaticProps: GetStaticProps = async () => {
+//   const resProducts = await fetch("https://fakestoreapi.com/products");
+//   const products = await resProducts.json();
 
-  const url = "https://fakestoreapi.com/products/categories";
-  const resCategories = await fetch(url);
-  const categories = await resCategories.json();
+//   const url = "https://fakestoreapi.com/products/categories";
+//   const resCategories = await fetch(url);
+//   const categories = await resCategories.json();
 
-  return {
-    props: {
-      products,
-      categories,
-    },
-  };
-};
+//   return {
+//     props: {
+//       products,
+//       categories,
+//     },
+//   };
+// };
