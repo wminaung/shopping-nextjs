@@ -16,30 +16,33 @@ import { Alert, SvgIcon } from "@mui/material";
 import ShopperLogo from "./ShopperLogo";
 import Image from "next/image";
 
-interface Props {
-  count: number;
-}
+interface Props {}
 
-const Navbar = ({ count }: Props) => {
+const Navbar = ({}: Props) => {
   const { data: session, status } = useSession();
 
   const [showAlert, setShowAlert] = useState(false);
 
-  useEffect(() => {
-    if (!count) return;
-    setShowAlert(true);
-    const interval = setTimeout(() => {
-      setShowAlert(false);
-    }, 1000);
+  // useEffect(() => {
+  //   if (!count) return;
+  //   setShowAlert(true);
+  //   const interval = setTimeout(() => {
+  //     setShowAlert(false);
+  //   }, 1000);
 
-    return () => clearInterval(interval);
-  }, [count]);
+  //   return () => clearInterval(interval);
+  // }, [count]);
 
   // console.log("session navbar", session, "|", status);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" variant="elevation" color="inherit">
+    <Box>
+      <AppBar
+        sx={{ maxHeight: 120 }}
+        position="fixed"
+        variant="elevation"
+        color="inherit"
+      >
         <Toolbar sx={{ margin: "0px 80px" }}>
           <Link href={"/"} style={{ flexGrow: 1 }}>
             <Image
@@ -80,7 +83,7 @@ const Navbar = ({ count }: Props) => {
                 sx={{ mx: 2 }}
               >
                 {" "}
-                <Badge badgeContent={count} color="error">
+                <Badge badgeContent={3} color="error">
                   <ShoppingCartIcon />{" "}
                 </Badge>
               </IconButton>
@@ -98,6 +101,7 @@ const Navbar = ({ count }: Props) => {
         </Toolbar>
       </AppBar>
       <div>{showAlert && <Alert severity="info">Add to Cart</Alert>}</div>
+      <Box sx={{ minHeight: 120 }}></Box>
     </Box>
   );
 };

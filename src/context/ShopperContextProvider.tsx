@@ -1,11 +1,11 @@
 import { config } from "@/src/config/config";
-import { product, rating } from "@prisma/client";
+import { category, product, rating } from "@prisma/client";
 import { createContext, useContext, useEffect, useState } from "react";
+import { CatToShow, GET } from "../types/types";
 
-interface DefaultValue {
-  products: product[];
-  categories: string[];
-  ratings: rating[];
+interface DefaultValue extends GET.API.ResponseData {
+  catsToShow: CatToShow[];
+  cartItems: any[];
   fetchData: () => void;
   updateData: React.Dispatch<React.SetStateAction<DefaultValue>>;
 }
@@ -13,7 +13,9 @@ interface DefaultValue {
 const defaultValue: DefaultValue = {
   products: [],
   categories: [],
+  cartItems: [],
   ratings: [],
+  catsToShow: [],
   fetchData: () => {},
   updateData: () => {},
 };
@@ -35,7 +37,7 @@ const ShopperContextProvider = ({ children }: Props) => {
   const fetchData = async () => {
     const res = await fetch(`${config.apiBaseUrl}/data`);
     const resData = (await res.json()) as DefaultValue;
-    const { products, ratings, categories } = resData;
+    const { products, ratings, categories } = resData as GET.API.ResponseData;
     updateData({ ...data, products, ratings, categories });
   };
   useEffect(() => {

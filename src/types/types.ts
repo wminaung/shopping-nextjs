@@ -1,26 +1,17 @@
-import { product, rating } from "@prisma/client";
+import { category, product, rating } from "@prisma/client";
 import type { ValidationError as JoiValidationError } from "joi";
 
 export interface Product extends product {
   rating: rating | null;
+  categories: category[];
 }
 
-export interface Rating {
-  rate: number;
-  count: number;
+export interface Category extends category {
+  products: product[];
 }
 
-export interface CategoryCheck {
-  category: string;
-  isCheck: boolean;
-}
-
-export interface CartItem {
-  id: number;
-  quantity: number;
-}
-export interface OrderItem extends Product {
-  quantity: number;
+export interface Rating extends rating {
+  product: product;
 }
 
 export interface NewProduct {
@@ -30,4 +21,18 @@ export interface NewProduct {
   price: number;
 }
 
+export interface CatToShow extends Category {
+  isChecked: boolean;
+}
+
 export interface ValidationError extends JoiValidationError {}
+
+export namespace GET {
+  export namespace API {
+    export interface ResponseData {
+      products: Product[];
+      categories: Category[];
+      ratings: Rating[];
+    }
+  }
+}

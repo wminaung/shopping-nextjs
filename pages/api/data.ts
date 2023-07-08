@@ -1,4 +1,5 @@
 import { prisma } from "@/src/db";
+import { GET } from "@/src/types/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -15,14 +16,32 @@ export default async function handler(
         },
         include: {
           rating: true,
+          categories: true,
         },
       });
-      const categories = await prisma.product.findMany({
-        select: { category: true },
+      const categories = await prisma.category.findMany({
+        orderBy: {
+          id: "asc",
+        },
+        include: {
+          products: true,
+        },
       });
-      return res
-        .status(200)
-        .json({ products, categories: categories.map((cat) => cat.category) });
+
+      const ratings = await prisma.rating.findMany({
+        orderBy: { id: "asc" },
+        include: {
+          product: true,
+        },
+      });
+
+      const responseData: GET.API.ResponseData = {
+        products,
+        categories,
+        ratings,
+      };
+
+      return res.status(200).json(responseData);
     } catch (error) {
       return res.status(500).json({ error });
     }

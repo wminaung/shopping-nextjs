@@ -15,21 +15,27 @@ import { motion } from "framer-motion";
 import { product } from "@prisma/client";
 
 interface Props {
-  product: product;
+  product: Product;
   handleAddToCart: (id: number) => void;
 }
 
 const ShoppingCard = ({
-  product: { id, title, category, image, price },
+  product: { id, title, categories, image, price },
   handleAddToCart,
 }: Props) => {
+  const subheader = categories.reduce(
+    (prev, curr) => (prev += curr.name + ", "),
+    ""
+  );
+  console.log({ categories });
+
   return (
     <Card
       sx={{ maxWidth: 301, borderRadius: "10px", px: "5px" }}
       variant="outlined"
     >
       <div>
-        <CardHeader title={title.slice(0, 15) + ".."} subheader={category} />
+        <CardHeader title={title.slice(0, 15) + ".."} subheader={subheader} />
       </div>
       <div>
         <Link href={`/products/${id}`}>

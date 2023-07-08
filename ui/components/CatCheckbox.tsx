@@ -1,66 +1,65 @@
-import * as React from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from "react";
-import { CategoryCheck } from "@/src/types/types";
-import { Typography } from "@mui/material";
+import { Checkbox } from "@mui/material";
+import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 
-interface Props {
-  categories: string[];
-  checkCat: string;
-  setCheckCat: Dispatch<SetStateAction<string>>;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-}
+import { useShopper } from "@/src/context/ShopperContextProvider";
+import { Category } from "@/src/types/types";
 
-const CatCheckbox = ({
-  categories,
-  checkCat,
-  setCheckCat,
-  setLoading,
-}: Props) => {
+const CatCheckbox = () => {
+  const { categories, updateData, catsToShow } = useShopper();
+  const data = useShopper();
+
+  const [cats, setCats] = useState([]);
+
+  useEffect(() => {
+    if (categories.length) {
+      // setCats(
+      //   categories.map((category) => ({ ...category, isChecked: false }))
+      // );
+      updateData({
+        ...data,
+        catsToShow: categories.map((category) => ({
+          ...category,
+          isChecked: false,
+        })),
+      });
+    }
+  }, [categories]);
+
+  if (!categories.length) return null;
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    value: string
+    checked: boolean
   ) => {
-    setLoading(true);
-    setCheckCat(value);
+    const value = event.target.value;
+    updateData({
+      ...data,
+      catsToShow: catsToShow.map((cat) => {
+        if (String(cat.id) === value) {
+          return { ...cat, isChecked: checked };
+        }
+        return { ...cat };
+      }),
+    });
   };
+  console.log(catsToShow, "catsToShow");
   return (
     <FormControl>
-      <FormLabel id="demo-radio-buttons-group-label">
-        <Typography variant="h5">Category</Typography>
-      </FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue=""
-        name="radio-buttons-group"
-        onChange={handleChange}
-      >
+      <FormLabel id="demo-radio-buttons-group-label">Categories</FormLabel>
+
+      {catsToShow.map((category) => (
         <FormControlLabel
-          key={"all"}
-          value={""}
-          control={<Radio />}
-          label={"All"}
+          key={category.id}
+          value={category.id}
+          control={<Checkbox onChange={handleChange} />}
+          label={category.name}
         />
-        {categories.map((category) => (
-          <FormControlLabel
-            key={category}
-            value={category}
-            control={<Radio />}
-            label={category}
-          />
-        ))}
-      </RadioGroup>
+      ))}
     </FormControl>
   );
 };

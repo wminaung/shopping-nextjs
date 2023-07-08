@@ -9,76 +9,95 @@ import { motion } from "framer-motion";
 import Loading from "@/ui/components/Loading";
 import Head from "next/head";
 import { useShopper } from "@/src/context/ShopperContextProvider";
+import BaseLayout from "@/ui/components/BaseLayout";
 
 const Home = () => {
-  const { products, categories } = useShopper();
+  const { products, categories, catsToShow } = useShopper();
 
   const [checkCat, setCheckCat] = useState<string>("");
-
   const [loading, setLoading] = useState(true);
 
-  const [searchText, setSearchText] = useState("");
+  const showProductsByCategories = () => {
+    const catIdsToshow = catsToShow
+      .filter((cat) => cat.isChecked)
+      .map((cat) => cat.id);
 
-  const showProductsByCategory = (category: string) => {
-    if (!category) return products;
+    if (!catIdsToshow.length) {
+      return products;
+    }
 
-    const productsByCategory = products.filter(
-      (products) => products.category.toLowerCase() === category.toLowerCase()
+    return products.filter((product) =>
+      product.categories.find((category) => catIdsToshow.includes(category.id))
     );
-
-    return productsByCategory;
   };
-
+  console.log(showProductsByCategories(), "Show Prod");
   const showProductsBySearchText = (searchText: string) => {
     if (!searchText) return products;
-
-    const productsBySearchText = products.filter((product) => {
-      return product.title.toLowerCase().includes(searchText.toLowerCase());
-    });
-
-    return productsBySearchText;
   };
 
   const handleAddToCart = (id: number) => {};
-
-  useEffect(() => {
-    setLoading(false);
-    setSearchText("");
-  }, [checkCat]);
 
   return (
     <>
       <Head>
         <title>Product List</title>
       </Head>
-      <Stack direction={"row"} justifyContent="end" flexWrap="wrap">
-        <Box mr={"auto"} ml={31}>
-          <SearchAutoComplete
-            searchText={searchText}
-            setSearchText={setSearchText}
-          />
-        </Box>
-      </Stack>
-      <Stack direction={"row"} justifyContent="space-between" width={"100%"}>
-        <Stack ml={6}>
-          <Box width={180}>
-            <CatCheckbox
-              setLoading={setLoading}
-              categories={categories}
-              checkCat={checkCat}
-              setCheckCat={setCheckCat}
-            />
+      <BaseLayout>
+        <Stack direction={"row"} justifyContent="end" flexWrap="wrap">
+          <Box mr={"auto"} ml={31}>
+            {/* <SearchAutoComplete
+            searchText={"SD"}
+            setSearchText={"setSearchText"}
+          /> */}
+            {/* <Autocomplete
+            freeSolo
+            id="free-solo-2-demo"
+            disableClearable
+            options={top100Films.map((option) => option.title)}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Search input"
+                InputProps={{
+                  ...params.InputProps,
+                  type: "search",
+                }}
+              />
+            )}
+          /> */}
           </Box>
         </Stack>
+        <Stack direction={"row"} justifyContent="space-between" width={"100%"}>
+          <Stack ml={6}>
+            <Box width={180}>
+              <CatCheckbox />
+            </Box>
+          </Stack>
 
-        <Stack
-          direction={"row"}
-          justifyContent="space-everywhere"
-          alignItems={"center"}
-          width="100%"
-          flexWrap="wrap"
-        >
-          {(loading && (
+          <Stack
+            direction={"row"}
+            justifyContent="space-everywhere"
+            alignItems={"center"}
+            width="100%"
+            flexWrap="wrap"
+          >
+            {showProductsByCategories().map((product) => (
+              <Box key={product.id} sx={{ mr: 4, mb: 4 }}>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <ShoppingCard
+                    product={product}
+                    handleAddToCart={handleAddToCart}
+                  />
+                </motion.div>
+              </Box>
+            ))}
+
+            {/* {(loading && (
             <>
               <Loading />
             </>
@@ -113,9 +132,10 @@ const Home = () => {
                   />
                 </motion.div>
               </Box>
-            ))}
+            ))} */}
+          </Stack>
         </Stack>
-      </Stack>
+      </BaseLayout>
     </>
   );
 };
