@@ -50,7 +50,13 @@ const AdminProductCard = ({ product }: Props) => {
 
   return (
     <Card
-      sx={{ width: 244, height: 330, pt: 3, margin: 2, borderRadius: 3 }}
+      sx={{
+        width: { md: 244, xs: 244 / 1.2 },
+        height: { md: 330, xs: 330 / 1.2 },
+        pt: 3,
+        margin: 2,
+        borderRadius: 3,
+      }}
       elevation={6}
     >
       <CardActionArea LinkComponent={Link} href="/admin/products/create">
@@ -59,8 +65,11 @@ const AdminProductCard = ({ product }: Props) => {
             component={"img"}
             alt={title}
             image={image}
-            width={144}
-            sx={{ width: 144, height: 200, m: "0 auto" }}
+            sx={{
+              width: { md: 144, sm: 144 / 1.2 },
+              height: { md: 200, sm: 200 / 1.2 },
+              m: "0 auto",
+            }}
           />
         )}
         <CardContent>

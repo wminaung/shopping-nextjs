@@ -36,3 +36,15 @@ export namespace GET {
     }
   }
 }
+export namespace Api {
+  export namespace Admin {
+    export namespace GET {
+      export type ResponseData = { products: Product[] };
+    }
+    export namespace Product {
+      export namespace POST {
+        export type ResponseData = { product: Product };
+      }
+    }
+  }
+}

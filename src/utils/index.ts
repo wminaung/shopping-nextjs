@@ -1,8 +1,8 @@
 type Method = "POST" | "PUT";
 
-export const getPostPutRequestInit = (
+export const getPostPutRequestInit = <P>(
   method: Method,
-  payload: Object
+  payload: P
 ): RequestInit => {
   return {
     method,

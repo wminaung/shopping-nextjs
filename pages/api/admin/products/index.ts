@@ -27,13 +27,20 @@ export default async function handler(
       try {
         const newProduct = await prisma.product.create({
           data: validNewProduct,
+          include: {
+            carts: true,
+            categories: true,
+            rating: true,
+          },
         });
-        return res.status(200).json({ newProduct });
-      } catch (error) {}
+        return res.status(200).json({ product: newProduct });
+      } catch (error) {
+        return res.status(500).json(error);
+      }
     } catch (error) {
       const validationError = error as ValidationError;
 
-      return res.status(403).json(error);
+      return res.status(500).json(error);
     }
   }
 
