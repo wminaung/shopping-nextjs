@@ -38,9 +38,9 @@ const Navbar = ({}: Props) => {
   return (
     <Box>
       <AppBar
-        sx={{ maxHeight: 120 }}
+        sx={{ bgcolor: "#b7c6e7", maxHeight: 120 }}
+        elevation={1}
         position="fixed"
-        variant="elevation"
         color="inherit"
       >
         <Toolbar sx={{ margin: "0px 80px" }}>
@@ -48,8 +48,8 @@ const Navbar = ({}: Props) => {
             <Image
               src="/favicon.svg"
               alt="Example SVG"
-              width={100}
-              height={100}
+              width={80}
+              height={80}
             />
           </Link>{" "}
           {(status !== "authenticated" && (

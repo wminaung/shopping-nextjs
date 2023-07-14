@@ -8,6 +8,7 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Link from "next/link";
+import { Product } from "@/src/types/types";
 
 const StyledParagraph = styled(Typography)(({ theme }) => ({
   overflow: "hidden",
@@ -36,10 +37,17 @@ const StyledParagraph = styled(Typography)(({ theme }) => ({
 }));
 
 interface Props {
-  product: product;
+  product: Product;
 }
 const AdminProductCard = ({ product }: Props) => {
-  const { id, title, price, description, category, image, ratingId } = product;
+  const { title, price, description, categories, rating, image } = product;
+
+  const categoriesText = categories.reduce(
+    (prev, curr) =>
+      (prev += curr.name + `${categories.length > 1 ? ", " : ""}`),
+    ""
+  );
+
   return (
     <Card
       sx={{ width: 244, height: 330, pt: 3, margin: 2, borderRadius: 3 }}
@@ -61,14 +69,15 @@ const AdminProductCard = ({ product }: Props) => {
           <Typography variant="body2" color="text.secondary">
             Price: {price}
           </Typography>
+
           <Typography variant="body2" color="text.secondary">
-            Category: {category}
+            Category: {categoriesText}
           </Typography>
-          {ratingId && (
+          {/* {ratingId && (
             <Typography variant="body2" color="text.secondary">
               Rating ID: {ratingId}
             </Typography>
-          )}
+          )} */}
         </CardContent>
       </CardActionArea>
     </Card>

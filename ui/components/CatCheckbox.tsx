@@ -3,7 +3,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { Checkbox } from "@mui/material";
+import { Button, Checkbox } from "@mui/material";
 import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
 
 import { useShopper } from "@/src/context/ShopperContextProvider";
@@ -32,7 +32,7 @@ const CatCheckbox = () => {
 
   if (!categories.length) return null;
 
-  const handleChange = (
+  const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
@@ -47,6 +47,14 @@ const CatCheckbox = () => {
       }),
     });
   };
+
+  const resetCategory = () => {
+    updateData({
+      ...data,
+      catsToShow: catsToShow.map((cat) => ({ ...cat, isChecked: false })),
+    });
+  };
+
   console.log(catsToShow, "catsToShow");
   return (
     <FormControl>
@@ -56,10 +64,14 @@ const CatCheckbox = () => {
         <FormControlLabel
           key={category.id}
           value={category.id}
-          control={<Checkbox onChange={handleChange} />}
+          checked={category.isChecked}
+          control={<Checkbox onChange={handleCheckboxChange} />}
           label={category.name}
         />
       ))}
+      <Button variant="text" onClick={resetCategory}>
+        Reset Category
+      </Button>
     </FormControl>
   );
 };

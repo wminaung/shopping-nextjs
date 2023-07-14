@@ -1,10 +1,11 @@
 import { config } from "@/src/config/config";
 import { product, rating } from "@prisma/client";
 import { createContext, useContext, useEffect, useState } from "react";
+import { Product, Rating } from "../types/types";
 
 interface DefaultValue {
-  products: product[];
-  ratings: rating[];
+  products: Product[];
+  ratings: Rating[];
   fetchData: (callback?: () => void) => Promise<void>;
   updateData: React.Dispatch<React.SetStateAction<DefaultValue>>;
 }

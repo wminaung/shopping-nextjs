@@ -19,6 +19,7 @@ model product {
 
   categories category[] @relation("ProductCategory")
   rating     rating?
+  carts      cart[]
 }
 
 model rating {
@@ -35,6 +36,35 @@ model category {
   name String
 
   products product[] @relation("ProductCategory")
+}
+
+model user {
+  id       Int     @id @default(autoincrement())
+  username String
+  email    String
+  image    String?
+
+  carts cart[]
+}
+
+model cart {
+  id          Int   @id @default(autoincrement())
+  quantity    Int   @default(1)
+  total_price Float
+  product_id  Int
+  user_id     Int
+
+  order_id Int
+
+  order   order   @relation(fields: [order_id], references: [id])
+  product product @relation(fields: [product_id], references: [id])
+  user    user    @relation(fields: [user_id], references: [id])
+}
+
+model order {
+  id     Int    @id @default(autoincrement())
+  status String
+  cart   cart[]
 }
 
 model test {
