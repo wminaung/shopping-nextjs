@@ -1,6 +1,7 @@
 import { Box, Button } from "@mui/material";
 import AdminNavbar from "./AdminNavbar";
 import { useAdmin } from "@/src/store/slices/adminSlice";
+import AdminDrawer from "./AdminDrawer";
 
 interface Props {
   children: React.ReactNode;
@@ -14,9 +15,8 @@ const AdminLayout = ({ children }: Props) => {
   return (
     <Box>
       <Box sx={{ mb: 2 }}>
-        <AdminNavbar />
+        <AdminDrawer>{admin.isLoading ? null : children}</AdminDrawer>
       </Box>
-      {admin.isLoading ? null : children}
     </Box>
   );
 };

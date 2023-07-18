@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { TextField, Button, Container, Grid, FormControl } from "@mui/material";
 
 import { Prisma } from "@prisma/client";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import FileDropzone from "../FileDropzone";
+import { getPostPutRequestInit } from "@/src/utils";
+import { config } from "@/src/config/config";
+import { Api, ValidationError } from "@/src/types/types";
+import { superbase } from "@/src/utils/superbase";
+import { v4 as uuidv4 } from "uuid";
 
 export const defaultProductCreateInputValue: Prisma.productCreateInput = {
   title: "",
@@ -12,15 +17,7 @@ export const defaultProductCreateInputValue: Prisma.productCreateInput = {
   image: "",
 };
 
-interface Props {
-  createProduct: (
-    payload: Prisma.productCreateInput,
-    setNewProduct: React.Dispatch<
-      React.SetStateAction<Prisma.productCreateInput>
-    >
-  ) => Promise<void>;
-}
-const CreateProduct = ({ createProduct }: Props) => {
+const CreateProduct = () => {
   const [newProduct, setNewProduct] = useState<Prisma.productCreateInput>(
     defaultProductCreateInputValue
   );
@@ -29,6 +26,8 @@ const CreateProduct = ({ createProduct }: Props) => {
 
   const {
     state: { products },
+    dispatch,
+    actions,
   } = useAdmin();
 
   const handleInputChange = (e: any) => {
@@ -41,6 +40,58 @@ const CreateProduct = ({ createProduct }: Props) => {
   };
 
   ////
+
+  const createProduct = async (
+    payload: Prisma.productCreateInput,
+    setNewProduct: React.Dispatch<
+      React.SetStateAction<Prisma.productCreateInput>
+    >
+  ) => {
+    // TODO - image upload
+    const isValid = payload.title && payload.price >= 0 && payload.description;
+    if (!file || !isValid) {
+      return alert("Image is needed or some field missing");
+    }
+    const { data, error } = await superbase.storage
+      .from("winimg")
+      .upload(`admin/products/${uuidv4()}-${file.name}`, file);
+
+    if (error) {
+      return;
+    }
+    const { path: imagePath } = data;
+
+    const image = `${config.baseImageUrl}/${imagePath}`;
+    console.log(image, "iamge");
+
+    const res = await fetch(
+      `${config.apiAdminUrl}/products`,
+      getPostPutRequestInit<Prisma.productCreateInput>("POST", {
+        ...payload,
+        image: image,
+      })
+    );
+
+    if (!res.ok) {
+      if (res.status === 403) {
+        const error = (await res.json()) as ValidationError;
+        const alertContext = error.details.reduce(
+          (prev, curr) => (prev += curr.message),
+          ""
+        );
+
+        alert(alertContext);
+        return;
+      }
+      alert("status : " + res.status);
+      return;
+    }
+    const resData = await res.json();
+    const { product } = resData as Api.Admin.Product.POST.ResponseData;
+    dispatch(actions.addProduct(product));
+    setNewProduct(defaultProductCreateInputValue);
+    // fetchData();
+  };
 
   ////
 
@@ -116,4 +167,4 @@ const CreateProduct = ({ createProduct }: Props) => {
   );
 };
 
-export default CreateProduct;
+export default memo(CreateProduct);

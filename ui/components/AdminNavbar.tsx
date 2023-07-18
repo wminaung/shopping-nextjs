@@ -1,4 +1,3 @@
-import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -8,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import { memo } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -51,7 +51,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function AdminNavbar() {
+interface Props {
+  handleDrawerOpen: () => void;
+  title?: string;
+}
+
+const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
   return (
     <Box>
       <AppBar position="fixed" sx={{ bgcolor: "black" }}>
@@ -62,6 +67,7 @@ export default function AdminNavbar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleDrawerOpen}
           >
             <MenuIcon />
           </IconButton>
@@ -71,7 +77,7 @@ export default function AdminNavbar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            {title}
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -87,4 +93,5 @@ export default function AdminNavbar() {
       <Box sx={{ height: 60 }}></Box>
     </Box>
   );
-}
+};
+export default memo(AdminNavbar);

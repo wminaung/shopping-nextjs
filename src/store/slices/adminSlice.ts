@@ -20,11 +20,15 @@ import { ratingsAction, selectRatings } from "./ratingsSlice";
 export interface AdminState {
   isLoading: boolean;
   error: Error | null;
+  navTitle: string;
+  openDrawer: boolean;
 }
 
 const initialState: AdminState = {
   isLoading: false,
   error: null,
+  navTitle: "",
+  openDrawer: true,
 };
 
 export const fetchAdminData = createAsyncThunk(
@@ -53,6 +57,12 @@ export const adminSlice = createSlice({
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
+    },
+    setNavTitle: (state, action: PayloadAction<string>) => {
+      state.navTitle = action.payload;
+    },
+    setOpenDrawer: (state, action: PayloadAction<boolean>) => {
+      state.openDrawer = action.payload;
     },
   },
 });

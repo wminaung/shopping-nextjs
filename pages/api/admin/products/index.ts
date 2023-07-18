@@ -18,7 +18,6 @@ export default async function handler(
     // }
 
     try {
-      deleteUndefinedfromObject(payload);
       const validNewProduct = await schema.productCreateInput.validateAsync({
         ...payload,
       });
@@ -27,11 +26,6 @@ export default async function handler(
       try {
         const newProduct = await prisma.product.create({
           data: validNewProduct,
-          include: {
-            carts: true,
-            categories: true,
-            rating: true,
-          },
         });
         return res.status(200).json({ product: newProduct });
       } catch (error) {

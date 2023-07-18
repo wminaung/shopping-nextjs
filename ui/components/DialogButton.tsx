@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
-import { forwardRef, useState } from "react";
+import { forwardRef, memo, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton } from "@mui/material";
 
@@ -37,7 +37,7 @@ const DialogButton = ({ title, children }: Props) => {
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Slide in alert dialog
+        {title}
       </Button>
       <Dialog
         open={open}
@@ -61,7 +61,7 @@ const DialogButton = ({ title, children }: Props) => {
     </div>
   );
 };
-export default DialogButton;
+export default memo(DialogButton);
 
 interface DialogTitleProps {
   id: string;
