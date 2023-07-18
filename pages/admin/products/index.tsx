@@ -1,6 +1,5 @@
 import AdminLayout from "@/ui/components/AdminLayout";
 import AdminProductCard from "@/ui/components/AdminProductCard";
-import { useAdmin } from "@/src/context/AdminContextProvider";
 import { Box, Stack } from "@mui/material";
 import React from "react";
 import DialogButton from "@/ui/components/DialogButton";
@@ -11,14 +10,20 @@ import { Prisma } from "@prisma/client";
 import { config } from "@/src/config/config";
 import { getPostPutRequestInit } from "@/src/utils";
 import { Api, ValidationError } from "@/src/types/types";
-import { useAdminSlice } from "@/src/store/slices/adminSlice";
+import { useAdmin } from "@/src/store/slices/adminSlice";
 
 const ProductsListPage = () => {
+  // const {
+  //   state: { products },
+  //   actions,
+  //   dispatch,
+  // } = useAdminSlice();
+
   const {
     state: { products },
     actions,
     dispatch,
-  } = useAdminSlice();
+  } = useAdmin();
 
   const createProduct = async (
     payload: Prisma.productCreateInput,
@@ -48,11 +53,11 @@ const ProductsListPage = () => {
     }
     const resData = await res.json();
     const { product } = resData as Api.Admin.Product.POST.ResponseData;
-    dispatch(actions.products.addProduct(product));
+    dispatch(actions.addProduct(product));
     setNewProduct(defaultProductCreateInputValue);
     // fetchData();
   };
-  console.log(products);
+
   return (
     <AdminLayout>
       <Stack>

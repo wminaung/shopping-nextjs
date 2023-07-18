@@ -1,18 +1,9 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Container,
-  Grid,
-  Typography,
-  Paper,
-} from "@mui/material";
-import AdminLayout from "@/ui/components/AdminLayout";
-import { NewProduct, Product, ValidationError } from "@/src/types/types";
-import { useAdmin } from "@/src/context/AdminContextProvider";
-import Link from "next/link";
-import { config } from "@/src/config/config";
+import { TextField, Button, Container, Grid, FormControl } from "@mui/material";
+
 import { Prisma } from "@prisma/client";
+import { useAdmin } from "@/src/store/slices/adminSlice";
+import FileDropzone from "../FileDropzone";
 
 export const defaultProductCreateInputValue: Prisma.productCreateInput = {
   title: "",
@@ -34,7 +25,11 @@ const CreateProduct = ({ createProduct }: Props) => {
     defaultProductCreateInputValue
   );
 
-  const { products, fetchData } = useAdmin();
+  const [file, setFile] = useState<File | null>(null);
+
+  const {
+    state: { products },
+  } = useAdmin();
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -59,13 +54,15 @@ const CreateProduct = ({ createProduct }: Props) => {
       >
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <TextField
-              label="Product title"
-              fullWidth
-              name="title"
-              value={newProduct.title}
-              onChange={handleInputChange}
-            />
+            <FormControl fullWidth>
+              <TextField
+                label="Product title"
+                fullWidth
+                name="title"
+                value={newProduct.title}
+                onChange={handleInputChange}
+              />
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             {/* <TextField
@@ -73,32 +70,41 @@ const CreateProduct = ({ createProduct }: Props) => {
               fullWidth
               multiline
               name="category"
-              value={newProduct.category}
+              value={"sdf"}
               onChange={handleInputChange}
             /> */}
           </Grid>
           <Grid item xs={12}>
-            <TextField
-              label="Price"
-              fullWidth
-              name="price"
-              type="number"
-              value={newProduct.price}
-              onChange={handleInputChange}
-            />
+            <FormControl fullWidth>
+              <TextField
+                label="Price"
+                fullWidth
+                name="price"
+                type="number"
+                value={newProduct.price}
+                onChange={handleInputChange}
+              />
+            </FormControl>
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              label="Description"
-              fullWidth
-              multiline
-              name="description"
-              value={newProduct.description}
-              onChange={handleInputChange}
-            />
+            <FormControl fullWidth>
+              <TextField
+                label="Description"
+                fullWidth
+                multiline
+                name="description"
+                value={newProduct.description}
+                onChange={handleInputChange}
+              />
+            </FormControl>
           </Grid>
 
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <FileDropzone file={file} setFile={setFile} />
+            </FormControl>
+          </Grid>
           <Grid item xs={12}>
             <Button variant="contained" color="primary" type="submit">
               Create

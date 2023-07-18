@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import Link from "next/link";
 import { Product } from "@/src/types/types";
+import { useAdmin } from "@/src/store/slices/adminSlice";
 
 const StyledParagraph = styled(Typography)(({ theme }) => ({
   overflow: "hidden",
@@ -40,7 +41,10 @@ interface Props {
   product: Product;
 }
 const AdminProductCard = ({ product }: Props) => {
-  const { title, price, description, categories, rating, image } = product;
+  // const { title, price, description, categories, rating, image } = product;
+  const {
+    state: { categories, ratings, categoriesXProducts },
+  } = useAdmin();
 
   const categoriesText = categories.reduce(
     (prev, curr) =>
@@ -60,11 +64,11 @@ const AdminProductCard = ({ product }: Props) => {
       elevation={6}
     >
       <CardActionArea LinkComponent={Link} href="/admin/products/create">
-        {image && (
+        {product.image && (
           <CardMedia
             component={"img"}
-            alt={title}
-            image={image}
+            alt={product.title}
+            image={product.image}
             sx={{
               width: { md: 144, sm: 144 / 1.2 },
               height: { md: 200, sm: 200 / 1.2 },
@@ -73,10 +77,10 @@ const AdminProductCard = ({ product }: Props) => {
           />
         )}
         <CardContent>
-          <StyledParagraph>{title}</StyledParagraph>
+          <StyledParagraph>{product.title}</StyledParagraph>
 
           <Typography variant="body2" color="text.secondary">
-            Price: {price}
+            Price: {product.price}
           </Typography>
 
           <Typography variant="body2" color="text.secondary">

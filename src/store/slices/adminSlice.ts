@@ -10,6 +10,12 @@ import { RootState } from "..";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../hook";
 import { config } from "@/src/config/config";
+import { categoriesAction, selectCategories } from "./categoriesSlice";
+import {
+  categoriesXProductsAction,
+  selectCategoriesXProducts,
+} from "./categoriesXProductsSlice";
+import { ratingsAction, selectRatings } from "./ratingsSlice";
 
 export interface AdminState {
   isLoading: boolean;
@@ -58,28 +64,37 @@ export const adminAction = adminSlice.actions;
 export default adminSlice.reducer;
 
 export const adminData = createSelector(
-  [selectAdmin, selectProducts],
-  (admin, products) => {
+  [
+    selectAdmin,
+    selectProducts,
+    selectCategories,
+    selectCategoriesXProducts,
+    selectRatings,
+  ],
+  (admin, products, categories, categoriesXProducts, ratings) => {
     return {
       admin,
-      products: products.items,
+      products,
+      categories,
+      categoriesXProducts,
+      ratings,
     };
   }
 );
 
-export const useAdminSlice = () => {
+export const useAdmin = () => {
   const state = useSelector(adminData);
   const dispatch = useAppDispatch();
-  const actions = adminAction;
 
   return {
     state,
     dispatch,
     actions: {
-      ...actions,
-      products: {
-        ...productsAction,
-      },
+      ...adminAction,
+      ...productsAction,
+      ...categoriesAction,
+      ...categoriesXProductsAction,
+      ...ratingsAction,
     },
   };
 };

@@ -18,9 +18,31 @@ model product {
   image       String?
   isArchive   Boolean @default(false)
 
-  categories category[] @relation("ProductCategory")
-  rating     rating?
-  carts      cart[]
+  rating           rating?
+  carts            cart[]
+  categoryxproduct categoryxproduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  categoryxproduct categoryxproduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model categoryxproduct {
+  id Int @id @default(autoincrement())
+
+  categories category @relation(fields: [categoryId], references: [id])
+  products   product  @relation(fields: [productId], references: [id])
+  categoryId Int
+  productId  Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -34,16 +56,6 @@ model rating {
   isArchive Boolean @default(false)
 
   product product @relation(fields: [productId], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
-model category {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  products product[] @relation("ProductCategory")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

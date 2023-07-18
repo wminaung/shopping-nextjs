@@ -22,7 +22,7 @@ const AdminContext = createContext<DefaultValue>(defaultValue);
 /***********************/
 
 // Hook
-export const useAdmin = () => useContext(AdminContext);
+export const useAdminProvider = () => useContext(AdminContext);
 
 // Provider
 interface Props {

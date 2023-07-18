@@ -1,18 +1,24 @@
-import { category, product, rating } from "@prisma/client";
+import {
+  cart,
+  category,
+  categoryxproduct,
+  order,
+  product,
+  rating,
+  user,
+} from "@prisma/client";
 import type { ValidationError as JoiValidationError } from "joi";
 
-export interface Product extends product {
-  rating: rating | null;
-  categories: category[];
-}
+export interface Product extends product {}
 
-export interface Category extends category {
-  products: product[];
-}
+export interface Category extends category {}
 
-export interface Rating extends rating {
-  product: product;
-}
+export interface CategoryXProduct extends categoryxproduct {}
+
+export interface Rating extends rating {}
+export interface User extends user {}
+export interface Cart extends cart {}
+export interface Order extends order {}
 
 export interface NewProduct {
   title: string;

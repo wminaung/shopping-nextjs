@@ -1,9 +1,6 @@
-import Footer from "@/ui/components/Footer";
 import { Box, Button } from "@mui/material";
-import { useSession, signIn } from "next-auth/react";
 import AdminNavbar from "./AdminNavbar";
-import { useAdmin } from "@/src/context/AdminContextProvider";
-import { useAdminSlice } from "@/src/store/slices/adminSlice";
+import { useAdmin } from "@/src/store/slices/adminSlice";
 
 interface Props {
   children: React.ReactNode;
@@ -12,7 +9,7 @@ interface Props {
 const AdminLayout = ({ children }: Props) => {
   const {
     state: { products, admin },
-  } = useAdminSlice();
+  } = useAdmin();
 
   return (
     <Box>
