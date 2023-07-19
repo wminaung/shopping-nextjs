@@ -1,16 +1,21 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { useCallback, useState, memo } from "react";
+import { useCallback, useState, memo, useEffect, SetStateAction } from "react";
 import { useDropzone } from "react-dropzone";
 
 interface Props {
   file: File | null;
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
+  imagePreview: string | null;
+  setImagePreview: React.Dispatch<SetStateAction<string | null>>;
 }
 
-const FileDropzone = ({ file, setFile }: Props) => {
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
+const FileDropzone = ({
+  file,
+  setFile,
+  imagePreview,
+  setImagePreview,
+}: Props) => {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newFile = acceptedFiles[0];
     const isJpgOrPng =

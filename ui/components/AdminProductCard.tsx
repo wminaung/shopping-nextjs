@@ -63,7 +63,10 @@ const AdminProductCard = ({ product }: Props) => {
       }}
       elevation={6}
     >
-      <CardActionArea LinkComponent={Link} href="/admin/products/create">
+      <CardActionArea
+        LinkComponent={Link}
+        href={`/admin/products/${product.id}`}
+      >
         {product.image && (
           <CardMedia
             component={"img"}

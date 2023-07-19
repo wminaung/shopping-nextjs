@@ -21,7 +21,7 @@ const CreateProduct = () => {
   const [newProduct, setNewProduct] = useState<Prisma.productCreateInput>(
     defaultProductCreateInputValue
   );
-
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
   const {
@@ -153,7 +153,12 @@ const CreateProduct = () => {
 
           <Grid item xs={12}>
             <FormControl fullWidth>
-              <FileDropzone file={file} setFile={setFile} />
+              <FileDropzone
+                imagePreview={imagePreview}
+                setImagePreview={setImagePreview}
+                file={file}
+                setFile={setFile}
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12}>
