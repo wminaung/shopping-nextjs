@@ -45,7 +45,15 @@ export namespace GET {
 export namespace Api {
   export namespace Admin {
     export namespace GET {
-      export type ResponseData = { products: Product[] };
+      export type ResponseData = {
+        products: Product[];
+        categories: Category[];
+        categoriesXproducts: CategoryXProduct[];
+        ratings: Rating[];
+        users: User[];
+        carts: Cart[];
+        orders: Order[];
+      };
     }
     export namespace Product {
       export namespace POST {

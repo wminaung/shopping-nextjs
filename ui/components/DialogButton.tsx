@@ -51,7 +51,7 @@ const DialogButton = ({ title, children }: Props) => {
           id="customized-dialog-title"
           onClose={handleClose}
         >
-          Modal title
+          {title}
         </BootstrapDialogTitle>
         <DialogContent dividers>{children}</DialogContent>
         <DialogActions>

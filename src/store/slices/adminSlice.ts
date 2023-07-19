@@ -28,7 +28,7 @@ const initialState: AdminState = {
   isLoading: false,
   error: null,
   navTitle: "",
-  openDrawer: true,
+  openDrawer: false,
 };
 
 export const fetchAdminData = createAsyncThunk(
@@ -42,9 +42,10 @@ export const fetchAdminData = createAsyncThunk(
       return alert("something worng");
     }
     const responseData = await response.json();
-    const { products } = responseData as Api.Admin.GET.ResponseData;
+    const { products, categories } = responseData as Api.Admin.GET.ResponseData;
 
     dispatch(productsAction.setProducts(products));
+    dispatch(categoriesAction.setCategories(categories));
 
     //? loading end
     dispatch(adminAction.setLoading(false));

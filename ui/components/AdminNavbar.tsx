@@ -90,7 +90,6 @@ const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
           </Search>
         </Toolbar>
       </AppBar>
-      <Box sx={{ height: 60 }}></Box>
     </Box>
   );
 };

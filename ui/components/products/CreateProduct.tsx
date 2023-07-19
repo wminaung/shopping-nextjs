@@ -98,9 +98,9 @@ const CreateProduct = () => {
   return (
     <Container maxWidth="sm">
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          createProduct(newProduct, setNewProduct);
+          await createProduct(newProduct, setNewProduct);
         }}
       >
         <Grid container spacing={2}>

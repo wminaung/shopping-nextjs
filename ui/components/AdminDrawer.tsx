@@ -56,18 +56,18 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 //
 
-const navLinks = [
+export const navLinks = [
   {
     id: 1,
     name: "Categories",
     url: "/admin/categories",
-    icon: <CategoryIcon />,
+    icon: CategoryIcon,
   },
   {
     id: 2,
     name: "Products",
     url: "/admin/products",
-    icon: <CheckroomIcon />,
+    icon: CheckroomIcon,
   },
 ];
 
@@ -81,6 +81,7 @@ const AdminDrawer = ({ children }: Props) => {
 
   const router = useRouter();
   const route = router.route;
+
   const {
     state: {
       admin: { navTitle, openDrawer },
@@ -122,7 +123,7 @@ const AdminDrawer = ({ children }: Props) => {
         open={openDrawer}
       >
         <DrawerHeader>
-          <Typography>Some Icon</Typography>
+          <Typography>{navTitle}</Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <Box sx={{ display: "flex" }}>
@@ -139,7 +140,7 @@ const AdminDrawer = ({ children }: Props) => {
             <Link key={nav.id} href={nav.url}>
               <ListItem disablePadding>
                 <ListItemButton>
-                  <ListItemIcon>{nav.icon}</ListItemIcon>
+                  <ListItemIcon>{<nav.icon />}</ListItemIcon>
                   <ListItemText primary={nav.name} />
                 </ListItemButton>
               </ListItem>

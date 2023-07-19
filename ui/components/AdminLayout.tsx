@@ -15,6 +15,7 @@ const AdminLayout = ({ children }: Props) => {
   return (
     <Box>
       <Box sx={{ mb: 2 }}>
+        <Box sx={{ height: 80 }}></Box>
         <AdminDrawer>{admin.isLoading ? null : children}</AdminDrawer>
       </Box>
     </Box>

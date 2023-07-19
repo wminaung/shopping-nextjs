@@ -25,6 +25,20 @@ export const categoriesSlice = createSlice({
     addCategory: (state, action: PayloadAction<Category>) => {
       state.items = [...state.items, action.payload];
     },
+    updateCategory: (state, action: PayloadAction<Category>) => {
+      const items = state.items;
+      const updatedCategories = items.map((item) => {
+        if (item.id === action.payload.id) {
+          return action.payload;
+        }
+        return item;
+      });
+
+      state.items = updatedCategories;
+    },
+    deleteCategory: (state, action: PayloadAction<Category>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload.id);
+    },
   },
 });
 
