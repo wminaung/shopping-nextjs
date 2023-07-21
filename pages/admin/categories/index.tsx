@@ -13,10 +13,8 @@ const CategoriesPage = () => {
     dispatch,
   } = useAdmin();
 
-  const nav = navLinks.find((nav) => nav.name === admin.navTitle);
-
   return (
-    <AdminLayout>
+    <AdminLayout title="Categories">
       <Stack>
         <Stack direction={"column"} alignItems={"end"} sx={{ mr: 5, mt: 8 }}>
           <DialogButton title="Create Category">
@@ -28,7 +26,6 @@ const CategoriesPage = () => {
             <Box sx={{ mx: "auto" }} key={category.id}>
               <AdminCard
                 href={`/admin/categories/${category.id}`}
-                nav={nav}
                 name={category.name}
               />
             </Box>

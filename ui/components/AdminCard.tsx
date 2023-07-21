@@ -19,6 +19,8 @@ import Link from "next/link";
 import { Product } from "@/src/types/types";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { navLinks } from "./AdminDrawer";
+import { useRouter } from "next/router";
 
 const StyledParagraph = styled(Typography)(({ theme }) => ({
   overflow: "hidden",
@@ -56,16 +58,12 @@ type NavObject = {
 };
 
 interface Props {
-  nav: NavObject | undefined;
   name: string;
   href: string;
 }
-const AdminProductCard = ({ nav, name, href }: Props) => {
-  // const { title, price, description, categories, rating, image } = product;
-  const {
-    state: { categories, ratings, categoriesXProducts },
-  } = useAdmin();
-
+const AdminProductCard = ({ name, href }: Props) => {
+  const router = useRouter();
+  const nav = navLinks.find((nav) => nav.url === router.route);
   if (!nav) {
     return null;
   }

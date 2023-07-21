@@ -5,9 +5,10 @@ import AdminDrawer from "./AdminDrawer";
 
 interface Props {
   children: React.ReactNode;
+  title?: string;
 }
 
-const AdminLayout = ({ children }: Props) => {
+const AdminLayout = ({ children, title }: Props) => {
   const {
     state: { products, admin },
   } = useAdmin();
@@ -16,7 +17,9 @@ const AdminLayout = ({ children }: Props) => {
     <Box>
       <Box sx={{ mb: 2 }}>
         <Box sx={{ height: 80 }}></Box>
-        <AdminDrawer>{admin.isLoading ? null : children}</AdminDrawer>
+        <AdminDrawer title={title}>
+          {admin.isLoading ? null : children}
+        </AdminDrawer>
       </Box>
     </Box>
   );

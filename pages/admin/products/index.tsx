@@ -14,7 +14,7 @@ const ProductsListPage = () => {
   } = useAdmin();
 
   return (
-    <AdminLayout>
+    <AdminLayout title="Products">
       <Stack>
         <Stack direction={"column"} alignItems={"end"} sx={{ mr: 5, mt: 8 }}>
           <DialogButton title="Create Product">

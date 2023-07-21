@@ -1,6 +1,6 @@
 import { prisma } from "@/src/db";
 import { schema } from "@/src/joi/schema";
-import { NewProduct, ValidationError } from "@/src/types/types";
+import { Category, NewProduct, ValidationError } from "@/src/types/types";
 import { deleteUndefinedfromObject } from "@/src/utils";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -12,28 +12,37 @@ export default async function handler(
   const method = req.method;
   if (method === "POST") {
     const payload = req.body as Prisma.productCreateInput;
+    const selectedCategories = req.body.selectedCategories as Category[];
 
-    // if (!title || price < 1 || !category || !description) {
-    //   return res.status(400).json({ message: "bad request" });
-    // }
+    const isValid =
+      payload.title &&
+      payload.price >= 0 &&
+      payload.description &&
+      payload.image &&
+      selectedCategories.length > 0;
+
+    if (!isValid) {
+      return res.status(400).json("invalid input");
+    }
+
+    const createCategoriesByProduct: Prisma.categoryxproductCreateManyProductsInput[] =
+      selectedCategories.map((category) => ({ categoryId: category.id }));
 
     try {
-      const validNewProduct = await schema.productCreateInput.validateAsync({
-        ...payload,
+      const { title, price, description, image } = payload;
+      const validNewProduct = { title, price, description, image };
+      const newProduct = await prisma.product.create({
+        data: {
+          ...validNewProduct,
+          categoryxproduct: {
+            createMany: {
+              data: createCategoriesByProduct,
+            },
+          },
+        },
       });
-      console.log("validNewProduct", validNewProduct);
-
-      try {
-        const newProduct = await prisma.product.create({
-          data: validNewProduct,
-        });
-        return res.status(200).json({ product: newProduct });
-      } catch (error) {
-        return res.status(500).json(error);
-      }
+      return res.status(200).json({ product: newProduct });
     } catch (error) {
-      const validationError = error as ValidationError;
-
       return res.status(500).json(error);
     }
   }

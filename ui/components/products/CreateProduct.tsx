@@ -1,14 +1,22 @@
-import React, { memo, useState } from "react";
-import { TextField, Button, Container, Grid, FormControl } from "@mui/material";
-
+import { memo, useState } from "react";
+import {
+  TextField,
+  Button,
+  Container,
+  Grid,
+  FormControl,
+  AutocompleteChangeReason,
+  AutocompleteChangeDetails,
+} from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import FileDropzone from "../FileDropzone";
 import { getPostPutRequestInit } from "@/src/utils";
 import { config } from "@/src/config/config";
-import { Api, ValidationError } from "@/src/types/types";
+import { Api, Category, ValidationError } from "@/src/types/types";
 import { superbase } from "@/src/utils/superbase";
 import { v4 as uuidv4 } from "uuid";
+import MultipleAutoCompleteChip from "../MultipleAutoCompleteChip";
 
 export const defaultProductCreateInputValue: Prisma.productCreateInput = {
   title: "",
@@ -21,11 +29,12 @@ const CreateProduct = () => {
   const [newProduct, setNewProduct] = useState<Prisma.productCreateInput>(
     defaultProductCreateInputValue
   );
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
 
   const {
-    state: { products },
+    state: { products, categories },
     dispatch,
     actions,
   } = useAdmin();
@@ -41,14 +50,15 @@ const CreateProduct = () => {
 
   ////
 
-  const createProduct = async (
-    payload: Prisma.productCreateInput,
-    setNewProduct: React.Dispatch<
-      React.SetStateAction<Prisma.productCreateInput>
-    >
-  ) => {
+  const createProduct = async () => {
     // TODO - image upload
-    const isValid = payload.title && payload.price >= 0 && payload.description;
+    const payload = { ...newProduct, selectedCategories };
+    const isValid =
+      payload.title &&
+      payload.price >= 0 &&
+      payload.description &&
+      selectedCategories.length > 0;
+
     if (!file || !isValid) {
       return alert("Image is needed or some field missing");
     }
@@ -89,8 +99,20 @@ const CreateProduct = () => {
     const resData = await res.json();
     const { product } = resData as Api.Admin.Product.POST.ResponseData;
     dispatch(actions.addProduct(product));
+    //todo dispathc catxproduct
+
     setNewProduct(defaultProductCreateInputValue);
+    setSelectedCategories([]);
     // fetchData();
+  };
+
+  const handleSelectedCategories = async (
+    event: React.SyntheticEvent<Element, Event>,
+    value: Category[],
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<Category> | undefined
+  ) => {
+    setSelectedCategories(value);
   };
 
   ////
@@ -100,7 +122,7 @@ const CreateProduct = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await createProduct(newProduct, setNewProduct);
+          await createProduct();
         }}
       >
         <Grid container spacing={2}>
@@ -115,16 +137,7 @@ const CreateProduct = () => {
               />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            {/* <TextField
-              label="Category"
-              fullWidth
-              multiline
-              name="category"
-              value={"sdf"}
-              onChange={handleInputChange}
-            /> */}
-          </Grid>
+
           <Grid item xs={12}>
             <FormControl fullWidth>
               <TextField
@@ -137,7 +150,13 @@ const CreateProduct = () => {
               />
             </FormControl>
           </Grid>
-
+          <Grid item xs={12}>
+            <MultipleAutoCompleteChip
+              categories={categories}
+              selectedCategories={selectedCategories}
+              handleSelectedCategories={handleSelectedCategories}
+            />
+          </Grid>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <TextField

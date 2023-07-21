@@ -42,10 +42,14 @@ export const fetchAdminData = createAsyncThunk(
       return alert("something worng");
     }
     const responseData = await response.json();
-    const { products, categories } = responseData as Api.Admin.GET.ResponseData;
+    const { products, categories, categoriesXproducts } =
+      responseData as Api.Admin.GET.ResponseData;
 
     dispatch(productsAction.setProducts(products));
     dispatch(categoriesAction.setCategories(categories));
+    dispatch(
+      categoriesXProductsAction.setCategoriesXProducts(categoriesXproducts)
+    );
 
     //? loading end
     dispatch(adminAction.setLoading(false));

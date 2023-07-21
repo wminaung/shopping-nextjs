@@ -75,8 +75,9 @@ export const navLinks = [
 
 interface Props {
   children: React.ReactNode;
+  title?: string;
 }
-const AdminDrawer = ({ children }: Props) => {
+const AdminDrawer = ({ children, title }: Props) => {
   const theme = useTheme();
 
   const router = useRouter();
@@ -90,13 +91,6 @@ const AdminDrawer = ({ children }: Props) => {
     dispatch,
   } = useAdmin();
 
-  useEffect(() => {
-    const pageName = navLinks.find((nav) => nav.url === route)?.name;
-    if (pageName) {
-      dispatch(actions.setNavTitle(pageName));
-    }
-  }, [route]);
-
   const handleDrawerOpen = () => {
     dispatch(actions.setOpenDrawer(true));
   };
@@ -106,9 +100,8 @@ const AdminDrawer = ({ children }: Props) => {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AdminNavbar title={navTitle} handleDrawerOpen={handleDrawerOpen} />
+    <Box sx={{ display: "flex", bgcolor: "#e6e6fa" }}>
+      <AdminNavbar title={title} handleDrawerOpen={handleDrawerOpen} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -116,14 +109,16 @@ const AdminDrawer = ({ children }: Props) => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
+            bgcolor: "#e6e6fa",
           },
+          bgcolor: "#e6e6fa",
         }}
         variant="persistent"
         anchor="left"
         open={openDrawer}
       >
         <DrawerHeader>
-          <Typography>{navTitle}</Typography>
+          <Typography>{title}</Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <Box sx={{ display: "flex" }}>

@@ -2,6 +2,7 @@ import { config } from "@/src/config/config";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import { getGetDeleteRequesInit, getPostPutRequestInit } from "@/src/utils";
 import AdminLayout from "@/ui/components/AdminLayout";
+import MultipleSelectChip from "@/ui/components/MultipleAutoCompleteChip";
 import {
   Container,
   Grid,
@@ -86,7 +87,7 @@ const UpdateCategoryByIdPage = () => {
   const isDisabled = category.name === newCategory.name;
 
   return (
-    <AdminLayout>
+    <AdminLayout title="Edit Category">
       <Container maxWidth="sm" component={Card} sx={{ px: 2, py: 5 }}>
         <form
           onSubmit={async (e) => {
@@ -112,6 +113,9 @@ const UpdateCategoryByIdPage = () => {
                 />
               </FormControl>
             </Grid>
+            {/* <Grid item xs={12}>
+              <MultipleSelectChip />
+            </Grid> */}
             <Grid
               item
               xs={12}

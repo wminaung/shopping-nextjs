@@ -4,9 +4,10 @@ categoriesXProductsSlice
 categoriesXProductsSlice
 */
 import { CategoryXProduct } from "@/src/types/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { config } from "@/src/config/config";
 
 export interface CategoriesXProductsState {
   items: CategoryXProduct[];
@@ -19,6 +20,22 @@ const initialState: CategoriesXProductsState = {
   isLoading: false,
   error: null,
 };
+
+export const fetchAdminData = createAsyncThunk(
+  "categoriesXProducts/fetchCategoriesXProducts",
+  async (arg: void, thunkAPI) => {
+    const dispatch = thunkAPI.dispatch;
+
+    const response = await fetch(`${config.apiAdminUrl}/categoriesXProducts`);
+
+    if (!response.ok) {
+      return alert("something worng");
+    }
+    const responseData = (await response.json()) as CategoryXProduct[];
+
+    // dispatch(categoriesAction.setCategories(responseData));
+  }
+);
 
 export const categoriesXProductsSlice = createSlice({
   name: "categoriesXProducts",

@@ -11,7 +11,6 @@ export interface NewProduct {
 const productCreateInput = Joi.object({
   title: Joi.string().min(3).max(30).required(),
   description: Joi.string().min(3).max(80).required(),
-
   price: Joi.number().integer().min(0).required(),
   image: Joi.string().optional().allow(""),
 });

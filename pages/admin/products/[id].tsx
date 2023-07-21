@@ -125,8 +125,12 @@ const ProductEditPage = () => {
   };
 
   return (
-    <AdminLayout>
-      <Container maxWidth="sm" component={Paper} sx={{ px: 2, py: 4 }}>
+    <AdminLayout title="Edit Product">
+      <Container
+        maxWidth="sm"
+        component={Paper}
+        sx={{ px: 2, py: 4, bgcolor: "#fff6ff" }}
+      >
         <form
           onSubmit={async (e) => {
             e.preventDefault();

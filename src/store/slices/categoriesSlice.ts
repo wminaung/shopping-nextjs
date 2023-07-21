@@ -1,7 +1,8 @@
 import { Category, Product } from "@/src/types/types";
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { config } from "@/src/config/config";
 
 export interface CategoriesState {
   items: Category[];
@@ -14,6 +15,22 @@ const initialState: CategoriesState = {
   isLoading: false,
   error: null,
 };
+
+export const fetchAdminData = createAsyncThunk(
+  "categories/fetchCategories",
+  async (arg: void, thunkAPI) => {
+    const dispatch = thunkAPI.dispatch;
+
+    const response = await fetch(`${config.apiAdminUrl}/categories`);
+
+    if (!response.ok) {
+      return alert("something worng");
+    }
+    const responseData = (await response.json()) as Category[];
+
+    dispatch(categoriesAction.setCategories(responseData));
+  }
+);
 
 export const categoriesSlice = createSlice({
   name: "categories",

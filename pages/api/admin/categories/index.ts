@@ -31,6 +31,24 @@ export default async function handler(
       return res.status(500).json(error);
     }
   }
+  if (method === "GET") {
+    try {
+      try {
+        const categories = await prisma.category.findMany({
+          orderBy: {
+            id: "asc",
+          },
+        });
+        return res.status(200).json(categories);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
+    } catch (error) {
+      const validationError = error as ValidationError;
+
+      return res.status(500).json(error);
+    }
+  }
 
   res.status(200).json({ name: "John Doe" });
 }
