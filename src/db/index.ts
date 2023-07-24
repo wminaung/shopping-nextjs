@@ -9,4 +9,4 @@ const initializePrisma = (): PrismaClient => {
   }
   return prismaClient;
 };
-export const prisma = initializePrisma();
+export let prisma = initializePrisma();

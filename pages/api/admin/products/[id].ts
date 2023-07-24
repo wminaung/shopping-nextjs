@@ -1,6 +1,6 @@
 import { prisma } from "@/src/db";
 import { schema } from "@/src/joi/schema";
-import { ValidationError } from "@/src/types/types";
+import { Category, ValidationError } from "@/src/types/types";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -44,11 +44,23 @@ export default async function handler(
   if (method === "DELETE") {
     try {
       try {
-        const deletedProduct = await prisma.product.delete({
+        const deletedProduct = await prisma.product.update({
+          data: {
+            isArchive: true,
+            categoryxproduct: {
+              updateMany: {
+                data: { isArchive: true },
+                where: {
+                  productId: productId,
+                },
+              },
+            },
+          },
           where: {
             id: productId,
           },
         });
+
         return res.status(200).json(deletedProduct);
       } catch (error) {
         return res.status(500).json(error);

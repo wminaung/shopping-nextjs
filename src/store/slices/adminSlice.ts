@@ -16,6 +16,7 @@ import {
   selectCategoriesXProducts,
 } from "./categoriesXProductsSlice";
 import { ratingsAction, selectRatings } from "./ratingsSlice";
+import { paginationAction, selectPagination } from "./paginationSlice";
 
 export interface AdminState {
   isLoading: boolean;
@@ -50,6 +51,7 @@ export const fetchAdminData = createAsyncThunk(
     dispatch(
       categoriesXProductsAction.setCategoriesXProducts(categoriesXproducts)
     );
+    dispatch(paginationAction.setDefaultPagination());
 
     //? loading end
     dispatch(adminAction.setLoading(false));
@@ -85,14 +87,16 @@ export const adminData = createSelector(
     selectCategories,
     selectCategoriesXProducts,
     selectRatings,
+    selectPagination,
   ],
-  (admin, products, categories, categoriesXProducts, ratings) => {
+  (admin, products, categories, categoriesXProducts, ratings, pagination) => {
     return {
       admin,
       products,
       categories,
       categoriesXProducts,
       ratings,
+      pagination,
     };
   }
 );
@@ -110,6 +114,7 @@ export const useAdmin = () => {
       ...categoriesAction,
       ...categoriesXProductsAction,
       ...ratingsAction,
+      ...paginationAction,
     },
   };
 };

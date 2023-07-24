@@ -1,11 +1,17 @@
 import { config } from "@/src/config/config";
 import { useAdmin } from "@/src/store/slices/adminSlice";
-import { getGetDeleteRequesInit, getPostPutRequestInit } from "@/src/utils";
+import {
+  getGetDeleteRequesInit,
+  getPostPutRequestInit,
+  isEqualTwoObjectArray,
+} from "@/src/utils";
 import { superbase } from "@/src/utils/superbase";
 import AdminLayout from "@/ui/components/AdminLayout";
 import FileDropzone from "@/ui/components/FileDropzone";
 import { v4 as uuidv4 } from "uuid";
 import {
+  AutocompleteChangeDetails,
+  AutocompleteChangeReason,
   Button,
   Card,
   Container,
@@ -18,14 +24,20 @@ import { Prisma } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import MultipleAutoCompleteChip from "@/ui/components/MultipleAutoCompleteChip";
+import { Category } from "@/src/types/types";
+import { useAppDispatch } from "@/src/store/hook";
 
 const ProductEditPage = () => {
   const {
-    state: { products },
+    state: { products, categories, categoriesXProducts },
     dispatch,
     actions,
   } = useAdmin();
-
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [newSelectedCategories, setNewSelectedCategories] = useState<
+    Category[]
+  >([]);
   const [newProduct, setNewProduct] = useState<Prisma.productUpdateInput>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -41,7 +53,18 @@ const ProductEditPage = () => {
     if (oldProduct) {
       setNewProduct(oldProduct);
     }
-  }, [oldProduct]);
+    if (categories && categoriesXProducts) {
+      const validCatIds = categoriesXProducts
+        .filter((cxp) => String(cxp.productId) === String(productId))
+        .map((cxp) => cxp.categoryId);
+
+      const validCategories = categories.filter((cat) =>
+        validCatIds.includes(cat.id)
+      );
+      setSelectedCategories(validCategories);
+      setNewSelectedCategories(validCategories);
+    }
+  }, [oldProduct, categories, categoriesXProducts, productId]);
 
   if (!oldProduct || !newProduct) {
     return null;
@@ -51,9 +74,12 @@ const ProductEditPage = () => {
   */
 
   const updateProduct = async () => {
-    const payload = { ...newProduct };
-
-    console.log(payload);
+    if (!newProduct) {
+      return;
+    }
+    const payload: Prisma.productUpdateInput = {
+      ...newProduct,
+    };
 
     let newImage = newProduct.image;
     if (file) {
@@ -75,16 +101,33 @@ const ProductEditPage = () => {
       oldProduct.title !== payload.title ||
       oldProduct.description !== payload.description ||
       oldProduct.price !== payload.price ||
-      oldProduct.image !== payload.image;
+      oldProduct.image !== payload.image ||
+      !isEqualTwoObjectArray({
+        objectArray1: selectedCategories,
+        objectArray2: newSelectedCategories,
+      });
 
     if (!isValid) {
       return alert("not valid");
     }
 
-    const res = await fetch(
-      `${config.apiAdminUrl}/products/${productId}`,
-      getPostPutRequestInit<Prisma.productUpdateInput>("PUT", { ...payload })
-    );
+    const res = await fetch(`${config.apiAdminUrl}/products/${productId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify({
+        ...payload,
+        categoryxproduct: {
+          deleteMany: {},
+          createMany: {
+            data: newSelectedCategories.map((cat) => ({
+              categoryId: cat.id,
+            })),
+          },
+        },
+      }),
+    });
 
     if (!res.ok) {
       return alert("somethign wrong");
@@ -92,6 +135,7 @@ const ProductEditPage = () => {
     const updatedProduct = await res.json();
 
     dispatch(actions.updateProduct(updatedProduct));
+
     setFile(null);
     setImagePreview(null);
   };
@@ -100,7 +144,11 @@ const ProductEditPage = () => {
     oldProduct.title === newProduct.title &&
     oldProduct.description === newProduct.description &&
     oldProduct.price === newProduct.price &&
-    file === null;
+    file === null &&
+    isEqualTwoObjectArray({
+      objectArray1: selectedCategories,
+      objectArray2: newSelectedCategories,
+    });
 
   const handleDelete = async () => {
     const isValid = confirm("Are you sure want to delete this item?");
@@ -123,7 +171,15 @@ const ProductEditPage = () => {
 
     await router.push("/admin/products");
   };
-
+  console.log(newSelectedCategories, "newSelectedCategories");
+  const handleNewSelectedCategories = async (
+    event: React.SyntheticEvent<Element, Event>,
+    value: Category[],
+    reason: AutocompleteChangeReason,
+    details?: AutocompleteChangeDetails<Category> | undefined
+  ) => {
+    setNewSelectedCategories(value);
+  };
   return (
     <AdminLayout title="Edit Product">
       <Container
@@ -131,6 +187,13 @@ const ProductEditPage = () => {
         component={Paper}
         sx={{ px: 2, py: 4, bgcolor: "#fff6ff" }}
       >
+        <Button
+          onClick={() => {
+            dispatch(actions.testRating());
+          }}
+        >
+          test
+        </Button>
         <form
           onSubmit={async (e) => {
             e.preventDefault();
@@ -162,16 +225,6 @@ const ProductEditPage = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              {/* <TextField
-          label="Category"
-          fullWidth
-          multiline
-          name="category"
-          value={"sdf"}
-          onChange={handleInputChange}
-        /> */}
-            </Grid>
-            <Grid item xs={12}>
               <FormControl fullWidth>
                 <TextField
                   label="Price"
@@ -188,7 +241,13 @@ const ProductEditPage = () => {
                 />
               </FormControl>
             </Grid>
-
+            <Grid item xs={12}>
+              <MultipleAutoCompleteChip
+                categories={categories}
+                selectedCategories={newSelectedCategories}
+                handleSelectedCategories={handleNewSelectedCategories}
+              />
+            </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <TextField
@@ -206,7 +265,6 @@ const ProductEditPage = () => {
                 />
               </FormControl>
             </Grid>
-
             <Grid item xs={12}>
               <FormControl fullWidth>
                 <FileDropzone
@@ -217,6 +275,7 @@ const ProductEditPage = () => {
                 />
               </FormControl>
             </Grid>
+
             <Grid
               item
               xs={12}
@@ -236,7 +295,7 @@ const ProductEditPage = () => {
                 color="primary"
                 type="submit"
               >
-                Create
+                Update
               </Button>
             </Grid>
           </Grid>

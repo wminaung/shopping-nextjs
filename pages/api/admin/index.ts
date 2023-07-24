@@ -1,7 +1,6 @@
 // TODO api ----> /admin
 
 import { prisma } from "@/src/db";
-import { Product, Rating } from "@/src/types/types";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -15,31 +14,51 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const method = req.method;
-
   if (method === "GET") {
     try {
       const products = await prisma.product.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
       const categories = await prisma.category.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
       const categoriesXproducts = await prisma.categoryxproduct.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
       const ratings = await prisma.rating.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
 
       const users = await prisma.user.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
 
       const carts = await prisma.cart.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
 
       const orders = await prisma.order.findMany({
+        where: {
+          isArchive: false,
+        },
         orderBy: orderByIdAsc,
       });
 

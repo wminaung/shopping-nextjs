@@ -39,7 +39,8 @@ export default async function handler(
   if (method === "DELETE") {
     try {
       try {
-        const deletedCategory = await prisma.category.delete({
+        const deletedCategory = await prisma.category.update({
+          data: { isArchive: true },
           where: {
             id: categoryId,
           },

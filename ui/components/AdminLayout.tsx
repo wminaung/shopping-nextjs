@@ -2,6 +2,7 @@ import { Box, Button } from "@mui/material";
 import AdminNavbar from "./AdminNavbar";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import AdminDrawer from "./AdminDrawer";
+import { memo } from "react";
 
 interface Props {
   children: React.ReactNode;
@@ -25,4 +26,4 @@ const AdminLayout = ({ children, title }: Props) => {
   );
 };
 
-export default AdminLayout;
+export default memo(AdminLayout);

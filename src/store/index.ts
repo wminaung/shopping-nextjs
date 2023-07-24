@@ -4,6 +4,7 @@ import adminSlice from "./slices/adminSlice";
 import categoriesSlice from "./slices/categoriesSlice";
 import categoriesXProductsSlice from "./slices/categoriesXProductsSlice";
 import ratingsSlice from "./slices/ratingsSlice";
+import paginationSlice from "./slices/paginationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     categories: categoriesSlice,
     categoriesXProducts: categoriesXProductsSlice,
     ratings: ratingsSlice,
+    pagination: paginationSlice,
   },
 });
 

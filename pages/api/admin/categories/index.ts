@@ -35,6 +35,9 @@ export default async function handler(
     try {
       try {
         const categories = await prisma.category.findMany({
+          where: {
+            isArchive: false,
+          },
           orderBy: {
             id: "asc",
           },

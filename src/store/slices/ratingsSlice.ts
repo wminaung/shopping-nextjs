@@ -25,6 +25,9 @@ export const ratingsSlice = createSlice({
     addRating: (state, action: PayloadAction<Rating>) => {
       state.items = [...state.items, action.payload];
     },
+    testRating: (state) => {
+      state.items = [{ count: 3, id: 3, productId: 3, rate: 3 } as Rating];
+    },
   },
 });
 

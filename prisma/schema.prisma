@@ -27,9 +27,9 @@ model product {
 }
 
 model category {
-  id   Int    @id @default(autoincrement())
-  name String
-
+  id               Int                @id @default(autoincrement())
+  name             String
+  isArchive        Boolean            @default(false)
   categoryxproduct categoryxproduct[]
 
   createdAt DateTime @default(now())
@@ -37,7 +37,8 @@ model category {
 }
 
 model categoryxproduct {
-  id Int @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
+  isArchive Boolean @default(false)
 
   categories category @relation(fields: [categoryId], references: [id])
   products   product  @relation(fields: [productId], references: [id])

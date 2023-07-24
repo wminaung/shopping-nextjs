@@ -215,7 +215,6 @@ export default async function handler(
       rating: { rate: 3.6, count: 145 },
     },
   ];
-  console.log("ok");
 
   //todo create
   // if (req.method === "GET") {

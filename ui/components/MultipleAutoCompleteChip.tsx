@@ -52,7 +52,6 @@ const MultipleAutoCompleteChip = ({
             {option.name}
           </li>
         )}
-        style={{ width: 500 }}
         renderInput={(params) => (
           <TextField
             {...params}

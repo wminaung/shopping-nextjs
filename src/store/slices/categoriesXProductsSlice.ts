@@ -50,6 +50,9 @@ export const categoriesXProductsSlice = createSlice({
     addCategoryXProduct: (state, action: PayloadAction<CategoryXProduct>) => {
       state.items = [...state.items, action.payload];
     },
+    deleteCategoriesXProducts: (state) => {
+      state.items = state.items.filter((item) => !item.isArchive);
+    },
   },
 });
 
