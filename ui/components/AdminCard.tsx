@@ -74,7 +74,7 @@ const AdminProductCard = ({ name, href }: Props) => {
       sx={{
         width: { md: 200, xs: 200 / 1.2 },
         height: { md: 144, xs: 144 / 1.2 },
-        margin: 2,
+        m: 2,
         borderRadius: 3,
         display: "flex",
         flexDirection: "column",

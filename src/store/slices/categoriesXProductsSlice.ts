@@ -8,6 +8,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { config } from "@/src/config/config";
+import { adminAction } from "./adminSlice";
 
 export interface CategoriesXProductsState {
   items: CategoryXProduct[];
@@ -21,11 +22,11 @@ const initialState: CategoriesXProductsState = {
   error: null,
 };
 
-export const fetchAdminData = createAsyncThunk(
+export const fetchCategoriesXProducts = createAsyncThunk(
   "categoriesXProducts/fetchCategoriesXProducts",
   async (arg: void, thunkAPI) => {
     const dispatch = thunkAPI.dispatch;
-
+    dispatch(adminAction.setLoading(true));
     const response = await fetch(`${config.apiAdminUrl}/categoriesXProducts`);
 
     if (!response.ok) {
@@ -33,7 +34,8 @@ export const fetchAdminData = createAsyncThunk(
     }
     const responseData = (await response.json()) as CategoryXProduct[];
 
-    // dispatch(categoriesAction.setCategories(responseData));
+    dispatch(categoriesXProductsAction.setCategoriesXProducts(responseData));
+    dispatch(adminAction.setLoading(false));
   }
 );
 
@@ -50,8 +52,13 @@ export const categoriesXProductsSlice = createSlice({
     addCategoryXProduct: (state, action: PayloadAction<CategoryXProduct>) => {
       state.items = [...state.items, action.payload];
     },
-    deleteCategoriesXProducts: (state) => {
-      state.items = state.items.filter((item) => !item.isArchive);
+    archiveCategoryXProduct: (
+      state,
+      action: PayloadAction<{ productId: number }>
+    ) => {
+      state.items = state.items.filter(
+        (item) => !item.isArchive && item.productId !== action.payload.productId
+      );
     },
   },
 });

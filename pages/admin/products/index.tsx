@@ -5,6 +5,7 @@ import { memo, useEffect, useState } from "react";
 import DialogButton from "@/ui/components/DialogButton";
 import CreateProduct from "@/ui/components/products/CreateProduct";
 import { useAdmin } from "@/src/store/slices/adminSlice";
+import { motion } from "framer-motion";
 
 const ProductsListPage = () => {
   const {
@@ -36,7 +37,17 @@ const ProductsListPage = () => {
           justifyContent={"center"}
         >
           {showProducts.map((product) => (
-            <Box key={product.id}>
+            <Box
+              key={product.id}
+              component={motion.div}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.5,
+                ease: [0, 0.71, 0.2, 1.01],
+              }}
+            >
               <AdminProductCard product={product} />
             </Box>
           ))}

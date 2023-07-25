@@ -25,8 +25,9 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MultipleAutoCompleteChip from "@/ui/components/MultipleAutoCompleteChip";
-import { Category } from "@/src/types/types";
+import { Category, Product } from "@/src/types/types";
 import { useAppDispatch } from "@/src/store/hook";
+import { fetchCategoriesXProducts } from "@/src/store/slices/categoriesXProductsSlice";
 
 const ProductEditPage = () => {
   const {
@@ -72,7 +73,7 @@ const ProductEditPage = () => {
   /*
  sametile = sdesc == spr
   */
-
+  // TODO -- UPDATE
   const updateProduct = async () => {
     if (!newProduct) {
       return;
@@ -135,7 +136,7 @@ const ProductEditPage = () => {
     const updatedProduct = await res.json();
 
     dispatch(actions.updateProduct(updatedProduct));
-
+    dispatch(fetchCategoriesXProducts());
     setFile(null);
     setImagePreview(null);
   };
@@ -150,6 +151,7 @@ const ProductEditPage = () => {
       objectArray2: newSelectedCategories,
     });
 
+  // TODO -- DELETE
   const handleDelete = async () => {
     const isValid = confirm("Are you sure want to delete this item?");
 
@@ -166,9 +168,9 @@ const ProductEditPage = () => {
       return alert("can not delete");
     }
 
-    const deletedProduct = await res.json();
-    dispatch(actions.deleteProduct(deletedProduct));
-
+    const deletedProduct = (await res.json()) as Product;
+    dispatch(actions.archiveProduct(deletedProduct));
+    dispatch(actions.archiveCategoryXProduct({ productId: deletedProduct.id }));
     await router.push("/admin/products");
   };
   console.log(newSelectedCategories, "newSelectedCategories");

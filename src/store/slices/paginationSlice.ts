@@ -27,15 +27,15 @@ const initialState = {
   item: {
     products: {
       currentPage: 1,
-      itemsPerPage: 2,
+      itemsPerPage: 10,
       startIndex: 0,
-      endIndex: 2,
+      endIndex: 10,
     },
     categories: {
       currentPage: 1,
-      itemsPerPage: 2,
+      itemsPerPage: 8,
       startIndex: 0,
-      endIndex: 2,
+      endIndex: 8,
     },
   },
   isLoading: false,

@@ -36,7 +36,7 @@ export const productsSlice = createSlice({
 
       state.items = updatedCategories;
     },
-    deleteProduct: (state, action: PayloadAction<Product>) => {
+    archiveProduct: (state, action: PayloadAction<Product>) => {
       state.items = state.items.filter((item) => item.id !== action.payload.id);
     },
   },

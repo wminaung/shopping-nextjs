@@ -6,6 +6,7 @@ import DialogButton from "@/ui/components/DialogButton";
 import CreateCategory from "@/ui/components/categories/CreateCategory";
 import { Box, Button, Pagination, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const CategoriesPage = () => {
   const {
@@ -27,16 +28,34 @@ const CategoriesPage = () => {
             <CreateCategory />
           </DialogButton>
         </Stack>
-        <Stack direction={"row"} flexWrap={"wrap"} alignItems={"center"}>
-          {showCategories.map((category) => (
-            <Box sx={{ mx: "auto" }} key={category.id}>
-              <AdminCard
-                href={`/admin/categories/${category.id}`}
-                name={category.name}
-              />
-            </Box>
-          ))}
-        </Stack>
+        <Box sx={{ display: "felx" }}>
+          <Stack
+            direction={"row"}
+            flexWrap={"wrap"}
+            alignItems={"center"}
+            maxWidth={"1000px"}
+            mx={"auto"}
+          >
+            {showCategories.map((category) => (
+              <Box
+                key={category.id}
+                component={motion.div}
+                initial={{ opacity: 0.2, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.5,
+                  ease: [0, 0.71, 0.2, 1.01],
+                }}
+              >
+                <AdminCard
+                  href={`/admin/categories/${category.id}`}
+                  name={category.name}
+                />
+              </Box>
+            ))}
+          </Stack>
+        </Box>
         <Stack alignItems={"center"}>
           <Pagination
             count={Math.ceil(categories.length / itemsPerPage)}
