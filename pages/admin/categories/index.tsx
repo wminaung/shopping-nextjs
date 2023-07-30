@@ -40,11 +40,11 @@ const CategoriesPage = () => {
               <Box
                 key={category.id}
                 component={motion.div}
+                mx={"auto"}
                 initial={{ opacity: 0.2, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{
                   duration: 0.8,
-                  delay: 0.5,
                   ease: [0, 0.71, 0.2, 1.01],
                 }}
               >

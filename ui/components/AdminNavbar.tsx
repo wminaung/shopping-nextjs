@@ -59,7 +59,7 @@ interface Props {
 const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
   return (
     <Box>
-      <AppBar position="fixed" sx={{ bgcolor: "black" }}>
+      <AppBar position="fixed" color="primary" elevation={1}>
         <Toolbar>
           <IconButton
             size="large"

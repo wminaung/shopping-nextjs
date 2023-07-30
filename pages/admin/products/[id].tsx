@@ -1,10 +1,6 @@
 import { config } from "@/src/config/config";
 import { useAdmin } from "@/src/store/slices/adminSlice";
-import {
-  getGetDeleteRequesInit,
-  getPostPutRequestInit,
-  isEqualTwoObjectArray,
-} from "@/src/utils";
+import { getGetDeleteRequesInit, isEqualTwoObjectArray } from "@/src/utils";
 import { superbase } from "@/src/utils/superbase";
 import AdminLayout from "@/ui/components/AdminLayout";
 import FileDropzone from "@/ui/components/FileDropzone";
@@ -12,13 +8,14 @@ import { v4 as uuidv4 } from "uuid";
 import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
+  Box,
   Button,
-  Card,
   Container,
   FormControl,
   Grid,
   Paper,
   TextField,
+  TextareaAutosize,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
@@ -26,8 +23,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MultipleAutoCompleteChip from "@/ui/components/MultipleAutoCompleteChip";
 import { Category, Product } from "@/src/types/types";
-import { useAppDispatch } from "@/src/store/hook";
 import { fetchCategoriesXProducts } from "@/src/store/slices/categoriesXProductsSlice";
+import MultiTextField from "@/ui/components/MultiTextField";
 
 const ProductEditPage = () => {
   const {
@@ -182,6 +179,9 @@ const ProductEditPage = () => {
   ) => {
     setNewSelectedCategories(value);
   };
+  const handleDescriptionChange = (newDesc: string) => {
+    setNewProduct({ ...newProduct, description: newDesc });
+  };
   return (
     <AdminLayout title="Edit Product">
       <Container
@@ -252,7 +252,7 @@ const ProductEditPage = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <TextField
+                {/* <TextField
                   label="Description"
                   fullWidth
                   multiline
@@ -264,6 +264,10 @@ const ProductEditPage = () => {
                       description: e.target.value,
                     })
                   }
+                /> */}
+                <MultiTextField
+                  value={(newProduct.description as string) || ""}
+                  setState={handleDescriptionChange}
                 />
               </FormControl>
             </Grid>

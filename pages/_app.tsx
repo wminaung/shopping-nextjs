@@ -7,6 +7,9 @@ import { store } from "@/src/store";
 import { Session } from "next-auth";
 import { useEffect } from "react";
 import { fetchAdminData } from "@/src/store/slices/adminSlice";
+import { ThemeProvider } from "@emotion/react";
+import { theme } from "@/src/utils/theme";
+import { CssBaseline } from "@mui/material";
 
 type CustomeAppProps = AppProps & { session: Session };
 
@@ -21,11 +24,14 @@ export default function App({
 
   return (
     <>
-      <Provider store={store}>
-        <SessionProvider session={session}>
-          <Component {...pageProps} />
-        </SessionProvider>
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Provider store={store}>
+          <SessionProvider session={session}>
+            <Component {...pageProps} />
+          </SessionProvider>
+        </Provider>
+      </ThemeProvider>
     </>
   );
 }

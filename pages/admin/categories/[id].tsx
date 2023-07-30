@@ -1,7 +1,9 @@
 import { config } from "@/src/config/config";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import { getGetDeleteRequesInit, getPostPutRequestInit } from "@/src/utils";
+import { theme } from "@/src/utils/theme";
 import AdminLayout from "@/ui/components/AdminLayout";
+import AdminProductCard from "@/ui/components/AdminProductCard";
 import MultipleSelectChip from "@/ui/components/MultipleAutoCompleteChip";
 import {
   Container,
@@ -11,6 +13,8 @@ import {
   Button,
   Typography,
   Card,
+  Stack,
+  Box,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { useRouter } from "next/router";
@@ -26,7 +30,7 @@ const UpdateCategoryByIdPage = () => {
   const router = useRouter();
   const { id: categoryId } = router.query;
   const {
-    state: { categories },
+    state: { categories, products, categoriesXProducts },
     dispatch,
     actions,
   } = useAdmin();
@@ -40,6 +44,13 @@ const UpdateCategoryByIdPage = () => {
   if (!category) {
     return null;
   }
+
+  const catXProductIds = categoriesXProducts
+    .filter((cxp) => String(cxp.categoryId) === String(categoryId))
+    .map((cxt) => cxt.productId);
+  const validProducts = products.filter((product) =>
+    catXProductIds.includes(product.id)
+  );
 
   const updateCategory = async () => {
     const isValid = category.name !== newCategory.name;
@@ -113,9 +124,7 @@ const UpdateCategoryByIdPage = () => {
                 />
               </FormControl>
             </Grid>
-            {/* <Grid item xs={12}>
-              <MultipleSelectChip />
-            </Grid> */}
+
             <Grid
               item
               xs={12}
@@ -141,6 +150,19 @@ const UpdateCategoryByIdPage = () => {
           </Grid>
         </form>
       </Container>
+      <Stack
+        component={Card}
+        bgcolor={theme.palette.primary.main}
+        direction={"row"}
+        mt={5}
+        flexWrap={"wrap"}
+      >
+        {validProducts.map((product) => (
+          <Box mx={"auto"} key={product.id}>
+            <AdminProductCard product={product} key={product.id} />
+          </Box>
+        ))}
+      </Stack>
     </AdminLayout>
   );
 };

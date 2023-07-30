@@ -40,11 +40,11 @@ const ProductsListPage = () => {
             <Box
               key={product.id}
               component={motion.div}
-              initial={{ opacity: 0, scale: 0.5 }}
+              initial={{ opacity: 0.2, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
                 duration: 0.8,
-                delay: 0.5,
+
                 ease: [0, 0.71, 0.2, 1.01],
               }}
             >

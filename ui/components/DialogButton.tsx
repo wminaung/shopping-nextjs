@@ -46,7 +46,6 @@ const DialogButton = ({ title, children }: Props) => {
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
       >
-        {" "}
         <BootstrapDialogTitle
           id="customized-dialog-title"
           onClose={handleClose}
@@ -73,7 +72,12 @@ function BootstrapDialogTitle(props: DialogTitleProps) {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle
+      sx={{ m: 0, p: 2 }}
+      {...other}
+      color={"primary.contrastText"}
+      bgcolor={"primary.main"}
+    >
       {children}
       {onClose ? (
         <IconButton

@@ -69,6 +69,18 @@ export const navLinks = [
     url: "/admin/products",
     icon: CheckroomIcon,
   },
+  {
+    id: 3,
+    name: "Setting",
+    url: "/admin/setting",
+    icon: InboxIcon,
+  },
+  {
+    id: 4,
+    name: "Archive",
+    url: "/admin/archive",
+    icon: MailIcon,
+  },
 ];
 
 //
@@ -85,7 +97,7 @@ const AdminDrawer = ({ children, title }: Props) => {
 
   const {
     state: {
-      admin: { navTitle, openDrawer },
+      admin: { openDrawer },
     },
     actions,
     dispatch,
@@ -98,6 +110,8 @@ const AdminDrawer = ({ children, title }: Props) => {
   const handleDrawerClose = () => {
     dispatch(actions.setOpenDrawer(false));
   };
+
+  const activeNav = navLinks.filter((nav) => nav.url.includes(route))[0];
 
   return (
     <Box sx={{ display: "flex", bgcolor: "#e6e6fa" }}>
@@ -117,7 +131,9 @@ const AdminDrawer = ({ children, title }: Props) => {
         anchor="left"
         open={openDrawer}
       >
-        <DrawerHeader>
+        <DrawerHeader
+          sx={{ bgcolor: "primary.main", color: "primary.contrastText" }}
+        >
           <Typography>{title}</Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
@@ -131,29 +147,41 @@ const AdminDrawer = ({ children, title }: Props) => {
         </DrawerHeader>
         <Divider />
         <List>
-          {navLinks.map((nav, index) => (
-            <Link key={nav.id} href={nav.url}>
-              <ListItem disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>{<nav.icon />}</ListItemIcon>
-                  <ListItemText primary={nav.name} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["Setting", "Archive"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          {navLinks.map((nav, index) => {
+            const isActive = activeNav.id === nav.id;
+            return (
+              <Link
+                key={nav.id}
+                href={nav.url}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                {nav.id === 3 && <Divider />}
+                <ListItem
+                  disablePadding
+                  style={{
+                    borderRight: isActive ? "3px solid #CDBE78" : "none",
+                    backgroundColor: isActive ? "#0661630e" : "",
+                  }}
+                >
+                  <ListItemButton>
+                    <ListItemIcon
+                      sx={{
+                        color: "primary.main",
+                      }}
+                    >
+                      {<nav.icon />}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={nav.name}
+                      sx={{ color: "primary.main" }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </Link>
+            );
+          })}
         </List>
       </Drawer>
       <Main open={openDrawer}>{children}</Main>

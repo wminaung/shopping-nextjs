@@ -6,14 +6,15 @@ import {
   AutocompleteChangeDetails,
   AutocompleteChangeReason,
   Checkbox,
+  Chip,
   TextField,
 } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { memo } from "react";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
 interface Props {
   categories: Category[];
   selectedCategories: Category[];
@@ -38,29 +39,43 @@ const MultipleAutoCompleteChip = ({
         options={categories}
         value={selectedCategories}
         disableCloseOnSelect
-        getOptionLabel={(option) => option.name}
+        getOptionLabel={(option) => `${option.id}`}
         onChange={handleSelectedCategories}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
-        renderOption={(props, option, { selected }) => (
-          <li {...props}>
-            <Checkbox
-              icon={icon}
-              checkedIcon={checkedIcon}
-              style={{ marginRight: 8 }}
-              checked={selected}
+        isOptionEqualToValue={(option, value) =>
+          String(option.id) === String(value.id)
+        }
+        renderOption={(props, option, { selected }) => {
+          return (
+            <li {...props}>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option.name}
+            </li>
+          );
+        }}
+        renderTags={(tagValue, getTagProps) =>
+          tagValue.map((option, index) => (
+            <div key={option.id}>
+              <Chip label={option.name} {...getTagProps({ index })} />
+            </div>
+          ))
+        }
+        renderInput={(params) => {
+          return (
+            <TextField
+              {...params}
+              value={"ok"}
+              label="Categories"
+              placeholder="chooose category"
             />
-            {option.name}
-          </li>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Categories"
-            placeholder="chooose category"
-          />
-        )}
+          );
+        }}
       />
     </FormControl>
   );
 };
-export default MultipleAutoCompleteChip;
+export default memo(MultipleAutoCompleteChip);
