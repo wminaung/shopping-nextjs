@@ -56,7 +56,7 @@ const AdminProductCard = ({ product }: Props) => {
       sx={{
         width: { md: 244, xs: 244 / 1.2 },
         minHeight: { md: 330, xs: 330 / 1.2 },
-        pt: 3,
+        pt: 2,
         margin: 2,
         borderRadius: 3,
       }}
@@ -65,6 +65,9 @@ const AdminProductCard = ({ product }: Props) => {
       <CardActionArea
         LinkComponent={Link}
         href={`/admin/products/${product.id}`}
+        sx={{
+          mt: { md: 4, xs: 4 / 1.2 },
+        }}
       >
         {product.image && (
           <CardMedia
@@ -82,25 +85,9 @@ const AdminProductCard = ({ product }: Props) => {
           <StyledParagraph>{product.title}</StyledParagraph>
           <Typography variant="caption" color="text.secondary">
             Price: {product.price}
-          </Typography>{" "}
+          </Typography>
         </CardContent>
       </CardActionArea>
-      <Box sx={{ textAlign: "center", pb: 1 }}>
-        {validCats.length === 0 && "category does not exist"}
-        {validCats.map((category, index, array) => (
-          <Box sx={{ display: "inline" }} key={category.id}>
-            <Link
-              href={{
-                pathname: `/admin/categories/[id]`,
-                query: { id: category.id },
-              }}
-            >
-              {category.name}
-            </Link>
-            {array.length - 1 === index ? "" : ", "}
-          </Box>
-        ))}
-      </Box>
     </Card>
   );
 };

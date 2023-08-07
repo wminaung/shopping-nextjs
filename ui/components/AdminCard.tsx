@@ -100,7 +100,11 @@ const AdminProductCard = ({ name, href }: Props) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="subtitle2" sx={{ textAlign: "center" }}>
+        <Typography
+          color={"primary.main"}
+          variant="subtitle2"
+          sx={{ textAlign: "center" }}
+        >
           {name}
         </Typography>
       </Box>

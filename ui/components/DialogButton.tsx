@@ -36,7 +36,7 @@ const DialogButton = ({ title, children }: Props) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         {title}
       </Button>
       <Dialog

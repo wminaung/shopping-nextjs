@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Product = ({
-  data: { category, description, id, image, price, rating, title },
+  data: { description, id, image, price, title },
   handleAddToCart,
 }: Props) => {
   const [size, setSize] = useState("S");

@@ -1,4 +1,4 @@
-import { styled, alpha } from "@mui/material/styles";
+import { styled, alpha, Theme } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -7,7 +7,11 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
-import { memo } from "react";
+import { memo, useContext } from "react";
+import { useTheme } from "@emotion/react";
+import { ColorModeContext } from "@/pages/_app";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -57,14 +61,18 @@ interface Props {
 }
 
 const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
+  const theme = useTheme() as Theme;
+  console.log({ theme });
+
+  const colorMode = useContext(ColorModeContext);
+
   return (
     <Box>
-      <AppBar position="fixed" color="primary" elevation={1}>
+      <AppBar position="fixed" color={"primary"} elevation={1}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
-            color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
             onClick={handleDrawerOpen}
@@ -76,10 +84,27 @@ const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            color={"#cdbe78"}
           >
             {title}
           </Typography>
-          <Search>
+
+          <Box color={"#cdbe78"}>
+            {theme.palette.mode} mode
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={colorMode.toggleColorMode}
+              color="inherit"
+            >
+              {theme.palette.mode === "dark" ? (
+                <Brightness7Icon />
+              ) : (
+                <Brightness4Icon />
+              )}
+            </IconButton>
+          </Box>
+
+          <Search sx={{ color: "#cdbe78" }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>

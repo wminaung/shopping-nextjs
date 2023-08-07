@@ -1,5 +1,4 @@
-import { Box, Button } from "@mui/material";
-import AdminNavbar from "./AdminNavbar";
+import { Box, Button, Theme, useTheme } from "@mui/material";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import AdminDrawer from "./AdminDrawer";
 import { memo } from "react";
@@ -14,9 +13,11 @@ const AdminLayout = ({ children, title }: Props) => {
     state: { products, admin },
   } = useAdmin();
 
+  const theme = useTheme() as Theme;
+
   return (
-    <Box>
-      <Box sx={{ mb: 2 }}>
+    <Box bgcolor={theme.palette.background.default} height={"100%"}>
+      <Box bgcolor={theme.palette.background.default}>
         <Box sx={{ height: 80 }}></Box>
         <AdminDrawer title={title}>
           {admin.isLoading ? null : children}

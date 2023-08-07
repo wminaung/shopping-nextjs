@@ -184,11 +184,7 @@ const ProductEditPage = () => {
   };
   return (
     <AdminLayout title="Edit Product">
-      <Container
-        maxWidth="sm"
-        component={Paper}
-        sx={{ px: 2, py: 4, bgcolor: "#fff6ff" }}
-      >
+      <Container maxWidth="sm" component={Paper} sx={{ px: 2, py: 4 }}>
         <Button
           onClick={() => {
             dispatch(actions.testRating());

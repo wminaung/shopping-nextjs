@@ -23,7 +23,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import CheckroomIcon from "@mui/icons-material/Checkroom";
-
+import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -59,24 +59,30 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export const navLinks = [
   {
     id: 1,
+    name: "Orders",
+    url: "/admin/orders",
+    icon: ShoppingCartCheckoutIcon,
+  },
+  {
+    id: 2,
     name: "Categories",
     url: "/admin/categories",
     icon: CategoryIcon,
   },
   {
-    id: 2,
+    id: 3,
     name: "Products",
     url: "/admin/products",
     icon: CheckroomIcon,
   },
   {
-    id: 3,
+    id: 4,
     name: "Setting",
     url: "/admin/setting",
     icon: InboxIcon,
   },
   {
-    id: 4,
+    id: 5,
     name: "Archive",
     url: "/admin/archive",
     icon: MailIcon,
@@ -93,7 +99,7 @@ const AdminDrawer = ({ children, title }: Props) => {
   const theme = useTheme();
 
   const router = useRouter();
-  const route = router.route;
+  const path = router.asPath;
 
   const {
     state: {
@@ -111,21 +117,23 @@ const AdminDrawer = ({ children, title }: Props) => {
     dispatch(actions.setOpenDrawer(false));
   };
 
-  const activeNav = navLinks.filter((nav) => nav.url.includes(route))[0];
+  const activeNav = navLinks.filter((nav) => {
+    return path.includes(nav.url);
+  })[0];
 
   return (
-    <Box sx={{ display: "flex", bgcolor: "#e6e6fa" }}>
+    <Box sx={{ display: "flex" }}>
       <AdminNavbar title={title} handleDrawerOpen={handleDrawerOpen} />
       <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
+          color: "primary.contrastText",
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            bgcolor: "#e6e6fa",
+            bgcolor: "primary.text",
           },
-          bgcolor: "#e6e6fa",
         }}
         variant="persistent"
         anchor="left"
@@ -157,12 +165,11 @@ const AdminDrawer = ({ children, title }: Props) => {
                   textDecoration: "none",
                 }}
               >
-                {nav.id === 3 && <Divider />}
+                {nav.id === 4 && <Divider />}
                 <ListItem
                   disablePadding
                   style={{
                     borderRight: isActive ? "3px solid #CDBE78" : "none",
-                    backgroundColor: isActive ? "#0661630e" : "",
                   }}
                 >
                   <ListItemButton>
@@ -184,7 +191,9 @@ const AdminDrawer = ({ children, title }: Props) => {
           })}
         </List>
       </Drawer>
-      <Main open={openDrawer}>{children}</Main>
+      <Main open={openDrawer}>
+        <Box>{children}</Box>
+      </Main>
     </Box>
   );
 };
