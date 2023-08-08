@@ -152,7 +152,7 @@ const UpdateCategoryByIdPage = () => {
       </Container>
       <Stack
         component={Card}
-        bgcolor={theme.palette.primary.main}
+        bgcolor={theme.palette.mode}
         direction={"row"}
         mt={5}
         flexWrap={"wrap"}

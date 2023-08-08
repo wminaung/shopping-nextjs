@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: config.nextAuthSecret,
   pages: {
-    signIn: "/auth/login",
+    signIn: "/signin",
   },
 };
 

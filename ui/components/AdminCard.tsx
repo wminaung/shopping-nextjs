@@ -1,11 +1,8 @@
 import React, { memo } from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+
 import Typography from "@mui/material/Typography";
-import { product } from "@prisma/client";
-import Image from "next/image";
-import styled from "@emotion/styled";
+
 import {
   Box,
   Button,
@@ -16,46 +13,9 @@ import {
   SvgIconTypeMap,
 } from "@mui/material";
 import Link from "next/link";
-import { Product } from "@/src/types/types";
-import { useAdmin } from "@/src/store/slices/adminSlice";
-import { OverridableComponent } from "@mui/material/OverridableComponent";
+
 import { navLinks } from "./AdminDrawer";
 import { useRouter } from "next/router";
-
-const StyledParagraph = styled(Typography)(({ theme }) => ({
-  overflow: "hidden",
-  whiteSpace: "nowrap",
-  textOverflow: "ellipsis",
-  maxWidth: 300 /* Adjust as needed */,
-  opacity: 1,
-  transition: "opacity 0.3s ease",
-  "&:hover": {
-    opacity: 0.7,
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-      backgroundColor: "rgba(0, 0, 0, 0.5)",
-      opacity: 0,
-      transition: "opacity 0.3s ease",
-    },
-    "&::after:hover": {
-      opacity: 1,
-    },
-  },
-}));
-
-type NavObject = {
-  id: number;
-  name: string;
-  url: string;
-  icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-    muiName: string;
-  };
-};
 
 interface Props {
   name: string;

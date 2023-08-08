@@ -24,6 +24,7 @@ import { useRouter } from "next/router";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import CheckroomIcon from "@mui/icons-material/Checkroom";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import { Button } from "@mui/material";
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
@@ -156,7 +157,7 @@ const AdminDrawer = ({ children, title }: Props) => {
         <Divider />
         <List>
           {navLinks.map((nav, index) => {
-            const isActive = activeNav.id === nav.id;
+            const isActive = activeNav?.id === nav.id;
             return (
               <Link
                 key={nav.id}
@@ -189,6 +190,7 @@ const AdminDrawer = ({ children, title }: Props) => {
               </Link>
             );
           })}
+          <Divider />
         </List>
       </Drawer>
       <Main open={openDrawer}>

@@ -62,7 +62,6 @@ interface Props {
 
 const AdminNavbar = ({ handleDrawerOpen, title }: Props) => {
   const theme = useTheme() as Theme;
-  console.log({ theme });
 
   const colorMode = useContext(ColorModeContext);
 

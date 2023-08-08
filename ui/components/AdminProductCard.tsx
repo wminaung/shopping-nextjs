@@ -41,32 +41,28 @@ interface Props {
   product: Product;
 }
 const AdminProductCard = ({ product }: Props) => {
-  // const { title, price, description, categories, rating, image } = product;
-  const {
-    state: { categories, categoriesXProducts },
-  } = useAdmin();
-  const validCats = categories.filter((cat) =>
-    categoriesXProducts.find(
-      (catxp) => catxp.productId === product.id && catxp.categoryId === cat.id
-    )
-  );
-
   return (
     <Card
+      elevation={6}
       sx={{
-        width: { md: 244, xs: 244 / 1.2 },
-        minHeight: { md: 330, xs: 330 / 1.2 },
-        pt: 2,
         margin: 2,
         borderRadius: 3,
+        opacity: 0.8,
+        ":hover": {
+          opacity: 1,
+        },
       }}
-      elevation={6}
     >
       <CardActionArea
         LinkComponent={Link}
         href={`/admin/products/${product.id}`}
         sx={{
-          mt: { md: 4, xs: 4 / 1.2 },
+          width: { md: 244, xs: 244 / 1.2 },
+          minHeight: { md: 330, xs: 330 / 1.2 },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "start",
+          textAlign: "start",
         }}
       >
         {product.image && (
@@ -81,8 +77,24 @@ const AdminProductCard = ({ product }: Props) => {
             }}
           />
         )}
-        <CardContent>
-          <StyledParagraph>{product.title}</StyledParagraph>
+        <CardContent
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            mt: { md: 4, xs: 4 / 1.2 },
+          }}
+        >
+          <StyledParagraph
+            sx={{
+              width: "100%",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {product.title}
+          </StyledParagraph>
           <Typography variant="caption" color="text.secondary">
             Price: {product.price}
           </Typography>

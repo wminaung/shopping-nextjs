@@ -15,7 +15,6 @@ import {
   Grid,
   Paper,
   TextField,
-  TextareaAutosize,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
@@ -185,13 +184,6 @@ const ProductEditPage = () => {
   return (
     <AdminLayout title="Edit Product">
       <Container maxWidth="sm" component={Paper} sx={{ px: 2, py: 4 }}>
-        <Button
-          onClick={() => {
-            dispatch(actions.testRating());
-          }}
-        >
-          test
-        </Button>
         <form
           onSubmit={async (e) => {
             e.preventDefault();

@@ -1,11 +1,10 @@
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import AdminCard from "@/ui/components/AdminCard";
-import { navLinks } from "@/ui/components/AdminDrawer";
 import AdminLayout from "@/ui/components/AdminLayout";
 import DialogButton from "@/ui/components/DialogButton";
 import CreateCategory from "@/ui/components/categories/CreateCategory";
-import { Box, Button, Pagination, Stack } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Pagination, Stack } from "@mui/material";
+
 import { motion } from "framer-motion";
 
 const CategoriesPage = () => {

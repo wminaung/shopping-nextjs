@@ -33,7 +33,7 @@ export default function App({
   }, []);
 
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  console.log("pageProps", pageProps);
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
