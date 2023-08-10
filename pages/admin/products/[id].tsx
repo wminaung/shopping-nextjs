@@ -23,8 +23,7 @@ import { useEffect, useState } from "react";
 import MultipleAutoCompleteChip from "@/ui/components/MultipleAutoCompleteChip";
 import { Category, Product } from "@/src/types/types";
 import { fetchCategoriesXProducts } from "@/src/store/slices/categoriesXProductsSlice";
-import MultiTextField from "@/ui/components/MultiTextField";
-
+import { TextareaAutosize } from "@mui/base";
 const ProductEditPage = () => {
   const {
     state: { products, categories, categoriesXProducts },
@@ -169,7 +168,6 @@ const ProductEditPage = () => {
     dispatch(actions.archiveCategoryXProduct({ productId: deletedProduct.id }));
     await router.push("/admin/products");
   };
-  console.log(newSelectedCategories, "newSelectedCategories");
   const handleNewSelectedCategories = async (
     event: React.SyntheticEvent<Element, Event>,
     value: Category[],
@@ -178,9 +176,7 @@ const ProductEditPage = () => {
   ) => {
     setNewSelectedCategories(value);
   };
-  const handleDescriptionChange = (newDesc: string) => {
-    setNewProduct({ ...newProduct, description: newDesc });
-  };
+
   return (
     <AdminLayout title="Edit Product">
       <Container maxWidth="sm" component={Paper} sx={{ px: 2, py: 4 }}>
@@ -240,22 +236,21 @@ const ProductEditPage = () => {
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                {/* <TextField
-                  label="Description"
-                  fullWidth
-                  multiline
-                  name="description"
-                  value={newProduct.description}
+                <TextareaAutosize
+                  value={(newProduct.description as string) || ""}
                   onChange={(e) =>
                     setNewProduct({
                       ...newProduct,
                       description: e.target.value,
                     })
                   }
-                /> */}
-                <MultiTextField
-                  value={(newProduct.description as string) || ""}
-                  setState={handleDescriptionChange}
+                  style={{
+                    backgroundColor: "inherit",
+                    color: "inherit",
+                    borderRadius: "3px",
+                    borderColor: "inherit",
+                  }}
+                  minRows={5}
                 />
               </FormControl>
             </Grid>

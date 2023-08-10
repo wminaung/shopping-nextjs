@@ -1,6 +1,5 @@
 import { Box, Button, Fade, Grow } from "@mui/material";
-import Image from "next/image";
-import { useRouter } from "next/router";
+
 import React, { useEffect, useState } from "react";
 import wave1Svg from "@/src/assets/wave1.svg";
 import wave2Svg from "@/src/assets/wave2.svg";

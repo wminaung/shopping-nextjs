@@ -38,6 +38,7 @@ export namespace GET {
     export interface ResponseData {
       products: Product[];
       categories: Category[];
+      categoriesXproducts: CategoryXProduct[];
       ratings: Rating[];
     }
   }

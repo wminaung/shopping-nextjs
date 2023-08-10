@@ -14,33 +14,35 @@ export default async function handler(
         orderBy: {
           id: "asc",
         },
-        include: {
-          rating: true,
-          categories: true,
-        },
       });
       const categories = await prisma.category.findMany({
         orderBy: {
           id: "asc",
         },
-        include: {
-          products: true,
-        },
       });
 
       const ratings = await prisma.rating.findMany({
         orderBy: { id: "asc" },
-        include: {
-          product: true,
+      });
+
+      const categoriesXProducts = await prisma.categoryxproduct.findMany({
+        orderBy: {
+          id: "asc",
         },
       });
 
-      const responseData: GET.API.ResponseData = {
+      // const responseData: GET.API.ResponseData = {
+      //   products,
+      //   categories,
+      //   ratings,
+      //   categoriesXproducts,
+      // };
+
+      const responseData = {
         products,
         categories,
-        ratings,
+        categoriesXProducts,
       };
-
       return res.status(200).json(responseData);
     } catch (error) {
       return res.status(500).json({ error });

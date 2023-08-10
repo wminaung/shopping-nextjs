@@ -31,7 +31,7 @@ const Product = ({
           />
         </Box>
         <Box>
-          <Typography variant="body2">{category}</Typography>
+          <Typography variant="body2">{"category"}</Typography>
           <Typography variant="h5">{title}</Typography>
           <Typography marginTop={8} variant="body1">
             {description}
