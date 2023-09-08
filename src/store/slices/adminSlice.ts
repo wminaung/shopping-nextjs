@@ -43,13 +43,13 @@ export const fetchAdminData = createAsyncThunk(
       return alert("something worng");
     }
     const responseData = await response.json();
-    const { products, categories, categoriesXproducts } =
+    const { products, categories, categoriesXProducts } =
       responseData as Api.Admin.GET.ResponseData;
 
     dispatch(productsAction.setProducts(products));
     dispatch(categoriesAction.setCategories(categories));
     dispatch(
-      categoriesXProductsAction.setCategoriesXProducts(categoriesXproducts)
+      categoriesXProductsAction.setCategoriesXProducts(categoriesXProducts)
     );
     dispatch(paginationAction.setDefaultPagination());
 

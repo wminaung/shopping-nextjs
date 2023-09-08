@@ -28,7 +28,7 @@ export default async function handler(
         },
         orderBy: orderByIdAsc,
       });
-      const categoriesXproducts = await prisma.categoryxproduct.findMany({
+      const categoriesXProducts = await prisma.categoryxproduct.findMany({
         where: {
           isArchive: false,
         },
@@ -65,7 +65,7 @@ export default async function handler(
       return res.status(200).json({
         products,
         categories,
-        categoriesXproducts,
+        categoriesXProducts,
         ratings,
         users,
         carts,
