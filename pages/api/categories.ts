@@ -7,13 +7,6 @@ export default async function handler(
 ) {
   const method = req.method;
   if (method === "GET") {
-    const categories = await prisma.product.findMany({
-      select: { category: true },
-    });
-
-    return res
-      .status(200)
-      .json({ categories: categories.map((cat) => cat.category) });
   }
   res.status(200).json({ name: "John Doe" });
 }
