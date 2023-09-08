@@ -49,7 +49,7 @@ export namespace Api {
       export type ResponseData = {
         products: Product[];
         categories: Category[];
-        categoriesXproducts: CategoryXProduct[];
+        categoriesXProducts: CategoryXProduct[];
         ratings: Rating[];
         users: User[];
         carts: Cart[];
@@ -62,4 +62,10 @@ export namespace Api {
       }
     }
   }
+}
+
+export interface Orderline {
+  quantity: number;
+  totalPrice: number;
+  productId: number;
 }

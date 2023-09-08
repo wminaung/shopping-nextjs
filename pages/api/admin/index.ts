@@ -41,7 +41,7 @@ export default async function handler(
         orderBy: orderByIdAsc,
       });
 
-      const users = await prisma.user.findMany({
+      const users = await prisma.customer.findMany({
         where: {
           isArchive: false,
         },

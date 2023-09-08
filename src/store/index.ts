@@ -6,6 +6,8 @@ import categoriesXProductsSlice from "./slices/categoriesXProductsSlice";
 import ratingsSlice from "./slices/ratingsSlice";
 import paginationSlice from "./slices/paginationSlice";
 import shopperSlice from "./slices/shopperSlice";
+import catShowSlice from "./slices/catshowSlice";
+import orderlinesSlice from "./slices/orderlinesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +18,8 @@ export const store = configureStore({
     ratings: ratingsSlice,
     pagination: paginationSlice,
     shopper: shopperSlice,
+    catshow: catShowSlice,
+    orderlines: orderlinesSlice,
   },
 });
 

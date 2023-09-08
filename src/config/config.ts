@@ -7,6 +7,7 @@ interface Config {
   superbaseUrl: string;
   superbaseKey: string;
   baseImageUrl: string;
+  baseUrl: string;
 }
 export const config: Config = {
   apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "",
@@ -18,4 +19,5 @@ export const config: Config = {
   superbaseUrl: process.env.NEXT_PUBLIC_SUPERBASE_URL || "",
   superbaseKey: process.env.NEXT_PUBLIC_SUPERBASE_KEY || "",
   baseImageUrl: process.env.NEXT_PUBLIC_BASE_IMAGE_URL || "",
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL || "",
 };

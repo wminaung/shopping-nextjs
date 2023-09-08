@@ -62,11 +62,12 @@ model rating {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model user {
+model customer {
   id        Int     @id @default(autoincrement())
-  username  String
-  email     String
+  name      String
+  email     String  @unique
   image     String?
+  password  String
   isArchive Boolean @default(false)
 
   carts cart[]
@@ -81,12 +82,12 @@ model cart {
   totalPrice Float
   isArchive  Boolean @default(false)
 
-  order     order   @relation(fields: [orderId], references: [id])
-  product   product @relation(fields: [productId], references: [id])
-  user      user    @relation(fields: [userId], references: [id])
-  productId Int
-  userId    Int
-  orderId   Int
+  order      order    @relation(fields: [orderId], references: [id])
+  product    product  @relation(fields: [productId], references: [id])
+  customer   customer @relation(fields: [customerId], references: [id])
+  productId  Int
+  customerId Int
+  orderId    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt

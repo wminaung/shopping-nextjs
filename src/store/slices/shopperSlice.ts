@@ -1,4 +1,4 @@
-import { Api, Product } from "@/src/types/types";
+import { Api, Category, Product } from "@/src/types/types";
 import {
   createAsyncThunk,
   createSelector,
@@ -17,6 +17,7 @@ import {
 } from "./categoriesXProductsSlice";
 import { ratingsAction, selectRatings } from "./ratingsSlice";
 import { paginationAction, selectPagination } from "./paginationSlice";
+import { catshowActions, selectCatshow } from "./catshowSlice";
 
 export interface ShopperState {
   isLoading: boolean;
@@ -43,13 +44,14 @@ export const fetchShopperData = createAsyncThunk(
       return alert("something worng");
     }
     const responseData = await response.json();
-    const { products, categories, categoriesXproducts } =
+    const { products, categories, categoriesXProducts } =
       responseData as Api.Admin.GET.ResponseData;
 
     dispatch(productsAction.setProducts(products));
     dispatch(categoriesAction.setCategories(categories));
+
     dispatch(
-      categoriesXProductsAction.setCategoriesXProducts(categoriesXproducts)
+      categoriesXProductsAction.setCategoriesXProducts(categoriesXProducts)
     );
     dispatch(paginationAction.setDefaultPagination());
 
@@ -88,8 +90,17 @@ export const shopperData = createSelector(
     selectCategoriesXProducts,
     selectRatings,
     selectPagination,
+    selectCatshow,
   ],
-  (admin, products, categories, categoriesXProducts, ratings, pagination) => {
+  (
+    admin,
+    products,
+    categories,
+    categoriesXProducts,
+    ratings,
+    pagination,
+    catshow
+  ) => {
     return {
       admin,
       products,
@@ -97,6 +108,7 @@ export const shopperData = createSelector(
       categoriesXProducts,
       ratings,
       pagination,
+      catshow,
     };
   }
 );
@@ -115,6 +127,7 @@ export const useShopper = () => {
       ...categoriesXProductsAction,
       ...ratingsAction,
       ...paginationAction,
+      ...catshowActions,
     },
   };
 };

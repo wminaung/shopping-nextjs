@@ -12,6 +12,7 @@ import { Box, CssBaseline, createTheme } from "@mui/material";
 import { createContext } from "react";
 import { useRouter } from "next/router";
 import { fetchShopperData } from "@/src/store/slices/shopperSlice";
+import { config } from "@/src/config/config";
 
 type CustomeAppProps = AppProps & { session: Session };
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
@@ -30,8 +31,19 @@ export default function App({
     }),
     []
   );
-  const isAdmin = asPath.includes("/admin");
+
+  const isInclude = (route: string) =>
+    asPath.includes(`${config.baseUrl}${route}`);
+
+  const isAdmin = isInclude("/admin");
+  const isLogin = isInclude("/login");
+  const isRegister = isInclude("/register");
+
   useEffect(() => {
+    if (isLogin || isRegister) {
+      return;
+    }
+
     if (isAdmin) {
       console.log("fetchadmin");
       store.dispatch(fetchAdminData());
