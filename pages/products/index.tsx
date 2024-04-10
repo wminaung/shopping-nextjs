@@ -8,13 +8,14 @@ import { useShopper } from "@/src/store/slices/shopperSlice";
 import SearchAutoComplete from "@/ui/components/SearchAutoComplete";
 import { config } from "@/src/config/config";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 
 const ProductListsPage = () => {
   const {
     state: { catshow, products, categories, categoriesXProducts },
   } = useShopper();
 
-  console.log(useSession());
+  const [loading, setLoading] = useState(false);
 
   const showProductsBySearchText = (searchText: string) => {
     if (!searchText) return products;
@@ -36,22 +37,11 @@ const ProductListsPage = () => {
     return validProductsIds.includes(item.id);
   });
 
-  const handleAddToCart = async (productId: number) => {
-    console.log("orderPID", productId);
-    const res = await fetch(
-      `${config.apiAdminUrl}/products/${productId}/order`
-    );
-    if (!res.ok) {
-      return alert("somethign wrong");
-    }
-
-    const data = await res.json();
-  };
-
   const showProducts = () => {
     if (activeCategories.length === 0) {
       return products;
     }
+
     return productsByCategory;
   };
 
@@ -88,14 +78,13 @@ const ProductListsPage = () => {
               <CatCheckbox />
             </Box>
           </Stack>
-
           <Stack
             direction={"row"}
             justifyContent="space-everywhere"
             alignItems={"center"}
             width="100%"
             flexWrap="wrap"
-            sx={{ p: 3 }}
+            sx={{ m: 4 }}
           >
             {showProducts().map((product) => (
               <Box key={product.id} sx={{ mx: "auto", mb: 3 }}>
@@ -105,10 +94,7 @@ const ProductListsPage = () => {
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
                 >
-                  <ShoppingCard
-                    product={product}
-                    handleAddToCart={handleAddToCart}
-                  />
+                  <ShoppingCard product={product} />
                 </motion.div>
               </Box>
             ))}

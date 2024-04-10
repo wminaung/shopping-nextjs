@@ -1,4 +1,4 @@
-import { Api, Category, Product } from "@/src/types/types";
+import { Api } from "@/src/types/types";
 import {
   createAsyncThunk,
   createSelector,
@@ -18,6 +18,7 @@ import {
 import { ratingsAction, selectRatings } from "./ratingsSlice";
 import { paginationAction, selectPagination } from "./paginationSlice";
 import { catshowActions, selectCatshow } from "./catshowSlice";
+import { orderAction, selectOrder } from "./ordersSlice";
 
 export interface ShopperState {
   isLoading: boolean;
@@ -91,6 +92,7 @@ export const shopperData = createSelector(
     selectRatings,
     selectPagination,
     selectCatshow,
+    selectOrder,
   ],
   (
     admin,
@@ -99,7 +101,8 @@ export const shopperData = createSelector(
     categoriesXProducts,
     ratings,
     pagination,
-    catshow
+    catshow,
+    orders
   ) => {
     return {
       admin,
@@ -109,6 +112,7 @@ export const shopperData = createSelector(
       ratings,
       pagination,
       catshow,
+      orders,
     };
   }
 );
@@ -128,6 +132,7 @@ export const useShopper = () => {
       ...ratingsAction,
       ...paginationAction,
       ...catshowActions,
+      ...orderAction,
     },
   };
 };

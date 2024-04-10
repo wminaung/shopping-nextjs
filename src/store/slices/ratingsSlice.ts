@@ -1,7 +1,7 @@
-import { Product, Rating } from "@/src/types/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { Rating } from "@prisma/client";
 
 export interface RatingsState {
   items: Rating[];

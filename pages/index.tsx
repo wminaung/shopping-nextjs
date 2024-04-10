@@ -5,6 +5,7 @@ import wave1Svg from "@/src/assets/wave1.svg";
 import wave2Svg from "@/src/assets/wave2.svg";
 import wave3Svg from "@/src/assets/wave3.svg";
 import SvgWave from "@/ui/components/SvgWave";
+import LandingPage from "@/ui/components/LandingPage";
 
 const HomePage = () => {
   const [innerWidth, setInnerWidth] = useState(0);
@@ -42,6 +43,7 @@ const HomePage = () => {
         bgcolor: "lightblue",
       }}
     >
+      <LandingPage />
       {/* <SvgWave svg={waveSvg} /> */}
     </Box>
   );

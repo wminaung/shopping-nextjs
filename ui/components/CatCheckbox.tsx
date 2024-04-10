@@ -5,7 +5,6 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import { Button, Checkbox } from "@mui/material";
 import { Dispatch, memo, SetStateAction, useEffect, useState } from "react";
-import { Category } from "@/src/types/types";
 import { useShopper } from "@/src/store/slices/shopperSlice";
 
 const CatCheckbox = () => {
