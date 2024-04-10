@@ -1,4 +1,4 @@
-import { prisma } from "@/src/db";
+import prisma from "@/src/db";
 import { schema } from "@/src/joi/schema";
 import { Category, ValidationError } from "@/src/types/types";
 import { Prisma } from "@prisma/client";

@@ -1,4 +1,4 @@
-import { prisma } from "@/src/db";
+import prisma from "@/src/db";
 import { GET } from "@/src/types/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 

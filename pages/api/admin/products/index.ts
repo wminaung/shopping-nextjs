@@ -1,4 +1,4 @@
-import { prisma } from "@/src/db";
+import prisma from "@/src/db";
 import { schema } from "@/src/joi/schema";
 import { Category, NewProduct, ValidationError } from "@/src/types/types";
 import { deleteUndefinedfromObject } from "@/src/utils";
