@@ -42,7 +42,7 @@ const HomePage = () => {
         bgcolor: "lightblue",
       }}
     >
-      <SvgWave svg={waveSvg} />
+      {/* <SvgWave svg={waveSvg} /> */}
     </Box>
   );
 };

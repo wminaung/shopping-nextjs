@@ -16,14 +16,13 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { Prisma } from "@prisma/client";
+import { Category, Prisma, Product } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import MultipleAutoCompleteChip from "@/ui/components/MultipleAutoCompleteChip";
-import { Category, Product } from "@/src/types/types";
-import { fetchCategoriesXProducts } from "@/src/store/slices/categoriesXProductsSlice";
 import { TextareaAutosize } from "@mui/base";
+import { fetchCategoriesXProducts } from "@/src/store/slices/categoriesXProductsSlice";
 const ProductEditPage = () => {
   const {
     state: { products, categories, categoriesXProducts },
@@ -34,7 +33,7 @@ const ProductEditPage = () => {
   const [newSelectedCategories, setNewSelectedCategories] = useState<
     Category[]
   >([]);
-  const [newProduct, setNewProduct] = useState<Prisma.productUpdateInput>();
+  const [newProduct, setNewProduct] = useState<Prisma.ProductUpdateInput>();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const router = useRouter();
@@ -73,26 +72,25 @@ const ProductEditPage = () => {
     if (!newProduct) {
       return;
     }
-    const payload: Prisma.productUpdateInput = {
+    const payload: Prisma.ProductUpdateInput = {
       ...newProduct,
     };
 
     let newImage = newProduct.image;
-    if (file) {
-      const { data, error } = await superbase.storage
-        .from("winimg")
-        .upload(`admin/products/${uuidv4()}-${file.name}`, file);
+    // if (file) {
+    //   const { data, error } = await superbase.storage
+    //     .from("winimg")
+    //     .upload(`admin/products/${uuidv4()}-${file.name}`, file);
 
-      if (error) {
-        return alert("image upload something wrong");
-      }
-      const { path: imagePath } = data;
+    //   if (error) {
+    //     return alert("image upload something wrong");
+    //   }
+    //   const { path: imagePath } = data;
 
-      newImage = `${config.baseImageUrl}/${imagePath}`;
-      payload.image = newImage;
-      console.log(newImage, "newImage");
-    }
-    console.log(payload);
+    //   newImage = `${config.baseImageUrl}/${imagePath}`;
+    //   payload.image = newImage;
+    //   console.log(newImage, "newImage");
+    // }
     const isValid =
       oldProduct.title !== payload.title ||
       oldProduct.description !== payload.description ||

@@ -3,13 +3,12 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { product } from "@prisma/client";
 import Image from "next/image";
 import styled from "@emotion/styled";
 import { Box, Button, CardActionArea, CardActions, Chip } from "@mui/material";
 import Link from "next/link";
-import { Product } from "@/src/types/types";
 import { useAdmin } from "@/src/store/slices/adminSlice";
+import { Product } from "@prisma/client";
 
 const StyledParagraph = styled(Typography)(({ theme }) => ({
   overflow: "hidden",

@@ -1,4 +1,4 @@
-import { Api, Product } from "@/src/types/types";
+import { Api } from "@/src/types/types";
 import {
   createAsyncThunk,
   createSelector,

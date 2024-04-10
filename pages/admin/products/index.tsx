@@ -18,9 +18,11 @@ const ProductsListPage = () => {
   } = pagination;
 
   const showProducts = products.slice(startIndex, endIndex);
-  useEffect(function () {
-    console.count("ll");
+  console.log({
+    pagination,
+    products,
   });
+
   return (
     <AdminLayout title="Products">
       <Stack>
@@ -38,7 +40,7 @@ const ProductsListPage = () => {
         >
           {showProducts.map((product) => (
             <Box
-              key={product.id}
+              key={product.id.toString()}
               component={motion.div}
               initial={{ opacity: 0.2, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}

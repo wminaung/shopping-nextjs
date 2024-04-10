@@ -4,6 +4,7 @@ import { getGetDeleteRequesInit, getPostPutRequestInit } from "@/src/utils";
 import { theme } from "@/src/utils/theme";
 import AdminLayout from "@/ui/components/AdminLayout";
 import AdminProductCard from "@/ui/components/AdminProductCard";
+import DashDivider from "@/ui/components/DashDivider";
 import MultipleSelectChip from "@/ui/components/MultipleAutoCompleteChip";
 import {
   Container,
@@ -15,17 +16,18 @@ import {
   Card,
   Stack,
   Box,
+  Divider,
 } from "@mui/material";
 import { Prisma } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const defaultValue: Prisma.categoryUpdateInput = {
+const defaultValue: Prisma.CategoryUpdateInput = {
   name: "",
 };
 const UpdateCategoryByIdPage = () => {
   const [newCategory, setNewCategory] =
-    useState<Prisma.categoryUpdateInput>(defaultValue);
+    useState<Prisma.CategoryUpdateInput>(defaultValue);
 
   const router = useRouter();
   const { id: categoryId } = router.query;
@@ -63,7 +65,7 @@ const UpdateCategoryByIdPage = () => {
     console.log(payload);
     const res = await fetch(
       `${config.apiAdminUrl}/categories/${categoryId}`,
-      getPostPutRequestInit<Prisma.categoryUpdateInput>("PUT", { ...payload })
+      getPostPutRequestInit<Prisma.CategoryUpdateInput>("PUT", { ...payload })
     );
 
     if (!res.ok) {
@@ -150,8 +152,11 @@ const UpdateCategoryByIdPage = () => {
           </Grid>
         </form>
       </Container>
+      {/* <Divider orientation="horizontal" sx={{ mt: 3 }} /> */}
+      <>
+        <DashDivider text="Products" />
+      </>
       <Stack
-        component={Card}
         bgcolor={theme.palette.mode}
         direction={"row"}
         mt={5}

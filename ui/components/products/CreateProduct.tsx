@@ -8,17 +8,18 @@ import {
   AutocompleteChangeReason,
   AutocompleteChangeDetails,
 } from "@mui/material";
-import { Prisma } from "@prisma/client";
+import { Category, Prisma, Product } from "@prisma/client";
 import { useAdmin } from "@/src/store/slices/adminSlice";
 import FileDropzone from "../FileDropzone";
 import { getPostPutRequestInit } from "@/src/utils";
 import { config } from "@/src/config/config";
-import { Api, Category, ValidationError } from "@/src/types/types";
+import { Api } from "@/src/types/types";
 import { superbase } from "@/src/utils/superbase";
 import { v4 as uuidv4 } from "uuid";
 import MultipleAutoCompleteChip from "../MultipleAutoCompleteChip";
+import { ValidationError } from "joi";
 
-export const defaultProductCreateInputValue: Prisma.productCreateInput = {
+export const defaultProductCreateInputValue: Prisma.ProductCreateInput = {
   title: "",
   description: "",
   price: 0,
@@ -26,7 +27,7 @@ export const defaultProductCreateInputValue: Prisma.productCreateInput = {
 };
 
 const CreateProduct = () => {
-  const [newProduct, setNewProduct] = useState<Prisma.productCreateInput>(
+  const [newProduct, setNewProduct] = useState<Prisma.ProductCreateInput>(
     defaultProductCreateInputValue
   );
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -34,7 +35,7 @@ const CreateProduct = () => {
   const [file, setFile] = useState<File | null>(null);
 
   const {
-    state: { products, categories },
+    state: { categories },
     dispatch,
     actions,
   } = useAdmin();
@@ -62,42 +63,22 @@ const CreateProduct = () => {
     if (!file || !isValid) {
       return alert("Image is needed or some field missing");
     }
-    const { data, error } = await superbase.storage
-      .from("winimg")
-      .upload(`admin/products/${uuidv4()}-${file.name}`, file);
 
-    if (error) {
-      return;
-    }
-    const { path: imagePath } = data;
-
-    const image = `${config.baseImageUrl}/${imagePath}`;
-    console.log(image, "iamge");
+    const image = `https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg`;
 
     const res = await fetch(
       `${config.apiAdminUrl}/products`,
-      getPostPutRequestInit<Prisma.productCreateInput>("POST", {
+      getPostPutRequestInit<Prisma.ProductCreateInput>("POST", {
         ...payload,
         image: image,
       })
     );
 
     if (!res.ok) {
-      if (res.status === 403) {
-        const error = (await res.json()) as ValidationError;
-        const alertContext = error.details.reduce(
-          (prev, curr) => (prev += curr.message),
-          ""
-        );
-
-        alert(alertContext);
-        return;
-      }
-      alert("status : " + res.status);
-      return;
+      return alert(`something wrong : ${JSON.stringify(res.statusText)}`);
     }
-    const resData = await res.json();
-    const { product } = resData as Api.Admin.Product.POST.ResponseData;
+    const product = (await res.json()) as Product;
+
     dispatch(actions.addProduct(product));
     //todo dispathc catxproduct
 
