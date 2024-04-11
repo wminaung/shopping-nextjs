@@ -3,7 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { Product } from "@prisma/client";
 
-interface OrdersStateItem {
+export interface OrdersStateItem {
   id: string;
   product: Product;
   quantity: number;

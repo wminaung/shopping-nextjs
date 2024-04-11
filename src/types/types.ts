@@ -8,7 +8,21 @@ import {
   Product,
   Rating,
 } from "@prisma/client";
+import { OrdersStateItem } from "../store/slices/ordersSlice";
+export interface PaymentInfo {
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  cardNumber: string;
+  expirationDate: string;
+  cvv: string;
+}
 
+export interface OrderRequestPayload {
+  orders: OrdersStateItem[];
+  paymentInfo: PaymentInfo;
+}
 // export interface Product extends product {}
 
 // export interface Category extends category {}
