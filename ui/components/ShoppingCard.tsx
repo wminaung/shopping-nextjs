@@ -38,7 +38,14 @@ const ShoppingCard = ({ product }: Props) => {
       </div>
       <div>
         <Link href={`/products/${productId}`}>
-          <motion.div whileHover={{ opacity: 0.8, scale: 1.1 }}>
+          <motion.div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            whileHover={{ opacity: 0.8, scale: 1.1 }}
+          >
             {image ? (
               <Image
                 src={image}

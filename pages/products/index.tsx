@@ -1,5 +1,5 @@
 import ShoppingCard from "@/ui/components/ShoppingCard";
-import { Box, Stack } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import CatCheckbox from "@/ui/components/CatCheckbox";
 import { motion } from "framer-motion";
 import Head from "next/head";
@@ -8,11 +8,19 @@ import { useShopper } from "@/src/store/slices/shopperSlice";
 import SearchAutoComplete from "@/ui/components/SearchAutoComplete";
 import { config } from "@/src/config/config";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import GridLayout from "@/ui/components/GridLayout";
 
 const ProductListsPage = () => {
   const {
-    state: { catshow, products, categories, categoriesXProducts },
+    state: {
+      catshow,
+      products,
+      categories,
+      categoriesXProducts,
+      shopper: { productsToShow },
+    },
+    actions,
   } = useShopper();
 
   const [loading, setLoading] = useState(false);
@@ -44,6 +52,12 @@ const ProductListsPage = () => {
 
     return productsByCategory;
   };
+
+  useEffect(() => {
+    if (productsByCategory.length > 0)
+      actions.setProductsToShow(productsByCategory);
+    else actions.setProductsToShow(products);
+  }, [productsByCategory]);
 
   return (
     <>
@@ -78,7 +92,38 @@ const ProductListsPage = () => {
               <CatCheckbox />
             </Box>
           </Stack>
-          <Stack
+
+          <Box sx={{ pt: 2 }}>
+            <GridLayout
+              rowGap={2}
+              columnGap={1}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {productsToShow.map((product) => (
+                <Grid key={product.id} xs={12} sm={6} md={4} lg={3} xl={3}>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ShoppingCard product={product} />
+                  </motion.div>
+                </Grid>
+              ))}
+            </GridLayout>
+          </Box>
+
+          {/* <Stack
             direction={"row"}
             justifyContent="space-everywhere"
             alignItems={"center"}
@@ -98,7 +143,7 @@ const ProductListsPage = () => {
                 </motion.div>
               </Box>
             ))}
-          </Stack>
+          </Stack> */}
         </Stack>
       </BaseLayout>
     </>

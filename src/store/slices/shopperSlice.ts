@@ -19,12 +19,14 @@ import { ratingsAction, selectRatings } from "./ratingsSlice";
 import { paginationAction, selectPagination } from "./paginationSlice";
 import { catshowActions, selectCatshow } from "./catshowSlice";
 import { orderAction, selectOrder } from "./ordersSlice";
+import { Product } from "@prisma/client";
 
 export interface ShopperState {
   isLoading: boolean;
   error: Error | null;
   navTitle: string;
   openDrawer: boolean;
+  productsToShow: Product[];
 }
 
 const initialState: ShopperState = {
@@ -32,6 +34,7 @@ const initialState: ShopperState = {
   error: null,
   navTitle: "",
   openDrawer: false,
+  productsToShow: [],
 };
 
 export const fetchShopperData = createAsyncThunk(
@@ -74,6 +77,9 @@ export const shopperSlice = createSlice({
     setOpenDrawer: (state, action: PayloadAction<boolean>) => {
       state.openDrawer = action.payload;
     },
+    setProductsToShow: (state, action: PayloadAction<Product[]>) => {
+      state.showProducts = action.payload;
+    },
   },
 });
 
@@ -95,7 +101,7 @@ export const shopperData = createSelector(
     selectOrder,
   ],
   (
-    admin,
+    shopper,
     products,
     categories,
     categoriesXProducts,
@@ -105,7 +111,7 @@ export const shopperData = createSelector(
     orders
   ) => {
     return {
-      admin,
+      shopper,
       products,
       categories,
       categoriesXProducts,
