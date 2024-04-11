@@ -34,25 +34,13 @@ const Navbar = ({}: Props) => {
     setBadgeContent(sum);
   }, [state.orders.items]);
 
-  // useEffect(() => {
-  //   if (!count) return;
-  //   setShowAlert(true);
-  //   const interval = setTimeout(() => {
-  //     setShowAlert(false);
-  //   }, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [count]);
-
-  // console.log("session navbar", session, "|", status);
-
   return (
     <Box>
       <AppBar
-        sx={{ bgcolor: "#b7c6e7", maxHeight: 120 }}
+        sx={{ maxHeight: 120 }}
         elevation={1}
+        color={"primary"}
         position="fixed"
-        color="inherit"
       >
         <Toolbar sx={{ margin: "0px 80px" }}>
           <Link href={"/"} style={{ flexGrow: 1 }}>
@@ -93,9 +81,8 @@ const Navbar = ({}: Props) => {
                 aria-label="menu"
                 sx={{ mx: 2 }}
               >
-                {" "}
                 <Badge badgeContent={badgeContent} color="error">
-                  <ShoppingCartIcon />{" "}
+                  <ShoppingCartIcon sx={{ color: "#CDBE78" }} />
                 </Badge>
               </IconButton>
             </motion.div>

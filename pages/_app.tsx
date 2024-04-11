@@ -13,6 +13,7 @@ import { createContext } from "react";
 import { useRouter } from "next/router";
 import { fetchShopperData } from "@/src/store/slices/shopperSlice";
 import { config } from "@/src/config/config";
+import Footer from "@/ui/components/Footer";
 
 type CustomeAppProps = AppProps & { session: Session };
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
@@ -62,6 +63,7 @@ export default function App({
         <Provider store={store}>
           <SessionProvider session={session}>
             <Component {...pageProps} />
+            <Footer />
           </SessionProvider>
         </Provider>
       </ThemeProvider>

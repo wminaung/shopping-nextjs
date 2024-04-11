@@ -6,9 +6,13 @@ import {
   Grid,
   IconButton,
   styled,
+  Stack,
+  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useShopper } from "@/src/store/slices/shopperSlice";
+import Link from "next/link";
+import { config } from "@/src/config/config";
 
 interface Product {
   id: number;
@@ -18,43 +22,65 @@ interface Product {
 }
 
 const CheckoutForm: React.FC = () => {
-  const { actions, state } = useShopper();
-
+  const { actions, state, dispatch } = useShopper();
+  const orders = state.orders.items;
   const [order, setOrder] = useState<Product[]>([
     { id: 1, name: "Product 1", price: 19.99, quantity: 1 },
     { id: 2, name: "Product 2", price: 29.99, quantity: 2 },
   ]);
 
   const handleUpdateQuantity = (productId: number, newQuantity: number) => {
-    const updatedOrder = order.map((item) =>
-      item.id === productId ? { ...item, quantity: newQuantity } : item
+    const updatedOrder = orders.map((item) =>
+      item.product.id === productId ? { ...item, quantity: newQuantity } : item
     );
-    setOrder(updatedOrder);
+    dispatch(actions.setOrders(updatedOrder));
   };
 
   const handleRemoveProduct = (productId: number) => {
-    const updatedOrder = order.filter((item) => item.id !== productId);
-    setOrder(updatedOrder);
+    const updatedOrder = orders.filter((item) => {
+      return String(item.product.id) !== String(productId);
+    });
+    dispatch(actions.setOrders(updatedOrder));
   };
 
   const calculateTotal = () => {
-    return order.reduce((total, item) => total + item.price * item.quantity, 0);
+    return orders.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0
+    );
   };
 
   return (
     <StyledContainer maxWidth="md">
+      <Box
+        sx={{
+          position: "relative",
+        }}
+      >
+        <Link
+          style={{
+            position: "absolute",
+            left: "0px",
+          }}
+          href={`${config.baseUrl}/products`}
+        >
+          Back to Shop
+        </Link>
+      </Box>
       <Typography variant="h4" gutterBottom>
         Checkout
       </Typography>
       <Grid container spacing={2} justifyContent="center">
-        {order.map((product) => (
-          <Grid item xs={12} key={product.id}>
+        {orders.map(({ id, product, quantity }) => (
+          <Grid item xs={12} key={id}>
             <ProductItem>
               <Typography variant="body1">
-                {product.name} - ${product.price.toFixed(2)} - Quantity:{" "}
-                {product.quantity}
+                {product.title} - ${product.price.toFixed(2)} - Quantity:{" "}
+                {quantity}
                 <StyledIconButton
-                  onClick={() => handleRemoveProduct(product.id)}
+                  onClick={() => {
+                    handleRemoveProduct(product.id);
+                  }}
                   aria-label="delete"
                 >
                   <DeleteIcon />
@@ -62,21 +88,21 @@ const CheckoutForm: React.FC = () => {
               </Typography>
               <ButtonGroup>
                 <Button
-                  onClick={() =>
-                    handleUpdateQuantity(product.id, product.quantity + 1)
-                  }
+                  onClick={() => {
+                    handleUpdateQuantity(product.id, quantity + 1);
+                  }}
                   variant="contained"
                   color="primary"
                 >
                   +
                 </Button>
                 <Button
-                  onClick={() =>
-                    handleUpdateQuantity(product.id, product.quantity - 1)
-                  }
+                  onClick={() => {
+                    handleUpdateQuantity(product.id, quantity - 1);
+                  }}
                   variant="contained"
                   color="secondary"
-                  disabled={product.quantity === 1}
+                  disabled={quantity === 1}
                 >
                   -
                 </Button>

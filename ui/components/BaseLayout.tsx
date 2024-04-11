@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import Navbar from "./Navbar";
 
 interface Props {
@@ -6,10 +7,10 @@ interface Props {
 
 const BaseLayout = ({ children }: Props) => {
   return (
-    <>
+    <Box sx={{ minHeight: "90vh", pb: 10 }}>
       <Navbar />
       {children}
-    </>
+    </Box>
   );
 };
 

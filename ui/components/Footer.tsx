@@ -1,61 +1,47 @@
-import React from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { Container, Typography, Link, Box } from "@mui/material";
 import ShopperLogo from "./ShopperLogo";
+import { config } from "@/src/config/config";
 
 const Footer = () => {
+  const [host, setHost] = useState("something");
+
+  useEffect(() => {
+    window?.location?.host && setHost(window?.location?.host);
+  }, []);
+
   return (
-    <Box sx={{ bgcolor: "grey.200", mt: 20, py: 12 }}>
+    <Box
+      component="footer"
+      bgcolor="primary.main"
+      color="white"
+      py={4}
+      sx={{ position: "relative", bottom: 0 }}
+    >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="h6" gutterBottom>
-              Company
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-              gravida libero vel dolor commodo, ut tristique nibh laoreet.
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="h6" gutterBottom>
-              Links
-            </Typography>
-            <ul>
-              <li>
-                {" "}
-                <Link href="/" color="text.primary">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="#" color="text.primary">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="#" color="text.primary">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link href="#" color="text.primary">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" gutterBottom>
-              Contact Us
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-              Email: minwin243@gmail.com
-            </Typography>{" "}
-            <ShopperLogo />
-          </Grid>
-        </Grid>{" "}
+        <Typography variant="h6" align="center" gutterBottom>
+          <ShopperLogo />
+        </Typography>
+
+        <Typography variant="subtitle1" align="center" component="p">
+          Welcome to Shopper's website. Explore my work.
+        </Typography>
+        <Typography variant="body2" align="center">
+          <Link color="inherit" href="#">
+            Link 1
+          </Link>{" "}
+          |{" "}
+          <Link color="inherit" href="#">
+            Link 2
+          </Link>{" "}
+          |{" "}
+          <Link color="inherit" href="#">
+            Link 3
+          </Link>
+        </Typography>
+        <Typography variant="body2" align="center" mt={2}>
+          &copy; {new Date().getFullYear()} Your {host}. All rights reserved.
+        </Typography>
       </Container>
     </Box>
   );
