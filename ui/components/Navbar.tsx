@@ -15,13 +15,24 @@ import { useEffect, useState } from "react";
 import { Alert, SvgIcon } from "@mui/material";
 import ShopperLogo from "./ShopperLogo";
 import Image from "next/image";
+import { useShopper } from "@/src/store/slices/shopperSlice";
 
 interface Props {}
 
 const Navbar = ({}: Props) => {
   const { data: session, status } = useSession();
-
+  const [badgeContent, setBadgeContent] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
+  const { actions, dispatch, state } = useShopper();
+
+  useEffect(() => {
+    const sum = state.orders.items.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity,
+      0
+    );
+
+    setBadgeContent(sum);
+  }, [state.orders.items]);
 
   // useEffect(() => {
   //   if (!count) return;
@@ -83,7 +94,7 @@ const Navbar = ({}: Props) => {
                 sx={{ mx: 2 }}
               >
                 {" "}
-                <Badge badgeContent={3} color="error">
+                <Badge badgeContent={badgeContent} color="error">
                   <ShoppingCartIcon />{" "}
                 </Badge>
               </IconButton>

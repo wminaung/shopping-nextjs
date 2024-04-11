@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { Product } from "@prisma/client";
 
 interface OrdersStateItem {
   id: string;
-  productId: number;
+  product: Product;
+  quantity: number;
 }
 
 export interface OrdersState {

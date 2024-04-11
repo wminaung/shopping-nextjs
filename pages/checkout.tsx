@@ -1,49 +1,42 @@
-// import CheckoutForm from "@/ui/components/CheckoutForm";
-// import CheckoutOrderList from "@/ui/components/CheckoutOrderList";
-// import { CartItem, OrderItem, Product } from "@/src/types/types";
-// import { GetStaticProps } from "next";
-// import { Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
+import {
+  Container,
+  Typography,
+  Button,
+  Grid,
+  IconButton,
+  styled,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useShopper } from "@/src/store/slices/shopperSlice";
+import CheckoutForm from "@/ui/components/CheckoutForm";
 
-// interface Props {
-//   products: Array<Product>;
-//   orderItems: OrderItem[];
-//   setOrderItems: Dispatch<SetStateAction<CartItem[]>>;
-// }
+const CheckoutPage = () => {
+  const { actions, state } = useShopper();
+  const orders = state.orders.items;
+  console.log(orders);
 
-// const CheckoutPage = ({ products, orderItems, setOrderItems }: Props) => {
-//   const orderList = orderItems.map((cartItem) => {
-//     const foundProduct = products.find((product) => product.id === cartItem.id);
-//     if (!foundProduct) return {} as OrderItem;
-//     return {
-//       ...foundProduct,
-//       quantity: cartItem.quantity,
-//     };
-//   });
+  const productIds = orders.map((o) => o.product.id);
 
-//   return (
-//     <div>
-//       <CheckoutOrderList orderItems={orderList} setOrderItems={setOrderItems} />
-//       <CheckoutForm setOrderItems={setOrderItems} />
-//     </div>
-//   );
-// };
+  const uniqueProductIds = productIds.filter((value, index, array) => {
+    return array.indexOf(value) === index;
+  });
 
-// export default CheckoutPage;
-// export const getStaticProps: GetStaticProps = async () => {
-//   const resProducts = await fetch("https://fakestoreapi.com/products");
-//   const products = await resProducts.json();
+  console.log({ uniqueProductIds });
 
-//   return {
-//     props: {
-//       products,
-//     },
-//   };
-// };
+  const [order, setOrder] = useState<
+    {
+      id: number;
+      name: string;
+      price: number;
+      quantity: number;
+    }[]
+  >([
+    { id: 1, name: "Product 1", price: 19.99, quantity: 1 },
+    { id: 2, name: "Product 2", price: 29.99, quantity: 2 },
+  ]);
 
-import React from "react";
-
-const checkout = () => {
-  return <div>checkout</div>;
+  return <CheckoutForm />;
 };
 
-export default checkout;
+export default CheckoutPage;

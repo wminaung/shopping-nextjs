@@ -16,48 +16,38 @@ const ProductListsPage = () => {
     state: {
       catshow,
       products,
-      categories,
       categoriesXProducts,
-      shopper: { productsToShow },
+      shopper: { productsToShow, shopperInit },
     },
     actions,
+    dispatch,
   } = useShopper();
-
-  const [loading, setLoading] = useState(false);
-
-  const showProductsBySearchText = (searchText: string) => {
-    if (!searchText) return products;
-  };
 
   const activeCategories = catshow.items.filter((item) => item.isChecked);
 
-  const filteredCheckedCategoriesXProducts = categoriesXProducts.filter(
-    (item) => {
-      const activeCategoriesIds = activeCategories.map((item) => item.id);
-      return activeCategoriesIds.includes(item.categoryId);
-    }
-  );
-  const validProductsIds = filteredCheckedCategoriesXProducts.map(
-    (item) => item.productId
-  );
-
-  const productsByCategory = products.filter((item) => {
-    return validProductsIds.includes(item.id);
-  });
-
-  const showProducts = () => {
-    if (activeCategories.length === 0) {
-      return products;
-    }
-
-    return productsByCategory;
-  };
-
   useEffect(() => {
-    if (productsByCategory.length > 0)
-      actions.setProductsToShow(productsByCategory);
-    else actions.setProductsToShow(products);
-  }, [productsByCategory]);
+    if (!shopperInit) return;
+
+    const filteredCheckedCategoriesXProducts = categoriesXProducts.filter(
+      (item) => {
+        const activeCategoriesIds = activeCategories.map((item) => item.id);
+        return activeCategoriesIds.includes(item.categoryId);
+      }
+    );
+
+    const validProductsIds = filteredCheckedCategoriesXProducts.map(
+      (item) => item.productId
+    );
+
+    const productsByCategory = products.filter((item) => {
+      return validProductsIds.includes(item.id);
+    });
+    if (activeCategories.length === 0) {
+      dispatch(actions.setProductsToShow(products));
+    } else {
+      dispatch(actions.setProductsToShow(productsByCategory));
+    }
+  }, [shopperInit, catshow]);
 
   return (
     <>
@@ -66,25 +56,7 @@ const ProductListsPage = () => {
       </Head>
       <BaseLayout>
         <Stack direction={"row"} justifyContent="end" flexWrap="wrap">
-          <Box mr={"auto"}>
-            {/* <SearchAutoComplete searchText={"SD"} setSearchText={() => {}} /> */}
-            {/* <Autocomplete
-              freeSolo
-              id="free-solo-2-demo"
-              disableClearable
-              options={top100Films.map((option) => option.title)}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Search input"
-                  InputProps={{
-                    ...params.InputProps,
-                    type: "search",
-                  }}
-                />
-              )}
-            /> */}
-          </Box>
+          <Box mr={"auto"}></Box>
         </Stack>
         <Stack direction={"row"} justifyContent="space-between" width={"100%"}>
           <Stack ml={6}>
@@ -92,58 +64,30 @@ const ProductListsPage = () => {
               <CatCheckbox />
             </Box>
           </Stack>
-
-          <Box sx={{ pt: 2 }}>
-            <GridLayout
-              rowGap={2}
-              columnGap={1}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {productsToShow.map((product) => (
-                <Grid key={product.id} xs={12} sm={6} md={4} lg={3} xl={3}>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.1 }}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ShoppingCard product={product} />
-                  </motion.div>
-                </Grid>
-              ))}
-            </GridLayout>
-          </Box>
-
-          {/* <Stack
-            direction={"row"}
-            justifyContent="space-everywhere"
-            alignItems={"center"}
-            width="100%"
-            flexWrap="wrap"
-            sx={{ m: 4 }}
-          >
-            {showProducts().map((product) => (
-              <Box key={product.id} sx={{ mx: "auto", mb: 3 }}>
+          <GridLayout container rowGap={2} columnGap={1} sx={{}}>
+            {productsToShow.map((product) => (
+              <Grid
+                item
+                key={product.id + activeCategories.join("-")}
+                xs={11}
+                sm={11}
+                md={5}
+                lg={3}
+                xl={2}
+                // sx={{ border: "1px solid blue" }}
+              >
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 1 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 }}
                 >
+                  {" "}
                   <ShoppingCard product={product} />
                 </motion.div>
-              </Box>
+              </Grid>
             ))}
-          </Stack> */}
+          </GridLayout>
         </Stack>
       </BaseLayout>
     </>
@@ -166,3 +110,27 @@ export default ProductListsPage;
 //     },
 //   };
 // };
+
+/* <Grid
+                  item
+                  key={product.id.toString()}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  xl={3}
+                >
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.1 }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <ShoppingCard product={product} />
+                  </motion.div>
+                </Grid>*/

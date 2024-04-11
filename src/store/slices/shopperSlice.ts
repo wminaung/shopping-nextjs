@@ -26,7 +26,8 @@ export interface ShopperState {
   error: Error | null;
   navTitle: string;
   openDrawer: boolean;
-  productsToShow: Product[];
+  productsToShow: Array<Product>;
+  shopperInit: boolean;
 }
 
 const initialState: ShopperState = {
@@ -35,6 +36,7 @@ const initialState: ShopperState = {
   navTitle: "",
   openDrawer: false,
   productsToShow: [],
+  shopperInit: false,
 };
 
 export const fetchShopperData = createAsyncThunk(
@@ -61,11 +63,12 @@ export const fetchShopperData = createAsyncThunk(
 
     //? loading end
     dispatch(shopperAction.setLoading(false));
+    dispatch(shopperAction.setShopperInit(true));
   }
 );
 
 export const shopperSlice = createSlice({
-  name: "admin",
+  name: "shopper",
   initialState,
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -78,7 +81,10 @@ export const shopperSlice = createSlice({
       state.openDrawer = action.payload;
     },
     setProductsToShow: (state, action: PayloadAction<Product[]>) => {
-      state.showProducts = action.payload;
+      state.productsToShow = action.payload;
+    },
+    setShopperInit: (state, action: PayloadAction<boolean>) => {
+      state.shopperInit = action.payload;
     },
   },
 });

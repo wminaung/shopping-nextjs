@@ -18,15 +18,30 @@ const ShoppingCard = ({ product }: Props) => {
   const { id: productId, title, price, image } = product;
 
   const {
-    actions: { addOrder },
+    actions: { addOrder, setOrders },
     state,
     dispatch,
   } = useShopper();
 
   const handleAddToCart = async () => {
-    dispatch(addOrder({ id: v4(), productId }));
+    const filterItem = state.orders.items.find(
+      (item) => item.product.id === productId
+    );
+
+    if (filterItem) {
+      dispatch(
+        setOrders(
+          state.orders.items.map((i) => {
+            if (i.product.id === filterItem.product.id)
+              return { ...i, quantity: i.quantity + 1 };
+            return i;
+          })
+        )
+      );
+    } else {
+      dispatch(addOrder({ id: v4(), product, quantity: 1 }));
+    }
   };
-  console.log(state.orders);
 
   return (
     <Card
