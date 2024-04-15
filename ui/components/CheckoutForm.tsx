@@ -54,8 +54,11 @@ const CheckoutForm: React.FC = () => {
     const { name, value } = e.target;
     setPaymentInfo({ ...paymentInfo, [name]: value });
   };
+
+  // order sumit
   const handleSubmitOrder = async () => {
     const res = await fetch(`${config.apiBaseUrl}/orders`, {
+      method: "POST",
       headers: {
         "Content-Type": "Application/json",
       },
@@ -108,8 +111,9 @@ const CheckoutForm: React.FC = () => {
                   }}
                   variant="contained"
                   color="primary"
+                  sx={{ m: 1 }}
                 >
-                  +
+                  <Typography fontSize={"20px"}>+</Typography>
                 </Button>
                 <Button
                   onClick={() => {
@@ -118,8 +122,9 @@ const CheckoutForm: React.FC = () => {
                   variant="contained"
                   color="secondary"
                   disabled={quantity === 1}
+                  sx={{ m: 1 }}
                 >
-                  -
+                  <Typography fontSize={"20px"}>-</Typography>
                 </Button>
               </ButtonGroup>
             </ProductItem>
@@ -197,7 +202,12 @@ const CheckoutForm: React.FC = () => {
         />
       </Grid>
       <Grid item xs={12}>
-        <Button onClick={handleSubmitOrder} variant="contained" color="primary">
+        <Button
+          onClick={handleSubmitOrder}
+          disabled={!orders.length}
+          variant="contained"
+          color="primary"
+        >
           Place Order
         </Button>
       </Grid>

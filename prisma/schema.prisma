@@ -63,48 +63,66 @@ model Rating {
 }
 
 model Customer {
-  id        Int     @id @default(autoincrement())
-  name      String
-  email     String  @unique
-  image     String?
-  password  String
-  isArchive Boolean @default(false)
+  id      Int     @id @default(autoincrement())
+  name    String
+  email   String  @unique
+  image   String?
+  phone   String?
+  address String?
 
-  carts Cart[]
+  customerOrders CustomerOrder[]
 
+  isArchive Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Cart {
-  id         Int     @id @default(autoincrement())
-  quantity   Int     @default(1)
-  totalPrice Float
-  isArchive  Boolean @default(false)
+  id        Int     @id @default(autoincrement())
+  quantity  Int     @default(1)
+  isArchive Boolean @default(false)
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
 
-  order      Order    @relation(fields: [orderId], references: [id])
-  product    Product  @relation(fields: [productId], references: [id])
-  customer   Customer @relation(fields: [customerId], references: [id])
-  productId  Int
-  customerId Int
-  orderId    Int
+  orders Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Order {
-  id        Int     @id @default(autoincrement())
-  status    String
-  isArchive Boolean @default(false)
-  cart      Cart[]
+  id             Int             @id @default(autoincrement())
+  status         Status          @default(PENDING)
+  isArchive      Boolean         @default(false)
+  totalPrice     Int
+  Cart           Cart?           @relation(fields: [cartId], references: [id])
+  cartId         Int?
+  customerOrders CustomerOrder[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @default(now()) @updatedAt
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+model CustomerOrder {
+  id Int @id @default(autoincrement())
+
+  Order   Order? @relation(fields: [orderId], references: [id])
+  orderId Int?
+
+  isArchive  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @default(now()) @updatedAt
+  Customer   Customer? @relation(fields: [customerId], references: [id])
+  customerId Int?
 }
 
 model Test {
   id    Int     @id @default(autoincrement())
   name  String?
   email String  @default("h-e-l-l-o")
+}
+
+enum Status {
+  PENDING
+  SUCCESS
+  FAIL
 }
