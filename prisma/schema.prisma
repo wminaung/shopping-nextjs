@@ -19,11 +19,11 @@ model Product {
   isArchive   Boolean @default(false)
 
   rating           Rating?
-  carts            Cart[]
   categoryxproduct Categoryxproduct[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @default(now()) @updatedAt
+  OrderLine OrderLine[]
 }
 
 model Category {
@@ -77,17 +77,16 @@ model Customer {
   updatedAt DateTime @default(now()) @updatedAt
 }
 
-model Cart {
-  id        Int     @id @default(autoincrement())
-  quantity  Int     @default(1)
-  isArchive Boolean @default(false)
-  product   Product @relation(fields: [productId], references: [id])
+model OrderLine {
+  id        Int      @id @default(autoincrement())
+  quantity  Int      @default(1)
+  isArchive Boolean  @default(false)
+  product   Product  @relation(fields: [productId], references: [id])
   productId Int
-
-  orders Order[]
-
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
+  Order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   Int?
 }
 
 model Order {
@@ -95,8 +94,7 @@ model Order {
   status         Status          @default(PENDING)
   isArchive      Boolean         @default(false)
   totalPrice     Int
-  Cart           Cart?           @relation(fields: [cartId], references: [id])
-  cartId         Int?
+  orderlines     OrderLine[]
   customerOrders CustomerOrder[]
   createdAt      DateTime        @default(now())
   updatedAt      DateTime        @default(now()) @updatedAt
