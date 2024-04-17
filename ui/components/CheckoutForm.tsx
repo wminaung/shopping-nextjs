@@ -55,7 +55,7 @@ const CheckoutForm: React.FC = () => {
     setPaymentInfo({ ...paymentInfo, [name]: value });
   };
 
-  // order sumit
+  // order submit
   const handleSubmitOrder = async () => {
     const res = await fetch(`${config.apiBaseUrl}/orders`, {
       method: "POST",

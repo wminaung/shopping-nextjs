@@ -63,7 +63,6 @@ export default function App({
         <Provider store={store}>
           <SessionProvider session={session}>
             <Component {...pageProps} />
-            <Footer />
           </SessionProvider>
         </Provider>
       </ThemeProvider>

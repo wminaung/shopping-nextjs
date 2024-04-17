@@ -93,7 +93,7 @@ model Order {
   id             Int             @id @default(autoincrement())
   status         Status          @default(PENDING)
   isArchive      Boolean         @default(false)
-  totalPrice     Int
+  totalPrice     Float           @default(0.0)
   orderlines     OrderLine[]
   customerOrders CustomerOrder[]
   createdAt      DateTime        @default(now())

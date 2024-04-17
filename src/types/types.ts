@@ -1,7 +1,7 @@
 // import type { ValidationError as JoiValidationError } from "joi";
 
 import {
-  Cart,
+  OrderLine,
   Category,
   Categoryxproduct,
   Order,
@@ -66,7 +66,7 @@ export namespace Api {
         categoriesXProducts: Categoryxproduct[];
         ratings: Rating[];
         // users: User[];
-        carts: Cart[];
+        carts: OrderLine[];
         orders: Order[];
       };
     }

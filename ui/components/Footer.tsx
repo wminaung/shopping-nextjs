@@ -11,13 +11,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <Box
-      component="footer"
-      bgcolor="primary.main"
-      color="white"
-      py={4}
-      sx={{ position: "relative", bottom: 0 }}
-    >
+    <Box component="footer" bgcolor="primary.main" color="white" py={4} mt={3}>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
           <ShopperLogo />
