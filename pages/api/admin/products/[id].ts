@@ -1,6 +1,5 @@
-import { prisma } from "@/src/db";
+import prisma from "@/src/db";
 import { schema } from "@/src/joi/schema";
-import { Category, ValidationError } from "@/src/types/types";
 import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
@@ -13,7 +12,7 @@ export default async function handler(
   const productId = Number(idStr);
 
   if (method === "PUT") {
-    const payload = req.body as Prisma.productUpdateInput;
+    const payload = req.body as Prisma.ProductUpdateInput;
 
     if (
       !payload.title ||

@@ -13,6 +13,7 @@ import { createContext } from "react";
 import { useRouter } from "next/router";
 import { fetchShopperData } from "@/src/store/slices/shopperSlice";
 import { config } from "@/src/config/config";
+import Footer from "@/ui/components/Footer";
 
 type CustomeAppProps = AppProps & { session: Session };
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
@@ -32,8 +33,9 @@ export default function App({
     []
   );
 
-  const isInclude = (route: string) =>
-    asPath.includes(`${config.baseUrl}${route}`);
+  const isInclude = (route: string) => {
+    return asPath.includes(`${route}`);
+  };
 
   const isAdmin = isInclude("/admin");
   const isLogin = isInclude("/login");

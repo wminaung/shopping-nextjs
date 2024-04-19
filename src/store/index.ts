@@ -1,25 +1,27 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productsSlice from "./slices/productsSlice";
-import adminSlice from "./slices/adminSlice";
-import categoriesSlice from "./slices/categoriesSlice";
-import categoriesXProductsSlice from "./slices/categoriesXProductsSlice";
-import ratingsSlice from "./slices/ratingsSlice";
-import paginationSlice from "./slices/paginationSlice";
-import shopperSlice from "./slices/shopperSlice";
-import catShowSlice from "./slices/catshowSlice";
-import orderlinesSlice from "./slices/orderlinesSlice";
+import productsReducer from "./slices/productsSlice";
+import adminReducer from "./slices/adminSlice";
+import categoriesReducer from "./slices/categoriesSlice";
+import categoriesXProductsReducer from "./slices/categoriesXProductsSlice";
+import ratingsReducer from "./slices/ratingsSlice";
+import paginationReducer from "./slices/paginationSlice";
+import shopperReducer from "./slices/shopperSlice";
+import catShowReducer from "./slices/catshowSlice";
+import orderlinesReducer from "./slices/orderlinesSlice";
+import ordersReducer from "./slices/ordersSlice";
 
 export const store = configureStore({
   reducer: {
-    admin: adminSlice,
-    products: productsSlice,
-    categories: categoriesSlice,
-    categoriesXProducts: categoriesXProductsSlice,
-    ratings: ratingsSlice,
-    pagination: paginationSlice,
-    shopper: shopperSlice,
-    catshow: catShowSlice,
-    orderlines: orderlinesSlice,
+    admin: adminReducer,
+    products: productsReducer,
+    categories: categoriesReducer,
+    categoriesXProducts: categoriesXProductsReducer,
+    ratings: ratingsReducer,
+    pagination: paginationReducer,
+    shopper: shopperReducer,
+    catshow: catShowReducer,
+    orderlines: orderlinesReducer,
+    orders: ordersReducer,
   },
 });
 

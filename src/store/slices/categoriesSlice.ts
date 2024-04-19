@@ -1,8 +1,8 @@
-import { Category, Product } from "@/src/types/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { config } from "@/src/config/config";
+import { Category } from "@prisma/client";
 
 export interface CategoriesState {
   items: Category[];

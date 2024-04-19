@@ -1,33 +1,47 @@
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-
 import CardActions from "@mui/material/CardActions";
-
 import Typography from "@mui/material/Typography";
-
 import { Box, Button, Stack } from "@mui/material";
 import Link from "next/link";
-
-import { Product } from "@/src/types/types";
 import Image from "next/image";
 import { memo } from "react";
 import { motion } from "framer-motion";
-import { product } from "@prisma/client";
-
+import { Product } from "@prisma/client";
+import { useShopper } from "@/src/store/slices/shopperSlice";
+import { v4 } from "uuid";
 interface Props {
   product: Product;
-
-  handleAddToCart: (productId: number) => Promise<void>;
 }
 
-const ShoppingCard = ({ product, handleAddToCart }: Props) => {
-  const { id, title, price, image } = product;
+const ShoppingCard = ({ product }: Props) => {
+  const { id: productId, title, price, image } = product;
 
-  // const subheader = categories.reduce(
-  //   (prev, curr) => (prev += curr.name + ", "),
-  //   ""
-  // );
-  // console.log({ categories });
+  const {
+    actions: { addOrder, setOrders },
+    state,
+    dispatch,
+  } = useShopper();
+
+  const handleAddToCart = async () => {
+    const filterItem = state.orders.items.find(
+      (item) => item.product.id === productId
+    );
+
+    if (filterItem) {
+      dispatch(
+        setOrders(
+          state.orders.items.map((i) => {
+            if (i.product.id === filterItem.product.id)
+              return { ...i, quantity: i.quantity + 1 };
+            return i;
+          })
+        )
+      );
+    } else {
+      dispatch(addOrder({ id: v4(), product, quantity: 1 }));
+    }
+  };
 
   return (
     <Card
@@ -38,8 +52,15 @@ const ShoppingCard = ({ product, handleAddToCart }: Props) => {
         <CardHeader title={title.slice(0, 15) + ".."} subheader={"subheader"} />
       </div>
       <div>
-        <Link href={`/products/${id}`}>
-          <motion.div whileHover={{ opacity: 0.8, scale: 1.1 }}>
+        <Link href={`/products/${productId}`}>
+          <motion.div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            whileHover={{ opacity: 0.8, scale: 1.1 }}
+          >
             {image ? (
               <Image
                 src={image}
@@ -93,7 +114,7 @@ const ShoppingCard = ({ product, handleAddToCart }: Props) => {
             variant="contained"
             size="small"
             sx={{ bgcolor: "black !important" }}
-            onClick={() => handleAddToCart(id)}
+            onClick={() => handleAddToCart()}
           >
             Add to cart
           </Button>

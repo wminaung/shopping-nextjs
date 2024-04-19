@@ -17,7 +17,11 @@ const SvgWave = ({ svg }: Props) => {
     <div>
       {op === 1 && (
         <Image
-          style={{ transition: "all 2s linear 2s", opacity: `${op}` }}
+          style={{
+            transition: "all 2s linear 2s",
+            opacity: `${op}`,
+            width: "100%",
+          }}
           src={svg}
           alt="svg"
         />

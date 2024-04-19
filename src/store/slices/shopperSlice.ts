@@ -1,4 +1,4 @@
-import { Api, Category, Product } from "@/src/types/types";
+import { Api } from "@/src/types/types";
 import {
   createAsyncThunk,
   createSelector,
@@ -18,12 +18,16 @@ import {
 import { ratingsAction, selectRatings } from "./ratingsSlice";
 import { paginationAction, selectPagination } from "./paginationSlice";
 import { catshowActions, selectCatshow } from "./catshowSlice";
+import { orderAction, selectOrder } from "./ordersSlice";
+import { Product } from "@prisma/client";
 
 export interface ShopperState {
   isLoading: boolean;
   error: Error | null;
   navTitle: string;
   openDrawer: boolean;
+  productsToShow: Array<Product>;
+  shopperInit: boolean;
 }
 
 const initialState: ShopperState = {
@@ -31,6 +35,8 @@ const initialState: ShopperState = {
   error: null,
   navTitle: "",
   openDrawer: false,
+  productsToShow: [],
+  shopperInit: false,
 };
 
 export const fetchShopperData = createAsyncThunk(
@@ -57,11 +63,12 @@ export const fetchShopperData = createAsyncThunk(
 
     //? loading end
     dispatch(shopperAction.setLoading(false));
+    dispatch(shopperAction.setShopperInit(true));
   }
 );
 
 export const shopperSlice = createSlice({
-  name: "admin",
+  name: "shopper",
   initialState,
   reducers: {
     setLoading: (state, action: PayloadAction<boolean>) => {
@@ -72,6 +79,12 @@ export const shopperSlice = createSlice({
     },
     setOpenDrawer: (state, action: PayloadAction<boolean>) => {
       state.openDrawer = action.payload;
+    },
+    setProductsToShow: (state, action: PayloadAction<Product[]>) => {
+      state.productsToShow = action.payload;
+    },
+    setShopperInit: (state, action: PayloadAction<boolean>) => {
+      state.shopperInit = action.payload;
     },
   },
 });
@@ -91,24 +104,27 @@ export const shopperData = createSelector(
     selectRatings,
     selectPagination,
     selectCatshow,
+    selectOrder,
   ],
   (
-    admin,
+    shopper,
     products,
     categories,
     categoriesXProducts,
     ratings,
     pagination,
-    catshow
+    catshow,
+    orders
   ) => {
     return {
-      admin,
+      shopper,
       products,
       categories,
       categoriesXProducts,
       ratings,
       pagination,
       catshow,
+      orders,
     };
   }
 );
@@ -128,6 +144,7 @@ export const useShopper = () => {
       ...ratingsAction,
       ...paginationAction,
       ...catshowActions,
+      ...orderAction,
     },
   };
 };

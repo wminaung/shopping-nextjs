@@ -49,7 +49,6 @@ const FileDropzone = ({
       "image/png": [],
     },
   });
-  console.log("file", file, "***********");
   if (imagePreview) {
     return (
       <Stack spacing={1}>

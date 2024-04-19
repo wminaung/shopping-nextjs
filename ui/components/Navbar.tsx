@@ -15,33 +15,32 @@ import { useEffect, useState } from "react";
 import { Alert, SvgIcon } from "@mui/material";
 import ShopperLogo from "./ShopperLogo";
 import Image from "next/image";
+import { useShopper } from "@/src/store/slices/shopperSlice";
 
 interface Props {}
 
 const Navbar = ({}: Props) => {
   const { data: session, status } = useSession();
-
+  const [badgeContent, setBadgeContent] = useState(0);
   const [showAlert, setShowAlert] = useState(false);
+  const { actions, dispatch, state } = useShopper();
 
-  // useEffect(() => {
-  //   if (!count) return;
-  //   setShowAlert(true);
-  //   const interval = setTimeout(() => {
-  //     setShowAlert(false);
-  //   }, 1000);
+  useEffect(() => {
+    const sum = state.orders.items.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.quantity,
+      0
+    );
 
-  //   return () => clearInterval(interval);
-  // }, [count]);
-
-  // console.log("session navbar", session, "|", status);
+    setBadgeContent(sum);
+  }, [state.orders.items]);
 
   return (
     <Box>
       <AppBar
-        sx={{ bgcolor: "#b7c6e7", maxHeight: 120 }}
+        sx={{ maxHeight: 120 }}
         elevation={1}
+        color={"primary"}
         position="fixed"
-        color="inherit"
       >
         <Toolbar sx={{ margin: "0px 80px" }}>
           <Link href={"/"} style={{ flexGrow: 1 }}>
@@ -82,9 +81,8 @@ const Navbar = ({}: Props) => {
                 aria-label="menu"
                 sx={{ mx: 2 }}
               >
-                {" "}
-                <Badge badgeContent={3} color="error">
-                  <ShoppingCartIcon />{" "}
+                <Badge badgeContent={badgeContent} color="error">
+                  <ShoppingCartIcon sx={{ color: "#CDBE78" }} />
                 </Badge>
               </IconButton>
             </motion.div>
