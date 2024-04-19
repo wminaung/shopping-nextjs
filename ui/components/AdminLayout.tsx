@@ -16,10 +16,6 @@ const AdminLayout = ({ children, title }: Props) => {
   const session = useSession();
   const theme = useTheme() as Theme;
 
-  useEffect(() => {
-    console.warn("session: ", session);
-  }, []);
-
   return (
     <Box bgcolor={theme.palette.background.default} height={"100%"}>
       <Box bgcolor={theme.palette.background.default}>

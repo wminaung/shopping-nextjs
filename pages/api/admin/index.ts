@@ -5,7 +5,7 @@ import { Prisma } from "@prisma/client";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 const orderByIdAsc:
-  | Prisma.Enumerable<Prisma.productOrderByWithRelationInput>
+  | Prisma.Enumerable<Prisma.ProductOrderByWithRelationInput>
   | undefined = {
   id: "asc",
 };
@@ -48,13 +48,6 @@ export default async function handler(
         orderBy: orderByIdAsc,
       });
 
-      const carts = await prisma.cart.findMany({
-        where: {
-          isArchive: false,
-        },
-        orderBy: orderByIdAsc,
-      });
-
       const orders = await prisma.order.findMany({
         where: {
           isArchive: false,
@@ -68,7 +61,6 @@ export default async function handler(
         categoriesXProducts,
         ratings,
         users,
-        carts,
         orders,
       });
     } catch (error) {

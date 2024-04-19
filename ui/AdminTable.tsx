@@ -8,9 +8,20 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useAdmin } from "@/src/store/slices/adminSlice";
+import { OrderWithOrderlines } from "@/pages/api/admin/orders";
+import DisabledAccordion from "./components/DisabledAccordion";
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import TEstingTable from "./components/TestingTable";
+import { Status } from "@prisma/client";
+import AdminStatusSelect from "./components/AdminStatusSelect";
 
 interface Column {
-  id: "id" | "productName" | "quantity" | "status";
+  id: "items" | "price" | "status";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -18,11 +29,11 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "id", label: "id", minWidth: 170 },
-  { id: "productName", label: "productName", minWidth: 100 },
+  { id: "items", label: "items", minWidth: 70 },
+  // { id: "productName", label: "productName", minWidth: 100 },
   {
-    id: "quantity",
-    label: "quantity",
+    id: "price",
+    label: "price",
     minWidth: 170,
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
@@ -36,41 +47,11 @@ const columns: readonly Column[] = [
   },
 ];
 
-interface Data {
-  id: string;
-  productName: string;
-  quantity: number;
-  status: number;
+interface Props {
+  items: OrderWithOrderlines[];
 }
 
-function createData(
-  id: string,
-  productName: string,
-  quantity: number,
-  status: number
-): Data {
-  return { id, productName, quantity, status };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
-
-export default function AdminTable() {
+export default function AdminTable({ items }: Props) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -87,14 +68,14 @@ export default function AdminTable() {
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer sx={{ maxHeight: 700 }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
-                  align={column.align}
+                  align="right"
                   style={{ minWidth: column.minWidth }}
                 >
                   {column.label}
@@ -103,26 +84,20 @@ export default function AdminTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {items
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow
-                    hover
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.productName}
-                  >
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                    <TableCell align="right">
+                      <Box sx={{ width: " 100%" }}>
+                        <DisabledAccordion row={row} />
+                      </Box>
+                    </TableCell>
+                    <TableCell align="right"> $ {row.totalPrice}</TableCell>
+                    <TableCell align="right">
+                      <AdminStatusSelect row={row} />
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -132,7 +107,7 @@ export default function AdminTable() {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={items.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

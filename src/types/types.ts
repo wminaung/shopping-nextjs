@@ -83,3 +83,5 @@ export namespace Api {
 //   totalPrice: number;
 //   productId: number;
 // }
+
+export type Method = "POST" | "GET" | "PUT" | "DELETE" | "PATH";

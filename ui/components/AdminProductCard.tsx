@@ -44,6 +44,7 @@ const AdminProductCard = ({ product }: Props) => {
     <Card
       elevation={6}
       sx={{
+        width: { md: 244, xs: 244 / 1.2 },
         margin: 2,
         borderRadius: 3,
         opacity: 0.8,

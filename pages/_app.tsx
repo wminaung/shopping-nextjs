@@ -33,8 +33,9 @@ export default function App({
     []
   );
 
-  const isInclude = (route: string) =>
-    asPath.includes(`${config.baseUrl}${route}`);
+  const isInclude = (route: string) => {
+    return asPath.includes(`${route}`);
+  };
 
   const isAdmin = isInclude("/admin");
   const isLogin = isInclude("/login");
