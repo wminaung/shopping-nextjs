@@ -4,13 +4,14 @@ import React from "react";
 
 const SignIn = () => {
   const session = useSession();
-  console.log(session);
 
   return (
     <div>
       <Button
         variant="contained"
-        onClick={() => signIn("google", { callbackUrl: "/admin" })}
+        onClick={() =>
+          signIn("google", { callbackUrl: "/admin", redirect: true })
+        }
       >
         SignIn
       </Button>

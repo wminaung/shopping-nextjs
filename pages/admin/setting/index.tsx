@@ -19,8 +19,7 @@ const SettingPage = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    signOut();
-    router.push("/signin");
+    signOut({ callbackUrl: "/", redirect: true });
   };
 
   return (

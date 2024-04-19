@@ -19,10 +19,6 @@ const ProductsListPage = () => {
   } = pagination;
 
   const showProducts = products.slice(startIndex, endIndex);
-  console.log({
-    pagination,
-    products,
-  });
 
   return (
     <AdminLayout title="Products">

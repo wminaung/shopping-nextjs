@@ -54,7 +54,7 @@ const Navbar = ({}: Props) => {
           {(status !== "authenticated" && (
             <Button
               onClick={() => {
-                signIn();
+                signIn("google", { callbackUrl: "/admin", redirect: true });
               }}
               color="inherit"
               variant="outlined"

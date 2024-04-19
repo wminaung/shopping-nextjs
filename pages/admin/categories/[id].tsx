@@ -62,7 +62,6 @@ const UpdateCategoryByIdPage = () => {
     }
     const payload = newCategory;
 
-    console.log(payload);
     const res = await fetch(
       `${config.apiAdminUrl}/categories/${categoryId}`,
       getPostPutRequestInit<Prisma.CategoryUpdateInput>("PUT", { ...payload })

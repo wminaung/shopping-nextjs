@@ -12,7 +12,6 @@ export default async function handler(
   } else if (method === "POST") {
     const payload = req.body as OrderRequestPayload;
     const { orders, paymentInfo } = payload;
-    console.log(orders);
 
     const totalPrice = orders.reduce((total, item) => {
       return total + item.product.price * item.quantity;

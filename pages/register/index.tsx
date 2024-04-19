@@ -25,7 +25,6 @@ const RegisterPage: React.FC = () => {
     if (!res.ok) {
       return alert("somethign wrong");
     }
-    console.log(await res.json());
     // Implement your registration logic here (e.g., API request)
   };
 
