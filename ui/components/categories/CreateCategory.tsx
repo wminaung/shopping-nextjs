@@ -6,17 +6,16 @@ import { useAdmin } from "@/src/store/slices/adminSlice";
 import FileDropzone from "../FileDropzone";
 import { getPostPutRequestInit } from "@/src/utils";
 import { config } from "@/src/config/config";
-import { Api, ValidationError } from "@/src/types/types";
 import { superbase } from "@/src/utils/superbase";
 import { v4 as uuidv4 } from "uuid";
 
-const defaultValue: Prisma.categoryCreateInput = {
+const defaultValue: Prisma.CategoryCreateInput = {
   name: "",
 };
 
 const CreateProduct = () => {
   const [newCategory, setNewCategory] =
-    useState<Prisma.categoryCreateInput>(defaultValue);
+    useState<Prisma.CategoryCreateInput>(defaultValue);
 
   const {
     state: { products },
@@ -30,11 +29,11 @@ const CreateProduct = () => {
     if (!newCategory.name) {
       return alert("name reuqired");
     }
-    const payload: Prisma.categoryCreateInput = newCategory;
+    const payload: Prisma.CategoryCreateInput = newCategory;
 
     const res = await fetch(
       `${config.apiAdminUrl}/categories`,
-      getPostPutRequestInit<Prisma.categoryCreateInput>("POST", { ...payload })
+      getPostPutRequestInit<Prisma.CategoryCreateInput>("POST", { ...payload })
     );
 
     if (!res.ok) {

@@ -1,6 +1,5 @@
 import FormControl from "@mui/material/FormControl";
 import { SelectChangeEvent } from "@mui/material/Select";
-import { Category } from "@/src/types/types";
 import {
   Autocomplete,
   AutocompleteChangeDetails,
@@ -12,6 +11,7 @@ import {
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { memo } from "react";
+import { Category } from "@prisma/client";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;

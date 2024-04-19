@@ -1,7 +1,7 @@
-import { Category, Product, Rating } from "@/src/types/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { Category } from "@prisma/client";
 
 type Catshow = Category & { isChecked: boolean };
 

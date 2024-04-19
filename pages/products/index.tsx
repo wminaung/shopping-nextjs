@@ -5,9 +5,7 @@ import { motion } from "framer-motion";
 import Head from "next/head";
 import BaseLayout from "@/ui/components/BaseLayout";
 import { useShopper } from "@/src/store/slices/shopperSlice";
-import SearchAutoComplete from "@/ui/components/SearchAutoComplete";
-import { config } from "@/src/config/config";
-import { useSession } from "next-auth/react";
+
 import { useEffect, useState } from "react";
 import GridLayout from "@/ui/components/GridLayout";
 

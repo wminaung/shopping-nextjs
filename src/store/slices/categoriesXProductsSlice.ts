@@ -3,15 +3,15 @@ categoriesXProductsSlice
 categoriesXProductsSlice
 categoriesXProductsSlice
 */
-import { CategoryXProduct } from "@/src/types/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "..";
 import { config } from "@/src/config/config";
 import { adminAction } from "./adminSlice";
+import { Categoryxproduct } from "@prisma/client";
 
 export interface CategoriesXProductsState {
-  items: CategoryXProduct[];
+  items: Categoryxproduct[];
   isLoading: boolean;
   error: Error | null;
 }
@@ -32,7 +32,7 @@ export const fetchCategoriesXProducts = createAsyncThunk(
     if (!response.ok) {
       return alert("something worng");
     }
-    const responseData = (await response.json()) as CategoryXProduct[];
+    const responseData = (await response.json()) as Categoryxproduct[];
 
     dispatch(categoriesXProductsAction.setCategoriesXProducts(responseData));
     dispatch(adminAction.setLoading(false));
@@ -45,11 +45,11 @@ export const categoriesXProductsSlice = createSlice({
   reducers: {
     setCategoriesXProducts: (
       state,
-      action: PayloadAction<CategoryXProduct[]>
+      action: PayloadAction<Categoryxproduct[]>
     ) => {
       state.items = action.payload;
     },
-    addCategoryXProduct: (state, action: PayloadAction<CategoryXProduct>) => {
+    addCategoryXProduct: (state, action: PayloadAction<Categoryxproduct>) => {
       state.items = [...state.items, action.payload];
     },
     archiveCategoryXProduct: (

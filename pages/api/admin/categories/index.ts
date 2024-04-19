@@ -1,7 +1,7 @@
 import prisma from "@/src/db";
 import { schema } from "@/src/joi/schema";
-import { ValidationError } from "@/src/types/types";
 import { Prisma } from "@prisma/client";
+import { ValidationError } from "joi";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
@@ -10,7 +10,7 @@ export default async function handler(
 ) {
   const method = req.method;
   if (method === "POST") {
-    const payload = req.body as Prisma.categoryCreateInput;
+    const payload = req.body as Prisma.CategoryCreateInput;
 
     if (!payload.name) {
       return res.status(400).json("Bad request");

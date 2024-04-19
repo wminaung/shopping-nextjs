@@ -15,7 +15,7 @@ const productCreateInput = Joi.object({
   image: Joi.string().optional().allow(""),
 });
 
-const productUpdateInput = Joi.object<Prisma.productUpdateInput>({
+const productUpdateInput = Joi.object<Prisma.ProductUpdateInput>({
   title: Joi.string().min(3).max(30).required(),
   description: Joi.string().min(3).max(80).required(),
   price: Joi.number().integer().min(0).required(),

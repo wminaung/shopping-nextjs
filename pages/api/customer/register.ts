@@ -11,9 +11,8 @@ export default async function handler(
     const payload = req.body as {
       name: string;
       email: string;
-      password: string;
     };
-    const { name, email, password } = payload;
+    const { name, email } = payload;
 
     const isCustomerExist = await prisma.customer.findUnique({
       where: {
@@ -27,7 +26,6 @@ export default async function handler(
       data: {
         name,
         email,
-        password,
       },
     });
     return res.status(200).json(newCustomer);
